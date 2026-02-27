@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Daftar - TuKam</title>
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi+Fun:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            background: #F5F5F5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Instrument Sans', sans-serif;
+        }
+
+        .auth-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .auth-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 32px;
+        }
+
+        .auth-logo span {
+            color: #FF0000;
+            font-size: 36px;
+            font-family: 'Reem Kufi Fun', sans-serif;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .auth-tabs {
+            display: flex;
+            border-bottom: 2px solid #E5E7EB;
+            margin-bottom: 24px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px 0;
+            cursor: pointer;
+            font-weight: 600;
+            color: #AAAAAA;
+            transition: all 0.2s;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .auth-tab.active {
+            color: #FF0000;
+            border-bottom-color: #FF0000;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 6px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1.5px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .form-input:focus {
+            border-color: #FF0000;
+            box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.1);
+        }
+
+        .auth-error {
+            background: #FEE2E2;
+            border: 1px solid #FECACA;
+            color: #991B1B;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .auth-btn {
+            background: #FF0000;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 8px;
+        }
+
+        .auth-btn:hover {
+            background: #cc0000;
+        }
+
+        .auth-btn:disabled {
+            background: #ffb3b3;
+            cursor: not-allowed;
+        }
+
+        .auth-view {
+            display: none;
+        }
+
+        .auth-view.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-card">
+        <a href="/" class="auth-logo">
+            <span>TuKam</span>
+        </a>
+
+        <div class="auth-error" id="authError">Terjadi kesalahan.</div>
+
+        <div class="auth-tabs">
+            <div class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Masuk</div>
+            <div class="auth-tab" id="tabRegister" onclick="switchTab('register')">Daftar</div>
+        </div>
+
+        <!-- Login Form -->
+        <div class="auth-view active" id="viewLogin">
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label" for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" class="form-input" placeholder="Masukkan email" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" class="form-input" placeholder="Masukkan password"
+                        required>
+                </div>
+                <button type="submit" class="auth-btn" id="btnLogin">Masuk</button>
+            </form>
+        </div>
+
+        <!-- Register Form -->
+        <div class="auth-view" id="viewRegister">
+            <form id="registerForm">
+                <div class="form-group">
+                    <label class="form-label" for="regName">Nama Lengkap</label>
+                    <input type="text" id="regName" class="form-input" placeholder="Masukkan nama" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="regEmail">Email</label>
+                    <input type="email" id="regEmail" class="form-input" placeholder="Masukkan email" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="regPassword">Password</label>
+                    <input type="password" id="regPassword" class="form-input" placeholder="Minimal 8 karakter"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="regPasswordConfirm">Konfirmasi Password</label>
+                    <input type="password" id="regPasswordConfirm" class="form-input" placeholder="Ketik ulang password"
+                        required>
+                </div>
+                <button type="submit" class="auth-btn" id="btnRegister">Daftar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Integrate with api.js -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/assets/js/api.js"></script>
+    <script>
+        function switchTab(tab) {
+            document.getElementById('authError').style.display = 'none';
+
+            if (tab === 'login') {
+                document.getElementById('tabLogin').classList.add('active');
+                document.getElementById('tabRegister').classList.remove('active');
+                document.getElementById('viewLogin').classList.add('active');
+                document.getElementById('viewRegister').classList.remove('active');
+            } else {
+                document.getElementById('tabLogin').classList.remove('active');
+                document.getElementById('tabRegister').classList.add('active');
+                document.getElementById('viewLogin').classList.remove('active');
+                document.getElementById('viewRegister').classList.add('active');
+            }
+        }
+
+        function showError(msg) {
+            const err = document.getElementById('authError');
+            err.textContent = msg;
+            err.style.display = 'block';
+        }
+
+        // Login Submit
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btnLogin');
+            btn.disabled = true;
+            btn.textContent = 'Memproses...';
+
+            try {
+                const res = await axios.post(`${BASE_URL}/login`, {
+                    email: document.getElementById('loginEmail').value,
+                    password: document.getElementById('loginPassword').value
+                }, {
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (res.data.token) {
+                    localStorage.setItem('user_token', res.data.token);
+                    localStorage.setItem('user_data', JSON.stringify(res.data.user));
+
+                    // Redirect based on role
+                    if (res.data.user && res.data.user.role === 'admin') {
+                        window.location.href = '/admin/dashboard.html';
+                    } else {
+                        window.location.href = '/'; // Regular user goes to homepage
+                    }
+                }
+            } catch (err) {
+                if (err.response && err.response.status === 422) {
+                    showError(err.response.data.message || 'Email atau password salah.');
+                } else {
+                    console.error(err);
+                    showError('Terjadi kesalahan koneksi.');
+                }
+                btn.disabled = false;
+                btn.textContent = 'Masuk';
+            }
+        });
+
+        // Register Submit
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const pw = document.getElementById('regPassword').value;
+            const pwConfirm = document.getElementById('regPasswordConfirm').value;
+
+            if (pw !== pwConfirm) {
+                showError('Password dan konfirmasi tidak cocok.');
+                return;
+            }
+
+            const btn = document.getElementById('btnRegister');
+            btn.disabled = true;
+            btn.textContent = 'Memproses...';
+
+            try {
+                const res = await axios.post(`${BASE_URL}/register`, {
+                    name: document.getElementById('regName').value,
+                    email: document.getElementById('regEmail').value,
+                    password: pw,
+                    password_confirmation: pwConfirm
+                }, {
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (res.data.token) {
+                    localStorage.setItem('user_token', res.data.token);
+                    localStorage.setItem('user_data', JSON.stringify(res.data.user));
+                    window.location.href = '/';
+                }
+            } catch (err) {
+                if (err.response && err.response.status === 422) {
+                    const errors = err.response.data.errors;
+                    const firstErr = Object.values(errors)[0][0];
+                    showError(firstErr);
+                } else {
+                    console.error(err);
+                    showError('Terjadi kesalahan jaringan.');
+                }
+                btn.disabled = false;
+                btn.textContent = 'Daftar';
+            }
+        });
+    </script>
+</body>
+
+</html>

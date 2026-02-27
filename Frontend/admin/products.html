@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Produk - Admin TuKam</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/admin.css">
+</head>
+
+<body class="admin-body">
+
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="admin-sidebar__logo" style="justify-content: center; padding: 24px 20px;">
+                <a href="/admin/dashboard.html" style="text-decoration: none;">
+                    <span
+                        style="color: #FF0000; font-size: 28px; font-family: 'Reem Kufi Fun', sans-serif; font-weight: 700;">TuKam</span>
+                </a>
+            </div>
+            <nav class="admin-nav">
+                <a href="/admin/dashboard.html" class="admin-nav__item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7" />
+                        <rect x="14" y="3" width="7" height="7" />
+                        <rect x="3" y="14" width="7" height="7" />
+                        <rect x="14" y="14" width="7" height="7" />
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="/admin/orders.html" class="admin-nav__item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                    Pesanan
+                </a>
+                <a href="/admin/products.html" class="admin-nav__item active">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                        <circle cx="12" cy="13" r="4" />
+                    </svg>
+                    Produk
+                </a>
+                <a href="/admin/add-product.html" class="admin-nav__item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="8" x2="12" y2="16" />
+                        <line x1="8" y1="12" x2="16" y2="12" />
+                    </svg>
+                    Tambah Produk
+                </a>
+                <a href="/admin/reviews.html" class="admin-nav__item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon
+                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                        </polygon>
+                    </svg>
+                    Kelola Ulasan
+                </a>
+                <div class="admin-nav__divider"></div>
+                
+                <a href="/" target="_blank" class="admin-nav__item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                        <polyline points="15 3 21 3 21 9" />
+                        <line x1="10" y1="14" x2="21" y2="3" />
+                    </svg>
+                    Lihat Website
+                </a>
+                <button class="admin-nav__item admin-nav__logout" id="logoutBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                        <polyline points="16 17 21 12 16 7" />
+                        <line x1="21" y1="12" x2="9" y2="12" />
+                    </svg>
+                    Logout
+                </button>
+            </nav>
+        </aside>
+
+        <!-- Main -->
+        <main class="admin-main">
+            <div class="admin-topbar">
+                <div>
+                    <h1 class="admin-page-title">Kelola Produk</h1>
+                    <p class="admin-page-subtitle" id="productCountLabel">Memuat...</p>
+                </div>
+                <a href="/admin/add-product.html" class="btn btn-primary">+ Tambah Produk</a>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="admin-card" style="padding:16px; margin-bottom:16px;">
+                <div class="admin-filter-bar">
+                    <input type="search" id="searchInput" placeholder="Cari produk..." style="flex:1; min-width:200px;">
+                    <select id="filterStatus">
+                        <option value="">Semua Status</option>
+                        <option value="available">Tersedia</option>
+                        <option value="sold">Terjual</option>
+                        <option value="archived">Diarsipkan</option>
+                    </select>
+                    <select id="filterBrand">
+                        <option value="">Semua Brand</option>
+                    </select>
+                    <select id="filterBranch">
+                        <option value="">Semua Cabang</option>
+                        <option value="Jakarta">Jakarta</option>
+                        <option value="Bandung">Bandung</option>
+                        <option value="Bekasi">Bekasi</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Products Table -->
+            <div class="admin-card">
+                <div class="admin-table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Produk</th>
+                                <th>Brand</th>
+                                <th>Kategori</th>
+                                <th>Harga</th>
+                                <th>Stok</th>
+                                <th>Cabang</th>
+                                <th>Status</th>
+                                <th>Tanggal</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productsTableBody"></tbody>
+                    </table>
+                </div>
+                <div id="emptyState" style="display:none; padding:40px; text-align:center; color:var(--text-muted);">
+                    <div style="font-size:2rem; margin-bottom:8px;">??</div>
+                    <div style="font-weight:700;">Tidak ada produk ditemukan</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Confirm Modal -->
+    <div id="confirmModal"
+        style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center;">
+        <div
+            style="background:white; border-radius:var(--radius-lg); padding:32px; max-width:400px; width:90%; text-align:center;">
+            <div style="font-size:2rem; margin-bottom:12px;" id="modalIcon">??</div>
+            <div style="font-size:1.1rem; font-weight:700; margin-bottom:8px;" id="modalTitle">Konfirmasi</div>
+            <div style="font-size:0.875rem; color:var(--text-muted); margin-bottom:24px;" id="modalDesc">Apakah Anda
+                yakin?</div>
+            <div style="display:flex; gap:10px; justify-content:center;">
+                <button class="btn btn-outline-primary" onclick="closeModal()">Batal</button>
+                <button class="btn btn-primary" id="modalConfirmBtn">Konfirmasi</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/utils.js"></script>
+    <script>
+        if (!AdminAuth.requireAuth()) throw new Error('Not authenticated');
+
+        let allProducts = [];
+        let modalCallback = null;
+
+        async function loadProducts() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const status = document.getElementById('filterStatus').value;
+            const brand = document.getElementById('filterBrand').value;
+            const branch = document.getElementById('filterBranch').value;
+
+            const tbody = document.getElementById('productsTableBody');
+            const empty = document.getElementById('emptyState');
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding:40px; color:var(--text-muted);">Memuat...</td></tr>';
+
+            try {
+                const data = await API.getAdminProducts({ search, status, brand, branch, per_page: 500 });
+                if (!data) return;
+
+                const filtered = data.data || [];
+                document.getElementById('productCountLabel').textContent = (data.total || filtered.length) + ' produk ditemukan';
+
+                if (filtered.length === 0) {
+                    tbody.innerHTML = '';
+                    empty.style.display = 'block';
+                    return;
+                }
+
+                empty.style.display = 'none';
+                tbody.innerHTML = filtered.map(p => `
+          <tr>
+            <td>
+              <div style="display:flex; align-items:center; gap:10px;">
+                ${p.image_url ? `<img src="${p.image_url}" style="width:44px; height:44px; border-radius:6px; object-fit:cover; flex-shrink:0;">` : '<div style="width:44px; height:44px; border-radius:6px; background:#f0f0f0; flex-shrink:0;"></div>'}
+                <div>
+                  <div style="font-weight:600; font-size:0.875rem; margin-bottom:2px;">${p.name}</div>
+                  <div style="font-size:0.72rem; color:var(--text-muted); font-family:monospace;">${p.slug}</div>
+                </div>
+              </div>
+            </td>
+            <td>${p.brand ? p.brand.name : '-'}</td>
+            <td>${p.category ? p.category.name : '-'}</td>
+            <td style="font-weight:700; color:var(--primary); white-space:nowrap;">${Utils.formatPrice(p.price)}</td>
+            <td>
+              <div class="stock-edit-wrap" id="stock-wrap-${p.id}">
+                <span class="stock-badge" style="cursor:pointer; font-weight:700; color:${(p.stock ?? 1) > 0 ? '#16a34a' : '#dc2626'}; background:${(p.stock ?? 1) > 0 ? '#dcfce7' : '#fee2e2'}; padding:3px 10px; border-radius:20px; font-size:0.8rem;" title="Klik untuk ubah stok" onclick="openStockEdit(${p.id}, ${p.stock ?? 1})">
+                  ${p.stock ?? 1} unit
+                </span>
+                <div class="stock-input-row" id="stock-input-${p.id}" style="display:none; align-items:center; gap:4px;">
+                  <input type="number" min="0" value="${p.stock ?? 1}" id="stock-val-${p.id}" style="width:60px; padding:3px 6px; border:1px solid #ddd; border-radius:4px; font-size:0.8rem;" onkeydown="if(event.key==='Enter') saveStock(${p.id})">
+                  <button onclick="saveStock(${p.id})" style="background:#16a34a; color:#fff; border:none; padding:3px 8px; border-radius:4px; cursor:pointer; font-size:0.8rem;">?</button>
+                  <button onclick="cancelStockEdit(${p.id}, ${p.stock ?? 1})" style="background:#e5e7eb; color:#374151; border:none; padding:3px 8px; border-radius:4px; cursor:pointer; font-size:0.8rem;">?</button>
+                </div>
+              </div>
+            </td>
+            <td>${p.branch ? p.branch.name : '-'}</td>
+            <td>${Utils.getStatusBadge(p.status)}</td>
+            <td style="font-size:0.8rem; color:var(--text-muted); white-space:nowrap;">${Utils.formatDate(p.created_at)}</td>
+            <td>
+              <div style="display:flex; gap:4px; flex-wrap:wrap;">
+                <a href="/kamera/product.html?slug=${p.slug}" target="_blank" class="admin-action-btn" title="Lihat di Website">??</a>
+                <a href="/admin/add-product.html?edit=${p.id}" class="admin-action-btn" title="Edit">??</a>
+                ${p.status !== 'available' ? `<button class="admin-action-btn" title="Tandai Tersedia" onclick="changeStatus(${p.id}, 'available')">?</button>` : ''}
+                ${p.status !== 'sold' ? `<button class="admin-action-btn" title="Tandai Terjual" onclick="changeStatus(${p.id}, 'sold')">???</button>` : ''}
+                ${p.status !== 'archived' ? `<button class="admin-action-btn" title="Arsipkan" onclick="changeStatus(${p.id}, 'archived')">??</button>` : ''}
+                <button class="admin-action-btn" title="Hapus" onclick="deleteProduct(${p.id}, '${p.name.replace(/'/g, "\\'")}')">???</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+            } catch (err) {
+                tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding:40px; color:red;">Gagal memuat produk. Pastikan server backend berjalan.</td></tr>';
+            }
+        }
+
+        function openStockEdit(id, currentStock) {
+            document.getElementById('stock-badge-' + id) && null; // noop
+            const wrap = document.getElementById('stock-wrap-' + id);
+            if (!wrap) return;
+            wrap.querySelector('.stock-badge').style.display = 'none';
+            const inputRow = document.getElementById('stock-input-' + id);
+            inputRow.style.display = 'flex';
+            document.getElementById('stock-val-' + id).focus();
+        }
+
+        function cancelStockEdit(id, currentStock) {
+            const wrap = document.getElementById('stock-wrap-' + id);
+            if (!wrap) return;
+            wrap.querySelector('.stock-badge').style.display = '';
+            document.getElementById('stock-input-' + id).style.display = 'none';
+            document.getElementById('stock-val-' + id).value = currentStock;
+        }
+
+        async function saveStock(id) {
+            const input = document.getElementById('stock-val-' + id);
+            const newStock = parseInt(input.value, 10);
+            if (isNaN(newStock) || newStock < 0) {
+                Utils.showToast('Masukkan jumlah stok yang valid', 'error');
+                return;
+            }
+            try {
+                await API.updateProduct(id, { stock: newStock });
+                // Update badge
+                const wrap = document.getElementById('stock-wrap-' + id);
+                const badge = wrap.querySelector('.stock-badge');
+                badge.textContent = newStock + ' unit';
+                badge.style.color = newStock > 0 ? '#16a34a' : '#dc2626';
+                badge.style.background = newStock > 0 ? '#dcfce7' : '#fee2e2';
+                badge.setAttribute('onclick', `openStockEdit(${id}, ${newStock})`);
+                badge.style.display = '';
+                document.getElementById('stock-input-' + id).style.display = 'none';
+                Utils.showToast('Stok berhasil diperbarui!');
+            } catch (e) {
+                Utils.showToast('Gagal memperbarui stok: ' + (e.message || 'Error'), 'error');
+            }
+        }
+
+        function changeStatus(id, status) {
+            const labels = { available: 'Tersedia', sold: 'Terjual', archived: 'Diarsipkan' };
+            const icons = { available: '?', sold: '???', archived: '??' };
+            showModal(
+                icons[status],
+                'Ubah Status',
+                `Tandai produk ini sebagai "${labels[status]}"?`,
+                async () => {
+                    try {
+                        await API.updateProduct(id, { status });
+                        loadProducts();
+                        Utils.showToast('Status berhasil diubah ke ' + labels[status]);
+                    } catch (e) {
+                        Utils.showToast('Gagal mengubah status', 'error');
+                    }
+                }
+            );
+        }
+
+        function deleteProduct(id, title) {
+            showModal('???', 'Hapus Produk', `Hapus "${title}"? Tindakan ini tidak dapat dibatalkan.`, async () => {
+                try {
+                    await API.deleteProduct(id);
+                    loadProducts();
+                    Utils.showToast('Produk berhasil dihapus');
+                } catch (e) {
+                    Utils.showToast('Gagal menghapus produk', 'error');
+                }
+            });
+        }
+
+        function showModal(icon, title, desc, callback) {
+            document.getElementById('modalIcon').textContent = icon;
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalDesc').textContent = desc;
+            modalCallback = callback;
+            document.getElementById('confirmModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('confirmModal').style.display = 'none';
+            modalCallback = null;
+        }
+
+        document.getElementById('modalConfirmBtn').addEventListener('click', () => {
+            if (modalCallback) modalCallback();
+            closeModal();
+        });
+
+        document.getElementById('confirmModal').addEventListener('click', function (e) {
+            if (e.target === this) closeModal();
+        });
+
+        // Load brand filter from API
+        API.getBrands().then(brands => {
+            document.getElementById('filterBrand').innerHTML = '<option value="">Semua Brand</option>' +
+                brands.map(b => `<option value="${b.slug}">${b.name}</option>`).join('');
+        });
+
+        // Events
+        ['searchInput', 'filterStatus', 'filterBrand', 'filterBranch'].forEach(id => {
+            document.getElementById(id).addEventListener('input', loadProducts);
+            document.getElementById(id).addEventListener('change', loadProducts);
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            AdminAuth.logout();
+            window.location.href = '/admin/index.html';
+        });
+
+        // Check URL params for pre-filter
+        const urlBranch = new URLSearchParams(window.location.search).get('branch');
+        if (urlBranch) document.getElementById('filterBranch').value = urlBranch;
+
+        loadProducts();
+    </script>
+</body>
+
+</html>
+
+

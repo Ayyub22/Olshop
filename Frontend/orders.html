@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesanan Saya - TuKam</title>
+    <meta name="description" content="Daftar pesanan Anda di TuKam.">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Reem+Kufi+Fun:wght@400;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            background: #F5F5F5;
+        }
+
+        /* ─── NAVBAR (same as homepage) ─── */
+        .navbar {
+            background: #ffffff;
+            border-bottom: none;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            height: 70px;
+        }
+
+        .navbar__inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
+            max-width: 1380px;
+            margin: 0 auto;
+            padding: 0 57px;
+        }
+
+        .navbar__logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            text-decoration: none;
+        }
+
+        .navbar__logo-text {
+            font-family: 'Reem Kufi Fun', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #FF0000;
+        }
+
+        .navbar__nav {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            margin: 0;
+        }
+
+        .navbar__nav a {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #000;
+            padding: 8px 20px;
+            border-radius: 0;
+            background: none;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .navbar__nav a:hover {
+            color: #FF0000;
+        }
+
+        .navbar__actions {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .navbar__search-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar__search-wrap input {
+            width: 168px;
+            height: 37px;
+            padding: 0 36px 0 14px;
+            border: none;
+            border-radius: 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            color: #AAAAAA;
+            outline: none;
+            background: #fff;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+        }
+
+        .navbar__search-wrap input::placeholder {
+            color: #AAAAAA;
+        }
+
+        .navbar__search-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #AAAAAA;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            display: flex;
+        }
+
+        .navbar__wishlist-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 37px;
+            height: 37px;
+            border-radius: 50%;
+            background: #fff;
+            color: #AAAAAA;
+            text-decoration: none;
+            transition: color 0.2s, background 0.2s;
+            margin-left: 12px;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+        }
+
+        .navbar__wishlist-btn:hover {
+            color: #FF0000;
+        }
+
+        .nav-wishlist-count {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #FF0000;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            min-width: 16px;
+            height: 16px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+        }
+
+        /* Account Menu Dropdown */
+        .nav-account-wrap {
+            position: relative;
+            margin-left: 12px;
+        }
+
+        .nav-account-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            width: 200px;
+            padding: 12px 0;
+            display: none;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .nav-account-wrap.active .nav-account-dropdown {
+            display: flex;
+        }
+
+        .nav-account-dropdown::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            right: 14px;
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            transform: rotate(45deg);
+        }
+
+        .nav-account-header {
+            padding: 0 16px 12px;
+            border-bottom: 1px solid #EEE;
+            margin-bottom: 8px;
+        }
+
+        .nav-account-name {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-account-email {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            color: #888;
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-account-link {
+            padding: 8px 16px;
+            color: #333;
+            text-decoration: none;
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .nav-account-link:hover {
+            background: #f9f9f9;
+            color: #FF0000;
+        }
+
+        .nav-account-sep {
+            height: 1px;
+            background: #EEE;
+            margin: 8px 0;
+        }
+
+        /* ──────────────────────────────────────────
+           FOOTER
+        ────────────────────────────────────────── */
+        .footer {
+            background: #000000;
+            color: #fff;
+            padding: 48px 0 32px;
+            margin-top: 64px;
+        }
+
+        .footer__grid {
+            max-width: 1380px;
+            margin: 0 auto;
+            padding: 0 57px;
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 1fr;
+            gap: 40px;
+        }
+
+        .footer__brand-name {
+            font-family: 'Reem Kufi Fun', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #FF0000;
+            margin-bottom: 16px;
+        }
+
+        .footer__brand-desc {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.70);
+            max-width: 380px;
+        }
+
+        .footer__col-title {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 24px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .footer__links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer__links span {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.70);
+        }
+
+        .footer__links a {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.70);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer__links a:hover {
+            color: #fff;
+        }
+
+        /* Social media icon row */
+        .footer__socials {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .footer__social {
+            color: rgba(255, 255, 255, 0.70);
+            transition: color 0.2s;
+            display: flex;
+        }
+
+        .footer__social:hover {
+            color: #fff;
+        }
+
+        .footer__bottom {
+            max-width: 1380px;
+            margin: 24px auto 0;
+            padding: 16px 57px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Be Vietnam', sans-serif;
+            font-size: 13px;
+            font-weight: 100;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        /* ─── BANNER ─── */
+        .orders-banner {
+            background: #000;
+            height: 173px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .orders-banner__title {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 40px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .orders-banner__sub {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            color: #fff;
+            margin-top: 8px;
+        }
+
+        /* ─── MAIN CONTENT ─── */
+        .orders-page {
+            background: #F5F5F5;
+            padding: 40px 0 80px;
+        }
+
+        .orders-page .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            display: none;
+            text-align: center;
+            padding: 80px 20px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .empty-state svg {
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 12px;
+        }
+
+        .empty-state p {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 32px;
+        }
+
+        .empty-state .btn-explore {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 32px;
+            background: #FF0000;
+            color: #fff;
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .empty-state .btn-explore:hover {
+            background: #cc0000;
+        }
+
+        /* Order List */
+        .order-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .order-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            padding: 24px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .order-card__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #EEEEEE;
+            padding-bottom: 16px;
+            margin-bottom: 16px;
+        }
+
+        .order-card__id {
+            font-weight: 600;
+            font-size: 16px;
+            color: #000;
+        }
+
+        .order-card__date {
+            font-size: 14px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        .order-card__status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: #FFF3E0;
+            color: #E65100;
+        }
+
+        .status-paid {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .status-shipped {
+            background: #E3F2FD;
+            color: #1565C0;
+        }
+
+        .status-completed {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .status-cancelled {
+            background: #FFEBEE;
+            color: #C62828;
+        }
+
+        .order-card__items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 15px;
+        }
+
+        .order-item__name {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .order-item__qty {
+            color: #888;
+            font-size: 13px;
+        }
+
+        .order-item__price {
+            color: #000;
+            font-weight: 600;
+        }
+
+        .order-card__footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px dashed #EEEEEE;
+            padding-top: 16px;
+        }
+
+        .order-card__total-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .order-card__total-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #FF0000;
+        }
+
+        .order-card__actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-track {
+            padding: 8px 16px;
+            background: #000;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-track:hover {
+            background: #333;
+        }
+
+        .btn-pay {
+            padding: 8px 16px;
+            background: #FF0000;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-pay:hover {
+            background: #cc0000;
+        }
+
+        /* Tracking Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #fff;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 12px;
+            padding: 24px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-title {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #000;
+            padding-right: 30px;
+        }
+
+        .tracking-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+        }
+
+        .tracking-timeline::before {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: #EEEEEE;
+        }
+
+        .tracking-item {
+            display: flex;
+            gap: 16px;
+            position: relative;
+        }
+
+        .tracking-item__dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #fff;
+            border: 2px solid #ccc;
+            flex-shrink: 0;
+            z-index: 1;
+        }
+
+        .tracking-item.active .tracking-item__dot {
+            border-color: #FF0000;
+            background: #FF0000;
+            box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.1);
+        }
+
+        .tracking-item__content {
+            flex-grow: 1;
+            padding-bottom: 8px;
+        }
+
+        .tracking-item__date {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 4px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .tracking-item__desc {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .tracking-error {
+            padding: 16px;
+            background: #FFF3E0;
+            color: #E65100;
+            border-radius: 8px;
+            font-size: 14px;
+            text-align: center;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar__inner">
+            <a href="/" class="navbar__logo">
+                <span class="navbar__logo-text">TuKam</span>
+            </a>
+
+            <nav class="navbar__nav">
+                <a href="/">Home</a>
+                <a href="/kamera/">Produk</a>
+                <a href="/kategori.html">Kategori</a>
+                <a href="/hubungi.html">Hubungi Kami</a>
+            </nav>
+
+            <div class="navbar__actions">
+                <div class="navbar__search-wrap">
+                    <input type="search" placeholder="Search" id="navSearch" autocomplete="off">
+                    <button class="navbar__search-btn" aria-label="Cari">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#AAAAAA" stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
+                    </button>
+                </div>
+                <!-- Wishlist -->
+                <a href="/wishlist.html" class="navbar__wishlist-btn" aria-label="Wishlist" title="Wishlist">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                    </svg>
+                    <span class="nav-wishlist-count" id="wishlistCount" style="display:none">0</span>
+                </a>
+                <!-- Cart -->
+                <a href="/cart.html" class="navbar__wishlist-btn" aria-label="Keranjang" title="Keranjang">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="nav-wishlist-count nav-cart-count" style="display:none">0</span>
+                </a>
+                <!-- Orders Button -->
+                <a href="/orders.html" class="navbar__wishlist-btn" aria-label="Pesanan" title="Pesanan"
+                    id="navOrdersBtn"
+                    style="color:#FF0000; background:rgba(255,0,0,0.05); border:1px solid rgba(255,0,0,0.2);">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 8v13H3V8M1 3h22v5H1zM10 12h4"></path>
+                    </svg>
+                </a>
+                <!-- Login Button -->
+                <div class="nav-account-wrap" id="navAccountWrap">
+                    <div
+                        style="width: 37px; height: 37px; border-radius: 50%; background: #eee; box-shadow: 0 2px 2px rgba(0,0,0,0.1);">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Banner -->
+    <div class="orders-banner">
+        <div class="orders-banner__title">Pesanan Saya</div>
+        <div class="orders-banner__sub">Riwayat dan pelacakan pesanan Anda</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="orders-page">
+        <div class="container">
+
+            <!-- Loading State -->
+            <div id="loadingState" style="text-align:center; padding: 40px;">
+                <p>Memuat pesanan...</p>
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="empty-state">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M21 8v13H3V8M1 3h22v5H1zM10 12h4"></path>
+                </svg>
+                <h3>Belum ada pesanan</h3>
+                <p>Anda belum melakukan pemesanan apapun. Yuk belanja kamera idamanmu sekarang!</p>
+                <a href="/kamera/" class="btn-explore">Mulai Belanja</a>
+            </div>
+
+            <!-- Order List -->
+            <div id="orderList" class="order-list" style="display:none;">
+                <!-- Rendered via JS -->
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Tracking Modal -->
+    <div class="modal" id="trackingModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeTrackingModal()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <h3 class="modal-title">Lacak Pengiriman</h3>
+            <div id="trackingContent">
+                <p style="text-align:center; color:#666;">Memuat info pengiriman...</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer__grid">
+            <div>
+                <div class="footer__brand-name">TuKam</div>
+                <div class="footer__brand-desc">Toko perlengkapan kamera dan aksesoris terlengkap dan terpercaya.</div>
+            </div>
+            <div>
+                <div class="footer__col-title">Lokasi</div>
+                <div class="footer__links">
+                    <span>Jl. Yaweslah no.18 Jakarta</span>
+                    <span>Jl. Oalaa no.8 Bekasi, Jawa Barat</span>
+                    <span>Jl. Eh iya kah no.1 Bandung, Jawa Barat</span>
+                </div>
+            </div>
+            <div>
+                <div class="footer__col-title">Sosial Media</div>
+                <div class="footer__socials">
+                    <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="footer__social"
+                        title="Instagram">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.8">
+                            <rect x="2" y="2" width="20" height="20" rx="5" />
+                            <circle cx="12" cy="12" r="5" />
+                            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+                        </svg>
+                    </a>
+                    <a href="https://www.tiktok.com/" target="_blank" rel="noopener" class="footer__social"
+                        title="TikTok">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.73a4.85 4.85 0 0 1-1.01-.04z" />
+                        </svg>
+                    </a>
+                    <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="footer__social"
+                        title="Facebook">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                        </svg>
+                    </a>
+                    <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="footer__social"
+                        title="YouTube">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M22.54 6.42a2.78 2.78 0 0 0-1.96-1.96C18.88 4 12 4 12 4s-6.88 0-8.58.46A2.78 2.78 0 0 0 1.46 6.42 29.94 29.94 0 0 0 1 12a29.94 29.94 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.96 1.96C5.12 20 12 20 12 20s6.88 0 8.58-.46a2.78 2.78 0 0 0 1.96-1.96A29.94 29.94 0 0 0 23 12a29.94 29.94 0 0 0-.46-5.58z" />
+                            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#000" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 6v6l4 2" />
+            </svg>
+            <span>2026 - TuKam Tuku Kamera</span>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/assets/js/utils.js"></script>
+    <script src="/assets/js/api.js"></script>
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-XXXXX"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Setup Navbar Check
+            if (window.UserAuth) window.UserAuth.checkAuthState();
+
+            // Allow checking if unauthenticated
+            const token = localStorage.getItem('user_token');
+            if (!token) {
+                // Redirect if not logged in
+                window.location.href = '/login.html';
+                return;
+            }
+
+            try {
+                const orders = await window.Orders.getUserOrders();
+
+                document.getElementById('loadingState').style.display = 'none';
+
+                if (!orders || orders.length === 0) {
+                    document.getElementById('emptyState').style.display = 'block';
+                } else {
+                    const listEl = document.getElementById('orderList');
+                    listEl.style.display = 'flex';
+                    listEl.innerHTML = orders.map(order => createOrderCard(order)).join('');
+                }
+            } catch (error) {
+                console.error('Failed to load orders', error);
+                document.getElementById('loadingState').innerHTML = `<p style="color:red;">Gagal memuat pesanan. Silakan <button onclick="window.location.reload()" style="background:none; border:none; color:inherit; text-decoration:underline; cursor:pointer;">coba lagi</button></p>`;
+            }
+        });
+
+        function createOrderCard(order) {
+            const itemsHtml = order.items.map(i => `
+                <div class="order-item">
+                    <div>
+                        <div class="order-item__name">${i.product_name}</div>
+                        <div class="order-item__qty">${i.quantity} x ${Utils.formatPrice(i.price)}</div>
+                    </div>
+                    <div class="order-item__price">${Utils.formatPrice(i.price * i.quantity)}</div>
+                </div>
+            `).join('');
+
+            let actionHtml = '';
+
+            if (order.status === 'pending') {
+                actionHtml = `<button onclick="payOrder('${order.snap_token}')" class="btn-pay">Bayar Sekarang</button>`;
+            } else if (order.tracking_number) {
+                actionHtml = `
+                    <button onclick="trackOrder('${order.order_number}')" class="btn-track">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        Lacak Resi
+                    </button>
+                    ${order.courier ? `<span style="font-size:13px; color:#888; align-self:center;">${order.courier.toUpperCase()} - ${order.tracking_number}</span>` : ''}
+                `;
+            }
+
+            return `
+                <div class="order-card">
+                    <div class="order-card__header">
+                        <div>
+                            <div class="order-card__id">${order.order_number}</div>
+                            <div class="order-card__date">${new Date(order.created_at).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</div>
+                        </div>
+                        <div class="order-card__status status-${order.status}">${order.status}</div>
+                    </div>
+                    <div class="order-card__items">
+                        ${itemsHtml}
+                    </div>
+                    <div class="order-card__footer">
+                        <div>
+                            <div class="order-card__total-label">Total Belanja</div>
+                            <div class="order-card__total-price">${Utils.formatPrice(order.total_amount)}</div>
+                        </div>
+                        <div class="order-card__actions">
+                            ${actionHtml}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function payOrder(snapToken) {
+            if (!snapToken) {
+                Utils.showToast('Gagal memproses pembayaran. Silakan hubungi admin.', 'error');
+                return;
+            }
+            window.snap.pay(snapToken);
+        }
+
+        async function trackOrder(orderNumber) {
+            document.getElementById('trackingModal').classList.add('active');
+            const content = document.getElementById('trackingContent');
+            content.innerHTML = '<p style="text-align:center; color:#666;">Mengambil data dari kurir...</p>';
+
+            try {
+                const data = await window.Orders.track(orderNumber);
+
+                if (data && data.data && data.data.history) {
+                    const history = data.data.history;
+
+                    const timelineHtml = history.map((h, i) => `
+                        <div class="tracking-item ${i === 0 ? 'active' : ''}">
+                            <div class="tracking-item__dot"></div>
+                            <div class="tracking-item__content">
+                                <div class="tracking-item__date">${h.date}</div>
+                                <div class="tracking-item__desc">${h.desc}</div>
+                                <div class="tracking-item__date" style="margin-top:4px; color:#aaa;">Lokasi: ${h.location || '-'}</div>
+                            </div>
+                        </div>
+                    `).join('');
+
+                    content.innerHTML = `
+                        <div style="background:#f9f9f9; padding:12px; border-radius:8px; margin-bottom:20px;">
+                            <div style="font-weight:600; font-size:14px;">Resi: <span style="color:#000;">${data.data.summary.awb}</span></div>
+                            <div style="font-size:13px; color:#666; margin-top:4px;">Kurir: ${data.data.summary.courier.toUpperCase()} | Status: ${data.data.summary.status}</div>
+                        </div>
+                        <div class="tracking-timeline">
+                            ${timelineHtml}
+                        </div>
+                    `;
+                } else {
+                    content.innerHTML = `<div class="tracking-error">Data pelacakan belum tersedia di sistem kurir.</div>`;
+                }
+            } catch (e) {
+                console.error(e);
+                const errMsg = e.response?.data?.message || 'Gagal melacak resi';
+                content.innerHTML = `<div class="tracking-error">${errMsg}</div>`;
+            }
+        }
+
+        function closeTrackingModal() {
+            document.getElementById('trackingModal').classList.remove('active');
+        }
+    </script>
+    <script>
+        // Init auth menu in navbar
+        document.addEventListener('DOMContentLoaded', () => {
+            if(typeof Utils !== 'undefined' && Utils.renderAuthMenu) {
+                Utils.renderAuthMenu();
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,802 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist - TuKam</title>
+    <meta name="description" content="Daftar produk incaran Anda di TuKam.">
+    <link rel="canonical" href="https://tukam.id/wishlist.html">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Reem+Kufi+Fun:wght@400;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            background: #F5F5F5;
+        }
+
+        /* --- NAVBAR (same as homepage) --- */
+        .navbar {
+            background: #ffffff;
+            border-bottom: none;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            height: 70px;
+        }
+
+        .navbar__inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
+            max-width: 1380px;
+            margin: 0 auto;
+            padding: 0 57px;
+        }
+
+        .navbar__logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            text-decoration: none;
+        }
+
+        .navbar__logo-text {
+            font-family: 'Reem Kufi Fun', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #FF0000;
+        }
+
+        .navbar__nav {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            margin: 0;
+        }
+
+        .navbar__nav a {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #000;
+            padding: 8px 20px;
+            border-radius: 0;
+            background: none;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .navbar__nav a:hover {
+            color: #FF0000;
+        }
+
+        .navbar__actions {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .navbar__search-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar__search-wrap input {
+            width: 168px;
+            height: 37px;
+            padding: 0 36px 0 14px;
+            border: none;
+            border-radius: 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            color: #AAAAAA;
+            outline: none;
+            background: #fff;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+        }
+
+        .navbar__search-wrap input::placeholder {
+            color: #AAAAAA;
+        }
+
+        .navbar__search-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #AAAAAA;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            display: flex;
+        }
+
+        .navbar__wishlist-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 37px;
+            height: 37px;
+            border-radius: 50%;
+            background: #fff;
+            color: #AAAAAA;
+            text-decoration: none;
+            transition: color 0.2s, background 0.2s;
+            margin-left: 12px;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+        }
+
+        .nav-wishlist-count {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #FF0000;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            min-width: 16px;
+            height: 16px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+        }
+
+        /* --- BANNER --- */
+        .wishlist-banner {
+            background: #000;
+            height: 173px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .wishlist-banner__title {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 40px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .wishlist-banner__sub {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            color: #fff;
+            margin-top: 8px;
+        }
+
+        /* --- MAIN CONTENT --- */
+        .wishlist-page {
+            background: #F5F5F5;
+            padding: 40px 0 80px;
+        }
+
+        .wishlist-page .container {
+            max-width: 1380px;
+            margin: 0 auto;
+            padding: 0 57px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            display: none;
+            text-align: center;
+            padding: 80px 20px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .empty-state svg {
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 12px;
+        }
+
+        .empty-state p {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 32px;
+        }
+
+        .empty-state .btn-explore {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 32px;
+            background: #FF0000;
+            color: #fff;
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .empty-state .btn-explore:hover {
+            background: #cc0000;
+        }
+
+        /* Product Grid */
+        .product-grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        /* Product Card */
+        .pcard {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .pcard:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .pcard__img-wrap {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 248 / 205;
+            background: #f0f0f0;
+        }
+
+        .pcard__img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            display: block;
+        }
+
+        .pcard__wishlist {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #FF0000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            z-index: 2;
+        }
+
+        .pcard__wishlist:hover {
+            transform: scale(1.1);
+        }
+
+        .pcard__body {
+            padding: 10px 15px 14px;
+        }
+
+        .pcard__name {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            color: #000;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .pcard__price {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            color: #AAAAAA;
+        }
+
+        /* --- FOOTER --- */
+        .footer {
+            background: #000;
+            color: rgba(255, 255, 255, 0.75);
+            padding: 36px 0 20px;
+        }
+
+        .footer__grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 40px;
+            max-width: 1380px;
+            margin: 0 auto;
+            padding: 0 57px;
+        }
+
+        .footer__brand-name {
+            font-family: 'Reem Kufi Fun', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #FF0000;
+            margin-bottom: 12px;
+        }
+
+        .footer__brand-desc {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.65;
+            max-width: 277px;
+        }
+
+        .footer__col-title {
+            font-family: 'Reem Kufi Fun', sans-serif;
+            font-size: 24px;
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        .footer__links {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .footer__links a,
+        .footer__links span {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            transition: color 0.2s;
+            line-height: 1.65;
+        }
+
+        .footer__links a:hover {
+            color: #fff;
+        }
+
+        .footer__socials {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .footer__social {
+            color: rgba(255, 255, 255, 0.70);
+            transition: color 0.2s;
+            display: flex;
+        }
+
+        .footer__social:hover {
+            color: #fff;
+        }
+
+        .footer__bottom {
+            max-width: 1380px;
+            margin: 24px auto 0;
+            padding: 16px 57px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Be Vietnam', sans-serif;
+            font-size: 13px;
+            font-weight: 100;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .product-grid-4 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .product-grid-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer__grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .navbar__nav {
+                display: none;
+            }
+
+            .wishlist-page .container,
+            .footer__grid,
+            .navbar__inner,
+            .footer__bottom {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+        }
+
+        /* Account Menu Dropdown */
+        .nav-account-wrap {
+            position: relative;
+            margin-left: 12px;
+        }
+
+        .nav-account-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            width: 200px;
+            padding: 12px 0;
+            display: none;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .nav-account-wrap.active .nav-account-dropdown {
+            display: flex;
+        }
+
+        .nav-account-dropdown::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            right: 14px;
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            transform: rotate(45deg);
+        }
+
+        .nav-account-header {
+            padding: 0 16px 12px;
+            border-bottom: 1px solid #EEE;
+            margin-bottom: 8px;
+        }
+
+        .nav-account-name {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-account-email {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            color: #888;
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-account-link {
+            padding: 8px 16px;
+            color: #333;
+            text-decoration: none;
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .nav-account-link:hover {
+            background: #f9f9f9;
+            color: #FF0000;
+        }
+
+        .nav-account-sep {
+            height: 1px;
+            background: #EEE;
+            margin: 8px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar__inner">
+            <a href="/" class="navbar__logo">
+                <span class="navbar__logo-text">TuKam</span>
+            </a>
+
+            <nav class="navbar__nav">
+                <a href="/">Home</a>
+                <a href="/kamera/">Produk</a>
+                <a href="/kategori.html">Kategori</a>
+                <a href="/hubungi.html">Hubungi Kami</a>
+            </nav>
+
+            <div class="navbar__actions">
+                <div class="navbar__search-wrap">
+                    <input type="search" placeholder="Search" id="navSearch" autocomplete="off">
+                    <button class="navbar__search-btn" aria-label="Cari">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#AAAAAA" stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
+                    </button>
+                </div>
+                <a href="/wishlist.html" class="navbar__wishlist-btn" aria-label="Wishlist" title="Wishlist">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                    </svg>
+                    <span class="nav-wishlist-count" style="display:none">0</span>
+                </a>
+                <a href="/cart.html" class="navbar__wishlist-btn" aria-label="Keranjang" title="Keranjang">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="nav-wishlist-count nav-cart-count" style="display:none">0</span>
+                </a>
+
+                <a href="/orders.html" class="navbar__wishlist-btn" aria-label="Pesanan" title="Pesanan"
+                    id="navOrdersBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 8v13H3V8M1 3h22v5H1zM10 12h4"></path>
+                    </svg>
+                </a>
+                <!-- Login Button -->
+                <div class="nav-account-wrap" id="navAccountWrap">
+                    <div
+                        style="width: 37px; height: 37px; border-radius: 50%; background: #eee; box-shadow: 0 2px 2px rgba(0,0,0,0.1);">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Banner -->
+    <div class="wishlist-banner">
+        <div class="wishlist-banner__title">Wishlist</div>
+        <div class="wishlist-banner__sub">Produk incaran Anda</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="wishlist-page">
+        <div class="container">
+
+            <!-- Empty State -->
+            <div id="emptyState" class="empty-state">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path
+                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                </svg>
+                <h3>Wishlist Anda masih kosong</h3>
+                <p>Belum ada produk yang ditambahkan ke wishlist. Yuk, cari produk incaranmu sekarang!</p>
+                <a href="/kamera/" class="btn-explore">Eksplorasi Produk</a>
+            </div>
+
+            <!-- Product Grid -->
+            <div id="wishlistGrid" class="product-grid-4">
+                <!-- Products will be rendered here via JS -->
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__grid">
+            <div>
+                <div class="footer__brand-name">TuKam</div>
+                <div class="footer__brand-desc">Tempat penjualan kamera dan aksesoris yang amanah, cepat, dan ramah
+                    pengguna. Mendukung pengiriman seluruh Indonesia.</div>
+            </div>
+            <div>
+                <div class="footer__col-title">Lokasi</div>
+                <div class="footer__links">
+                    <span>Jl. Yaweslah no.18 Jakarta</span>
+                    <span>Jl. Oalaa no.8 Bekasi, Jawa Barat</span>
+                    <span>Jl. Eh iya kah no.1 Bandung, Jawa Barat</span>
+                </div>
+            </div>
+            <div>
+                <div class="footer__col-title">Sosial Media</div>
+                <div class="footer__socials">
+                    <a href="#" class="footer__social" title="Instagram">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.8">
+                            <rect x="2" y="2" width="20" height="20" rx="5" />
+                            <circle cx="12" cy="12" r="5" />
+                            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+                        </svg>
+                    </a>
+                    <a href="#" class="footer__social" title="TikTok">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.73a4.85 4.85 0 0 1-1.01-.04z" />
+                        </svg>
+                    </a>
+                    <a href="#" class="footer__social" title="Facebook">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                        </svg>
+                    </a>
+                    <a href="#" class="footer__social" title="YouTube">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M22.54 6.42a2.78 2.78 0 0 0-1.96-1.96C18.88 4 12 4 12 4s-6.88 0-8.58.46A2.78 2.78 0 0 0 1.46 6.42 29.94 29.94 0 0 0 1 12a29.94 29.94 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.96 1.96C5.12 20 12 20 12 20s6.88 0 8.58-.46a2.78 2.78 0 0 0 1.96-1.96A29.94 29.94 0 0 0 23 12a29.94 29.94 0 0 0-.46-5.58z" />
+                            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#000" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 6v6l4 2" />
+            </svg>
+            <span>2026 - TuKam Tuku Kamera</span>
+        </div>
+    </footer>
+
+    <script src="/assets/js/data.js"></script>
+    <script src="/assets/js/utils.js"></script>
+    <script src="/assets/js/search-popup.js"></script>
+    <script>
+        // Search redirect
+        document.getElementById('navSearch').addEventListener('keydown', e => {
+            if (e.key === 'Enter' && e.target.value.trim()) {
+                window.location.href = '/kamera/?search=' + encodeURIComponent(e.target.value.trim());
+            }
+        });
+        document.querySelector('.navbar__search-btn').addEventListener('click', () => {
+            const v = document.getElementById('navSearch').value.trim();
+            if (v) window.location.href = '/kamera/?search=' + encodeURIComponent(v);
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        // Load and render wishlist products
+        async function loadWishlistProducts() {
+            const grid = document.getElementById('wishlistGrid');
+            const emptyState = document.getElementById('emptyState');
+
+            if (typeof wishlist === 'undefined') return;
+
+            const wishlistIds = wishlist.get();
+
+            if (wishlistIds.length === 0) {
+                grid.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            // Fetch actual products via API
+            try {
+                const res = await axios.get('http://localhost:8000/api/products?per_page=100');
+                const allProducts = res.data.data || [];
+
+                // Match with wishlist IDs 
+                // wishlist ids might be numbers or strings, so we convert both to string for safety
+                const products = allProducts.filter(p => wishlistIds.map(String).includes(String(p.id)));
+
+                if (products.length === 0) {
+                    grid.style.display = 'none';
+                    emptyState.style.display = 'block';
+                    return;
+                }
+
+                grid.style.display = 'grid';
+                emptyState.style.display = 'none';
+
+                grid.innerHTML = products.map(p => {
+                    let img = '';
+                    if (Array.isArray(p.images) && p.images.length > 0) {
+                        img = p.images[0].url || p.images[0]; // Handle both object and string formats
+                    } else if (p.image) {
+                        img = p.image;
+                    }
+                    const title = p.title || p.name || '';
+                    const price = p.price || 0;
+
+                    return `
+        <a href="/kamera/product.html?slug=${p.slug || p.id}" class="pcard">
+            <div class="pcard__img-wrap">
+                <img class="pcard__img" src="${img}" alt="${title}" onerror="this.style.opacity='0.2'">
+                    <button class="pcard__wishlist"
+                        onclick="event.preventDefault(); removeFromWishlist(this, '${p.id}')"
+                        aria-label="Hapus dari wishlist" title="Hapus dari wishlist">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                        </svg>
+                    </button>
+            </div>
+            <div class="pcard__body">
+                <div class="pcard__name">${title}</div>
+                <div class="pcard__price">${Utils.formatPrice(price)}</div>
+            </div>
+        </a>`;
+                }).join('');
+            } catch (error) {
+                console.error('Gagal memuat data produk wishlist:', error);
+                grid.innerHTML = '<p style="text-align:center;width:100%;grid-column:1/-1;">Gagal memuat data produk. Pastikan server nyala.</p>';
+                grid.style.display = 'grid';
+                emptyState.style.display = 'none';
+            }
+        }
+
+        // Custom remove function that also refreshes the grid
+        function removeFromWishlist(btn, productId) {
+            wishlist.remove(productId);
+            Utils.showToast('Dihapus dari wishlist', 'info');
+
+            // Update counts in navbar
+            const countEl = document.querySelector('.nav-wishlist-count');
+            if (countEl) countEl.textContent = wishlist.count();
+
+            // Refresh the grid
+            loadWishlistProducts();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const countEl = document.querySelector('.nav-wishlist-count');
+            if (countEl && typeof wishlist !== 'undefined') {
+                countEl.textContent = wishlist.count();
+            }
+            loadWishlistProducts();
+        });
+    </script>
+
+    <script>
+        // Init auth menu in navbar
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof Utils !== 'undefined' && Utils.renderAuthMenu) {
+                Utils.renderAuthMenu();
+            }
+        });
+    </script>
+</body>
+
+</html>

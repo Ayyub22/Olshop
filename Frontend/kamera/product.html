@@ -1,0 +1,1543 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Detail Produk - TuKam</title>
+    <meta name="description" id="pageDesc" content="Detail kamera second di TuKam">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <style>
+        /* ── Navbar TuKam ── */
+        .navbar {
+            background: #fff;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .navbar__inner {
+            justify-content: space-between;
+        }
+
+        .navbar__nav {
+            margin-left: 0;
+            gap: 0;
+        }
+
+        .navbar__nav a {
+            font-size: .875rem;
+            font-weight: 500;
+            color: #374151;
+            padding: 8px 16px;
+            border-radius: 0;
+            background: none;
+        }
+
+        .navbar__nav a:hover,
+        .navbar__nav a.active {
+            color: var(--primary);
+            background: none;
+        }
+
+        .navbar__nav a.active::after {
+            display: none;
+        }
+
+        .navbar__actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .navbar__search-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar__search-wrap input {
+            width: 180px;
+            height: 36px;
+            padding: 0 36px 0 14px;
+            border: 1.5px solid #E5E7EB;
+            border-radius: var(--radius-full);
+            font-size: .85rem;
+            outline: none;
+            transition: var(--transition);
+            background: #F9FAFB;
+        }
+
+        .navbar__search-wrap input:focus {
+            border-color: var(--primary);
+            width: 220px;
+        }
+
+        .navbar__search-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9CA3AF;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            display: flex;
+        }
+
+        .navbar__wishlist-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #fff;
+            color: #9CA3AF;
+            text-decoration: none;
+            transition: color 0.2s, background 0.2s;
+            border: 1.5px solid #E5E7EB;
+        }
+
+        .navbar__wishlist-btn:hover {
+            color: #FF0000;
+            border-color: #FF0000;
+        }
+
+        .nav-wishlist-count {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #FF0000;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            min-width: 16px;
+            height: 16px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+        }
+
+        /* Account Menu Dropdown */
+        .nav-account-wrap {
+            position: relative;
+            margin-left: 12px;
+        }
+
+        .nav-account-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            width: 200px;
+            padding: 12px 0;
+            display: none;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .nav-account-wrap.active .nav-account-dropdown {
+            display: flex;
+        }
+
+        .nav-account-dropdown::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            right: 14px;
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            transform: rotate(45deg);
+        }
+
+        .nav-account-header {
+            padding: 0 16px 12px;
+            border-bottom: 1px solid #EEE;
+            margin-bottom: 8px;
+        }
+
+        .nav-account-name {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-account-email {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            color: #888;
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-account-link {
+            padding: 8px 16px;
+            color: #333;
+            text-decoration: none;
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .nav-account-link:hover {
+            background: #f9f9f9;
+            color: #FF0000;
+        }
+
+        .nav-account-sep {
+            height: 1px;
+            background: #EEE;
+            margin: 8px 0;
+        }
+
+        /* ── Page ── */
+        body {
+            background: #F5F5F5;
+        }
+
+        .pd-page {
+            padding: 20px 0 60px;
+        }
+
+        /* ── Footer Overrides ── */
+        .footer {
+            background: #000;
+            color: #fff;
+            padding: 60px 0;
+            font-family: 'Instrument Sans', sans-serif;
+        }
+
+        .footer__brand-name {
+            color: #FF0000 !important;
+            font-size: 24px;
+            font-family: 'Reem Kufi Fun', sans-serif;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .footer__brand-desc {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .footer__col-title {
+            color: #fff;
+            font-size: 24px;
+            font-family: 'Reem Kufi Fun', sans-serif;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .footer__links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer__links a {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 16px;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer__links a:hover {
+            color: #fff;
+        }
+
+        .footer__bottom {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 13px;
+            font-family: 'Be Vietnam', sans-serif;
+        }
+
+        /* ── Breadcrumb ── */
+        .pd-breadcrumb {
+            font-size: 12px;
+            color: #000;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            font-family: 'Instrument Sans', sans-serif;
+            font-weight: 400;
+        }
+
+        .pd-breadcrumb a {
+            color: #000;
+            text-decoration: none;
+            transition: color .2s;
+        }
+
+        .pd-breadcrumb a:hover {
+            opacity: 0.7;
+        }
+
+        .pd-breadcrumb span {
+            color: #000;
+        }
+
+        .pd-breadcrumb-sep {
+            color: #000;
+        }
+
+        /* ── Boxes ── */
+        .pd-box {
+            background: #fff;
+            border-radius: 10px;
+            padding: 40px;
+            margin-bottom: 20px;
+        }
+
+        /* ── Main Grid ── */
+        .pd-grid {
+            display: grid;
+            grid-template-columns: 493px 1fr;
+            gap: 51px;
+            align-items: start;
+        }
+
+        /* ── Gallery ── */
+        .pd-gallery {
+            position: sticky;
+            top: calc(var(--navbar-h) + 16px);
+        }
+
+        .pd-gallery__main {
+            width: 493px;
+            height: 501px;
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            cursor: zoom-in;
+            position: relative;
+        }
+
+        .pd-gallery__main img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .pd-gallery__oos {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pd-gallery__oos span {
+            background: var(--primary);
+            color: #fff;
+            font-size: 0.8rem;
+            font-weight: 800;
+            padding: 6px 16px;
+            border-radius: 4px;
+            letter-spacing: 1px;
+        }
+
+        .pd-gallery__thumbs {
+            display: flex;
+            gap: 31px;
+            overflow-x: auto;
+        }
+
+        .pd-gallery__thumb {
+            width: 100px;
+            height: 100px;
+            border-radius: 5px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            overflow: hidden;
+            flex-shrink: 0;
+            transition: border-color .2s;
+            background: #fff;
+        }
+
+        .pd-gallery__thumb.active {
+            border-color: #FF0000;
+        }
+
+        .pd-gallery__thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* ── Info Panel ── */
+
+
+        .pd-info__title {
+            font-size: 24px;
+            font-family: 'Instrument Sans', sans-serif;
+            font-weight: 600;
+            line-height: 1.3;
+            color: #000;
+            margin-bottom: 12px;
+        }
+
+        .pd-info__rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+            font-size: 16px;
+            font-family: 'Instrument Sans', sans-serif;
+            font-weight: 500;
+            color: #000;
+        }
+
+        .pd-info__stars {
+            color: #F59E0B;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+        .pd-info__rating-count {
+            color: #000;
+        }
+
+        /* ── Specs list ── */
+        .pd-specs {
+            margin-bottom: 24px;
+        }
+
+        .pd-spec-row {
+            font-size: 14px;
+            font-family: 'Instrument Sans', sans-serif;
+            font-weight: 500;
+            color: rgba(0, 0, 0, 0.5);
+            line-height: 1.5;
+            margin-bottom: 4px;
+        }
+
+        .pd-spec-row .lbl {
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+        .pd-spec-row .val {
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+        /* ── Divider ── */
+        .pd-divider {
+            border: none;
+            border-top: 1px solid rgba(0, 0, 0, 0.15);
+            margin: 24px 0;
+        }
+
+        /* ── Qty + Buy ── */
+        .pd-buy-row {
+            display: flex;
+            align-items: center;
+            gap: 38px;
+            margin-top: 30px;
+        }
+
+        .pd-qty {
+            display: flex;
+            align-items: center;
+            border: 1px solid #FF0000;
+            background: rgba(255, 0, 0, 0.10);
+            border-radius: 5px;
+            overflow: hidden;
+            width: 82px;
+            height: 47px;
+        }
+
+        .pd-qty button {
+            width: 25px;
+            height: 100%;
+            background: transparent;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            color: #FF0000;
+            cursor: pointer;
+            font-family: 'Instrument Sans', sans-serif;
+        }
+
+        .pd-qty input {
+            flex: 1;
+            height: 100%;
+            border: none;
+            background: transparent;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+            color: #FF0000;
+            outline: none;
+            font-family: 'Instrument Sans', sans-serif;
+            -moz-appearance: textfield;
+            appearance: none;
+        }
+
+        .pd-qty input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
+
+        .pd-buy-btn {
+            width: 191px;
+            height: 47px;
+            background: #FF0000;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background .2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Instrument Sans', sans-serif;
+        }
+
+        .pd-buy-btn:hover {
+            background: #cc0000;
+        }
+
+        .pd-buy-btn:disabled {
+            background: #9CA3AF;
+            cursor: not-allowed;
+            border: none;
+        }
+
+        .pd-wishlist-btn {
+            width: 47px;
+            height: 47px;
+            border: 2px solid #E5E7EB;
+            border-radius: 5px;
+            background: #fff;
+            color: #AAAAAA;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .pd-wishlist-btn:hover {
+            border-color: #FF0000;
+            color: #FF0000;
+        }
+
+        .pd-wishlist-btn.active {
+            border-color: #FF0000;
+            color: #FF0000;
+        }
+
+        /* ── Description Section (below grid) ── */
+        .pd-desc-section {
+            margin-top: 40px;
+        }
+
+        .pd-section-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #000;
+            font-family: 'Instrument Sans', sans-serif;
+        }
+
+        .pd-desc-text {
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.5);
+            line-height: 1.8;
+            font-weight: 500;
+            white-space: pre-wrap;
+            font-family: 'Instrument Sans', sans-serif;
+        }
+
+
+        /* ── Reviews & Accordion ── */
+        .pd-review-accordion {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 24px 0;
+            border-top: 2px solid #E5E7EB;
+            margin-top: 40px;
+        }
+
+        .pd-review-accordion h3 {
+            font-size: 20px;
+            font-weight: 500;
+            font-family: 'Instrument Sans', sans-serif;
+            margin: 0;
+            color: #000;
+        }
+
+        .pd-review-accordion svg {
+            transition: transform 0.3s;
+        }
+
+        .pd-review-accordion.open svg {
+            transform: rotate(180deg);
+        }
+
+        .pd-review-content {
+            display: none;
+            padding: 10px 0 30px;
+            border-bottom: 2px solid #E5E7EB;
+        }
+
+        .pd-review-content.open {
+            display: block;
+        }
+
+        .pd-review-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .pd-review-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        .pd-review-left h4,
+        .pd-review-right h4 {
+            font-size: 16px;
+            font-weight: 500;
+            font-family: 'Instrument Sans', sans-serif;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .pd-review-empty {
+            color: #6B7280;
+            font-size: 14px;
+            font-family: 'Instrument Sans', sans-serif;
+        }
+
+        .pd-review-list {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .pd-review-item {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .pd-review-item:last-child {
+            border-bottom: none;
+        }
+
+        .pd-review-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #FF0000;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+            flex-shrink: 0;
+            font-family: 'Instrument Sans', sans-serif;
+        }
+
+        .pd-review-body {
+            flex: 1;
+        }
+
+        .pd-review-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #000;
+            font-family: 'Instrument Sans', sans-serif;
+            margin-bottom: 4px;
+        }
+
+        .pd-review-stars {
+            color: #F59E0B;
+            font-size: 14px;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .pd-review-date {
+            font-size: 12px;
+            color: #9CA3AF;
+            margin-bottom: 8px;
+            display: block;
+            font-family: 'Instrument Sans', sans-serif;
+        }
+
+        .pd-review-text {
+            font-size: 14px;
+            color: #000;
+            line-height: 1.6;
+            font-family: 'Instrument Sans', sans-serif;
+            font-weight: 400;
+        }
+
+        /* Review Form */
+        .pd-review-right p {
+            font-size: 14px;
+            color: #6B7280;
+            margin-bottom: 24px;
+            font-family: 'Instrument Sans', sans-serif;
+        }
+
+        .pd-form-group {
+            margin-bottom: 20px;
+        }
+
+        .pd-form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #000;
+            margin-bottom: 8px;
+            font-family: 'Instrument Sans', sans-serif;
+        }
+
+        .pd-form-group input,
+        .pd-form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #E5E7EB;
+            border-radius: 6px;
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+            background: #fff;
+            box-sizing: border-box;
+        }
+
+        .pd-form-group input:focus,
+        .pd-form-group textarea:focus {
+            border-color: #FF0000;
+        }
+
+        /* Rating Input */
+        .pd-rating-input {
+            display: flex;
+            gap: 4px;
+            cursor: pointer;
+            margin-bottom: 12px;
+        }
+
+        .pd-rating-input svg {
+            width: 24px;
+            height: 24px;
+            fill: transparent;
+            stroke: #F59E0B;
+            stroke-width: 1.5;
+            transition: fill 0.2s, stroke 0.2s;
+        }
+
+        .pd-rating-input svg.active,
+        .pd-rating-input svg.hover {
+            fill: #F59E0B;
+            stroke: #F59E0B;
+        }
+
+        .pd-submit-btn {
+            background: #FF0000;
+            color: #fff;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: 'Instrument Sans', sans-serif;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+
+        .pd-submit-btn:hover {
+            background: #cc0000;
+        }
+
+        /* Toast Notification */
+        .pd-toast {
+            visibility: hidden;
+            background-color: #10B981;
+            /* Success Green */
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 14px 24px;
+            position: fixed;
+            z-index: 9999;
+            left: 50%;
+            bottom: 40px;
+            font-size: 15px;
+            font-family: 'Instrument Sans', sans-serif;
+            font-weight: 500;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            opacity: 0;
+            transform: translate(-50%, 20px);
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pd-toast.show {
+            visibility: visible;
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+
+        .pd-page-btn.active {
+            background: #FF0000;
+            color: #fff;
+            border-radius: 2px;
+            width: 20px;
+            height: 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        /* Not found */
+        .pd-notfound {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .pd-notfound h2 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .pd-notfound p {
+            color: #6B7280;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .pd-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+                padding: 20px;
+            }
+
+            .pd-gallery {
+                position: static;
+            }
+
+            .navbar__nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container navbar__inner">
+            <a href="/" class="navbar__logo" style="text-decoration: none;">
+                <span
+                    style="color: #FF0000; font-size: 24px; font-family: 'Reem Kufi Fun', sans-serif; font-weight: 700;">TuKam</span>
+            </a>
+            <nav class="navbar__nav">
+                <a href="/">Home</a>
+                <a href="/kamera/">Produk</a>
+                <a href="/kategori.html">Kategori</a>
+                <a href="/hubungi.html">Hubungi Kami</a>
+            </nav>
+            <div class="navbar__actions">
+                <div class="navbar__search-wrap">
+                    <input type="search" placeholder="Search..." id="navSearch" autocomplete="off">
+                    <button class="navbar__search-btn" aria-label="Cari">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
+                    </button>
+                </div>
+                <a href="/wishlist.html" class="navbar__wishlist-btn" aria-label="Wishlist" title="Wishlist">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                    </svg>
+                    <span class="nav-wishlist-count" style="display:none">0</span>
+                </a>
+                <a href="/cart.html" class="navbar__wishlist-btn" aria-label="Keranjang" title="Keranjang">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="nav-wishlist-count nav-cart-count" style="display:none">0</span>
+                </a>
+
+                <a href="/orders.html" class="navbar__wishlist-btn" aria-label="Pesanan" title="Pesanan"
+                    id="navOrdersBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 8v13H3V8M1 3h22v5H1zM10 12h4"></path>
+                    </svg>
+                </a>
+                <!-- Login Button -->
+                <div class="nav-account-wrap" id="navAccountWrap">
+                    <div
+                        style="width: 37px; height: 37px; border-radius: 50%; background: #eee; box-shadow: 0 2px 2px rgba(0,0,0,0.1);">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="pd-page">
+        <div class="container">
+
+            <!-- Breadcrumb -->
+            <nav class="pd-breadcrumb" id="breadcrumb">
+                <a href="/">Home</a> <span class="pd-breadcrumb-sep">/</span>
+                <a href="/kamera/">Produk</a> <span class="pd-breadcrumb-sep">/</span>
+                <a href="/kamera/">Kamera</a> <span class="pd-breadcrumb-sep">/</span>
+                <span id="breadcrumbTitle">Loading...</span>
+            </nav>
+
+            <!-- Not Found -->
+            <div id="notFound"
+                style="display:none; text-align:center; padding: 120px 20px; background:#fff; border-radius:10px; box-shadow:0 2px 4px rgba(0,0,0,0.05);"
+                class="pd-notfound">
+                <div style="font-size:4rem; margin-bottom:16px;">🔍</div>
+                <h2 style="font-family:'Instrument Sans', sans-serif; font-size:28px; margin-bottom:8px;">Produk Tidak
+                    Ditemukan</h2>
+                <p style="color:rgba(0,0,0,0.6); font-family:'Instrument Sans', sans-serif; margin-bottom:24px;">Produk
+                    yang Anda cari tidak tersedia, URL salah, atau telah dihapus.</p>
+                <a href="/kamera/"
+                    style="display:inline-flex; padding:12px 32px; background:#FF0000; color:#fff; text-decoration:none; border-radius:6px; font-weight:600; font-family:'Instrument Sans', sans-serif;">Lihat
+                    Semua Produk</a>
+            </div>
+
+            <!-- Product Detail -->
+            <div id="productDetail" style="display:none">
+
+                <div class="pd-box">
+                    <!-- Top: Gallery + Info -->
+                    <div class="pd-grid">
+
+                        <!-- Gallery -->
+                        <div class="pd-gallery">
+                            <div class="pd-gallery__main" id="mainImgWrap">
+                                <img id="mainImage" src="" alt="">
+                                <div class="pd-gallery__oos" id="oosOverlay" style="display:none">
+                                    <span>OUT OF STOCK</span>
+                                </div>
+                            </div>
+                            <div class="pd-gallery__thumbs" id="thumbsContainer"></div>
+                        </div>
+
+                        <!-- Info -->
+                        <div class="pd-info">
+                            <h1 class="pd-info__title" id="productTitle"></h1>
+
+                            <div class="pd-info__rating">
+                                <span>5.0</span>
+                                <span class="pd-info__stars">★★★★★</span>
+                                <span class="pd-info__rating-count" id="ratingCount">10</span> Penilaian
+                            </div>
+
+                            <!-- Specs list -->
+                            <div class="pd-specs" id="specsContainer" style="margin-bottom: 24px;"></div>
+
+                            <!-- Location, Brand, Kondisi, Stok -->
+                            <div class="pd-specs" id="metaContainer"></div>
+
+                            <hr class="pd-divider">
+
+                            <!-- Qty + Buy -->
+                            <div class="pd-buy-row" id="buyRow">
+                                <div class="pd-qty">
+                                    <button onclick="changeQty(-1)">−</button>
+                                    <input type="number" id="qtyInput" value="1" min="1" max="99">
+                                    <button onclick="changeQty(1)">+</button>
+                                </div>
+                                <button class="pd-buy-btn" id="addToCartBtn"
+                                    style="background: #fff; color: #000; border: 1px solid #ddd; margin-right: 8px;">+
+                                    Keranjang</button>
+                                <button class="pd-buy-btn" id="buyBtn">Beli Sekarang</button>
+                                <!-- The wishlist button will be injected here via JS -->
+                            </div>
+
+                            <!-- Sold notice -->
+                            <div id="soldNotice"
+                                style="display:none; background:#FEE2E2; border-radius:8px; padding:12px 16px; font-size:0.875rem; color:#991B1B; margin-top:16px;">
+                                ⚠️ Produk ini sudah terjual. Hubungi kami untuk produk serupa.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="pd-desc-section">
+                        <div class="pd-section-title">Description</div>
+                        <div class="pd-desc-text" id="productDesc"></div>
+                    </div>
+                </div>
+
+                <!-- Reviews (Accordion) -->
+                <div class="pd-review-accordion" id="reviewAccordion" onclick="toggleReviews()">
+                    <h3 id="reviewCountHeader">Reviews (0)</h3>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="pd-review-content" id="reviewContent">
+                    <div class="pd-review-grid">
+                        <div class="pd-review-left">
+                            <h4>Reviews</h4>
+                            <div id="reviewEmpty" class="pd-review-empty">There are no reviews yet.</div>
+                            <div class="pd-review-list" id="reviewList" style="display:none;"></div>
+                        </div>
+                        <div class="pd-review-right">
+                            <h4 id="reviewFormTitle" style="font-size: 16px; font-weight: 400; line-height: 1.5;">Be the
+                                first to review</h4>
+                            <p>Required fields are marked *</p>
+                            <form id="reviewForm" onsubmit="handleReviewSubmit(event)">
+                                <div class="pd-form-group">
+                                    <label>Name *</label>
+                                    <input type="text" id="revName" required>
+                                </div>
+                                <div class="pd-form-group">
+                                    <label>Your rating *</label>
+                                    <div class="pd-rating-input" id="ratingInput">
+                                        <svg data-val="1" viewBox="0 0 24 24">
+                                            <polygon
+                                                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                            </polygon>
+                                        </svg>
+                                        <svg data-val="2" viewBox="0 0 24 24">
+                                            <polygon
+                                                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                            </polygon>
+                                        </svg>
+                                        <svg data-val="3" viewBox="0 0 24 24">
+                                            <polygon
+                                                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                            </polygon>
+                                        </svg>
+                                        <svg data-val="4" viewBox="0 0 24 24">
+                                            <polygon
+                                                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                            </polygon>
+                                        </svg>
+                                        <svg data-val="5" viewBox="0 0 24 24">
+                                            <polygon
+                                                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                            </polygon>
+                                        </svg>
+                                    </div>
+                                    <input type="hidden" id="revRating" required>
+                                </div>
+                                <div class="pd-form-group">
+                                    <label>Your review *</label>
+                                    <textarea id="revText" rows="4" required></textarea>
+                                </div>
+                                <button type="submit" class="pd-submit-btn">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <span class="lightbox__close" onclick="document.getElementById('lightbox').classList.remove('open')">✕</span>
+        <img id="lightboxImg" src="" alt="">
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toastNotification" class="pd-toast">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+        <span id="toastMessage"></span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__grid">
+                <div>
+                    <div class="footer__brand-name">Tu<span>Kam</span></div>
+                    <div class="footer__brand-desc" id="dynamicBrandDesc">Tempat jual beli kamera dan aksesoris yang
+                        amanah, cepat, dan ramah
+                        pengguna. Mendukung pengiriman seluruh Indonesia.</div>
+                </div>
+                <div>
+                    <div class="footer__col-title">Lokasi</div>
+                    <div class="footer__links">
+                        <a href="#">Jl. Yaweslah no.18 Jakarta</a>
+                        <a href="#">Jl. Oalaa no.8 Bekasi, Jawa Barat</a>
+                        <a href="#">Jl. Eh iya kah no.1 Bandung, Jawa Barat</a>
+                    </div>
+                </div>
+                <div>
+                    <div class="footer__col-title">Sosial Media</div>
+                    <div style="display:flex; gap:12px; margin-top:12px; align-items:center;">
+                        <a href="#" title="Instagram" style="color:rgba(255,255,255,0.7);"
+                            onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.8">
+                                <rect x="2" y="2" width="20" height="20" rx="5" />
+                                <circle cx="12" cy="12" r="5" />
+                                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+                            </svg>
+                        </a>
+                        <a href="#" title="TikTok" style="color:rgba(255,255,255,0.7);"
+                            onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.73a4.85 4.85 0 0 1-1.01-.04z" />
+                            </svg>
+                        </a>
+                        <a href="#" title="YouTube" style="color:rgba(255,255,255,0.7);"
+                            onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M22.54 6.42a2.78 2.78 0 0 0-1.96-1.96C18.88 4 12 4 12 4s-6.88 0-8.58.46A2.78 2.78 0 0 0 1.46 6.42 29.94 29.94 0 0 0 1 12a29.94 29.94 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.96 1.96C5.12 20 12 20 12 20s6.88 0 8.58-.46a2.78 2.78 0 0 0 1.96-1.96A29.94 29.94 0 0 0 23 12a29.94 29.94 0 0 0-.46-5.58z" />
+                                <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#111" />
+                            </svg>
+                        </a>
+                        <a href="https://wa.me/6281234567890" title="WhatsApp" style="color:rgba(255,255,255,0.7);"
+                            onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <span>2026 - TuKam Tuku Kamera</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/assets/js/api.js?v=2"></script>
+    <script src="/assets/js/data.js?v=2"></script>
+    <script src="/assets/js/search-popup.js?v=2"></script>
+    <script src="/assets/js/utils.js?v=2"></script>
+    <script>
+        // Avatar colors for reviews
+        const avatarColors = ['#E85D04', '#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#EF4444', '#06B6D4'];
+
+        // Format price
+        function fmt(price) {
+            try { return Utils.formatPrice(price); } catch (e) { return 'Rp ' + Number(price).toLocaleString('id-ID'); }
+        }
+
+        // Qty controls — respects the input's max (= product stock set below)
+        function changeQty(delta) {
+            const input = document.getElementById('qtyInput');
+            const maxQty = parseInt(input.max) || 99;
+            let v = parseInt(input.value) + delta;
+            if (v < 1) v = 1;
+            if (v > maxQty) v = maxQty;
+            input.value = v;
+        }
+
+        // Load product from backend API
+        const slug = Utils.getQueryParam('slug');
+        const id = Utils.getQueryParam('id');
+
+        (async () => {
+            let product = null;
+            try {
+                const apiSlug = slug || id;
+                if (apiSlug) {
+                    const raw = await API.getProductBySlug(apiSlug);
+                    if (raw && !raw.message && raw.id) {
+                        // Normalize: flatten nested brand/branch/category objects
+                        const gradeMap = { new: 'Baru', like_new: 'Like New', a: 'A', b: 'B', c: 'C' };
+                        product = {
+                            ...raw,
+                            title: raw.name,
+                            brand: raw.brand?.name || '',
+                            branch: raw.branch?.name || '',
+                            category: raw.category?.name || '',
+                            grade: gradeMap[raw.condition_grade] || raw.condition_grade || '',
+                            // Keep raw.images as-is (array of {id, url, sort_order} objects from the API)
+                            // The gallery code below maps them to URL strings
+                        };
+                    }
+                }
+            } catch (e) { console.error('Product load error', e); }
+
+            if (!product) {
+                document.getElementById('notFound').style.display = 'block';
+            } else {
+                // try to increment views
+                try { if (slug) db.incrementViews(slug); } catch (e) { }
+
+                document.getElementById('pageTitle').textContent = (product.title || product.name) + ' - TuKam';
+                document.getElementById('breadcrumbTitle').textContent = product.title || product.name;
+                document.getElementById('productDetail').style.display = 'block';
+
+                const name = product.title || product.name || '';
+
+                // Title
+                document.getElementById('productTitle').textContent = name;
+
+                // product.images is [{id, url, sort_order}] from the API — extract just the URL strings
+                let imgs = [];
+                if (product.images && product.images.length > 0) {
+                    imgs = product.images.map(img => img.url).filter(u => u);
+                }
+                // Always fall back to top-level image_url for legacy products
+                if (imgs.length === 0 && product.image_url) imgs = [product.image_url];
+                if (imgs.length === 0 && product.image) imgs = [product.image];
+                if (imgs.length === 0) imgs = [''];
+                const mainImg = document.getElementById('mainImage');
+                mainImg.src = imgs[0];
+                mainImg.alt = name;
+                mainImg.addEventListener('click', () => {
+                    document.getElementById('lightboxImg').src = imgs[0];
+                    document.getElementById('lightbox').classList.add('open');
+                });
+
+                // OOS
+                if (product.status && product.status !== 'available') {
+                    document.getElementById('oosOverlay').style.display = 'flex';
+                }
+
+                // Thumbnails
+                document.getElementById('thumbsContainer').innerHTML = imgs.map((img, i) => `
+                <div class="pd-gallery__thumb ${i === 0 ? 'active' : ''}"
+                     onclick="setImg('${img}',this)">
+                    <img src="${img}" alt="${name} ${i + 1}" onerror="this.style.opacity='0.3'">
+                </div>`).join('');
+
+                // Specs (from product.specs string or product fields)
+                const specsData = [];
+                if (product.specs) {
+                    // Parse line-by-line specs like "Sensor: ..." 
+                    product.specs.split('\n').forEach(line => {
+                        const parts = line.split(':');
+                        if (parts.length >= 2) {
+                            specsData.push({ lbl: parts[0].trim(), val: parts.slice(1).join(':').trim() });
+                        }
+                    });
+                }
+                if (specsData.length === 0) {
+                    // Fallback: generic specs from product fields
+                    if (product.category) specsData.push({ lbl: 'Kategori', val: product.category });
+                    if (product.brand) specsData.push({ lbl: 'Brand', val: product.brand });
+                }
+                document.getElementById('specsContainer').innerHTML = specsData.map(s =>
+                    `<div class="pd-spec-row"><span class="lbl">${s.lbl}:</span> <span class="val">${s.val}</span></div>`
+                ).join('');
+
+                // Meta: Lokasi, Brand, Kondisi, Stok
+                const grade = product.grade || '';
+                let kondisi = 'Baru';
+                if (grade === 'A') kondisi = 'Sangat Baik';
+                else if (grade === 'B') kondisi = 'Baik';
+                else if (grade === 'C') kondisi = 'Cukup';
+
+                const stockNum = product.stock !== undefined ? product.stock : (product.status === 'available' ? 1 : 0);
+                const stokBadge = stockNum > 0
+                    ? `<span style="background:#dcfce7; color:#16a34a; font-weight:700; padding:2px 12px; border-radius:20px; font-size:0.82rem;">${stockNum} unit tersedia</span>`
+                    : `<span style="background:#fee2e2; color:#dc2626; font-weight:700; padding:2px 12px; border-radius:20px; font-size:0.82rem;">Stok habis</span>`;
+
+                // Cap the quantity input to the actual stock number
+                const qtyInput = document.getElementById('qtyInput');
+                qtyInput.max = stockNum > 0 ? stockNum : 1;
+                qtyInput.value = 1;
+                qtyInput.addEventListener('input', () => {
+                    let v = parseInt(qtyInput.value);
+                    if (isNaN(v) || v < 1) qtyInput.value = 1;
+                    else if (v > stockNum) qtyInput.value = stockNum;
+                });
+
+                document.getElementById('metaContainer').innerHTML = `
+                <div class="pd-spec-row" style="margin-bottom: 20px;"><span class="lbl">Lokasi:</span> <span class="val">${product.branch || '-'}</span></div>
+                <div class="pd-spec-row" style="margin-bottom: 20px;"><span class="lbl">Brand:</span> <span class="val">${product.brand || '-'}</span></div>
+                <div class="pd-spec-row" style="margin-bottom: 20px;"><span class="lbl">Kondisi:</span> <span class="val">${kondisi}</span></div>
+                <div class="pd-spec-row"><span class="lbl">Stok:</span> <span class="val">${stokBadge}</span></div>
+            `;
+
+                // Buy buttons - Native Checkout Process
+                const buyBtn = document.getElementById('buyBtn');
+                const addToCartBtn = document.getElementById('addToCartBtn');
+
+                if (product.status === 'available') {
+                    addToCartBtn.addEventListener('click', () => {
+                        try {
+                            const qty = document.getElementById('qtyInput').value;
+                            Cart.add(product, qty);
+                        } catch (e) { alert("Error Keranjang: " + e.message); console.error(e); }
+                    });
+
+                    buyBtn.addEventListener('click', () => {
+                        try {
+                            const qty = document.getElementById('qtyInput').value;
+                            Cart.add(product, qty);
+                            window.location.href = '/cart.html';
+                        } catch (e) { alert("Error Beli Sekarang: " + e.message); console.error(e); }
+                    });
+                } else {
+                    buyBtn.disabled = true;
+                    buyBtn.textContent = 'Stok Habis';
+                    addToCartBtn.style.display = 'none';
+
+                    const globalSettings = Utils.getGlobalSettings();
+                    const waPhone = globalSettings.whatsapp || product.whatsapp || '6281234567890';
+                    const waMsg = encodeURIComponent(`Halo, saya tertarik dengan *${name}* yang sedang kosong di TuKam. Apakah ada produk serupa?`);
+                    const waUrl = `https://wa.me/${waPhone}?text=${waMsg}`;
+
+                    document.getElementById('buyRow').insertAdjacentHTML('afterend',
+                        `<div style="margin-top:10px;"><a href="${waUrl}" target="_blank" class="pd-buy-btn" style="display:inline-flex;text-decoration:none;background:#25D366;color:#fff;justify-content:center;">💬 Tanya Produk Serupa</a></div>`);
+                    document.getElementById('soldNotice').style.display = 'block';
+                }
+
+                // Inject Wishlist button
+                const isWishlisted = typeof wishlist !== 'undefined' && wishlist.has(product.id);
+                document.getElementById('buyRow').insertAdjacentHTML('beforeend', `
+                <button class="pd-wishlist-btn ${isWishlisted ? 'active' : ''}" id="pdWishlistBtn"
+                        onclick="toggleWishlist(this, '${product.id}')"
+                        aria-label="Tambah ke wishlist">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="${isWishlisted ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                </button>
+            `);
+
+                // Description
+                document.getElementById('productDesc').textContent = product.description || 'Tidak ada deskripsi tersedia.';
+
+                // Real reviews logic
+                const reviewListEl = document.getElementById('reviewList');
+                const reviewEmptyEl = document.getElementById('reviewEmpty');
+                const reviewCountHeader = document.getElementById('reviewCountHeader');
+
+                function loadReviews() {
+                    const allReviews = JSON.parse(localStorage.getItem('tukam_reviews') || '{}');
+                    const productReviews = allReviews[product.id] || [];
+
+                    reviewCountHeader.textContent = `Reviews (${productReviews.length})`;
+                    document.getElementById('reviewFormTitle').textContent = productReviews.length > 0 ? `Add a review for \u201C${name}\u201D` : `Be the first to review \u201C${name}\u201D`;
+
+                    if (productReviews.length === 0) {
+                        reviewEmptyEl.style.display = 'block';
+                        reviewListEl.style.display = 'none';
+                        document.getElementById('ratingCount').textContent = '0';
+                        document.querySelector('.pd-info__rating span:first-child').textContent = '0.0';
+                        document.querySelector('.pd-info__stars').textContent = '☆☆☆☆☆';
+                    } else {
+                        reviewEmptyEl.style.display = 'none';
+                        reviewListEl.style.display = 'flex';
+
+                        // calculate average rating
+                        const totalScore = productReviews.reduce((sum, r) => sum + parseInt(r.rating), 0);
+                        const avg = (totalScore / productReviews.length).toFixed(1);
+                        document.getElementById('ratingCount').textContent = productReviews.length;
+                        document.querySelector('.pd-info__rating span:first-child').textContent = avg;
+                        document.querySelector('.pd-info__stars').textContent = '★'.repeat(Math.round(avg)) + '☆'.repeat(5 - Math.round(avg));
+
+                        reviewListEl.innerHTML = productReviews.map(r => `
+                        <div class="pd-review-item">
+                            <div class="pd-review-avatar">${r.name.charAt(0).toUpperCase()}</div>
+                            <div class="pd-review-body">
+                                <div class="pd-review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
+                                <div class="pd-review-name">${r.name}</div>
+                                <div class="pd-review-date">${r.date}</div>
+                                <div class="pd-review-text">${r.text}</div>
+                            </div>
+                        </div>
+                    `).join('');
+                    }
+                }
+
+                loadReviews(); // Initial load
+            }
+
+            // Gallery helpers
+            function setImg(src, thumb) {
+                document.getElementById('mainImage').src = src;
+                document.querySelectorAll('.pd-gallery__thumb').forEach(t => t.classList.remove('active'));
+                thumb.classList.add('active');
+            }
+
+            // Lightbox close on backdrop
+            document.getElementById('lightbox').addEventListener('click', function (e) {
+                if (e.target === this) this.classList.remove('open');
+            });
+
+            // Search
+            document.getElementById('navSearch').addEventListener('keydown', e => {
+                if (e.key === 'Enter' && e.target.value.trim())
+                    window.location.href = '/kamera/?search=' + encodeURIComponent(e.target.value.trim());
+            });
+            document.querySelector('.navbar__search-btn').addEventListener('click', () => {
+                const v = document.getElementById('navSearch').value.trim();
+                if (v) window.location.href = '/kamera/?search=' + encodeURIComponent(v);
+            });
+
+            // Update wishlist count & global settings on load
+            document.addEventListener('DOMContentLoaded', () => {
+                const countEl = document.querySelector('.nav-wishlist-count');
+                if (countEl && typeof wishlist !== 'undefined') {
+                    countEl.textContent = wishlist.count();
+                }
+
+                const settings = Utils.getGlobalSettings();
+                const descEl = document.getElementById('dynamicBrandDesc');
+                if (descEl && settings.description) {
+                    descEl.textContent = settings.description;
+                }
+            });
+
+            // Review Accordion
+            function toggleReviews() {
+                const acc = document.getElementById('reviewAccordion');
+                const content = document.getElementById('reviewContent');
+                acc.classList.toggle('open');
+                content.classList.toggle('open');
+            }
+
+            // Rating Star interactions
+            const ratingInput = document.getElementById('ratingInput');
+            const revRating = document.getElementById('revRating');
+            let selectedRating = 0;
+
+            if (ratingInput) {
+                const stars = ratingInput.querySelectorAll('svg');
+                stars.forEach(star => {
+                    star.addEventListener('mouseover', function () {
+                        const val = parseInt(this.getAttribute('data-val'));
+                        stars.forEach(s => {
+                            const sVal = parseInt(s.getAttribute('data-val'));
+                            if (sVal <= val) s.classList.add('hover');
+                            else s.classList.remove('hover');
+                        });
+                    });
+                    star.addEventListener('mouseout', function () {
+                        stars.forEach(s => s.classList.remove('hover'));
+                    });
+                    star.addEventListener('click', function () {
+                        selectedRating = parseInt(this.getAttribute('data-val'));
+                        revRating.value = selectedRating;
+                        stars.forEach(s => {
+                            const sVal = parseInt(s.getAttribute('data-val'));
+                            if (sVal <= selectedRating) s.classList.add('active');
+                            else s.classList.remove('active');
+                        });
+                    });
+                });
+            }
+
+            // Submit Review
+            function handleReviewSubmit(e) {
+                e.preventDefault();
+                if (!product) return;
+
+                const name = document.getElementById('revName').value.trim();
+                const text = document.getElementById('revText').value.trim();
+                const rating = parseInt(document.getElementById('revRating').value);
+
+                if (!rating) {
+                    alert('Silakan pilih rating bintang terlebih dahulu.');
+                    return;
+                }
+
+                const newReview = {
+                    name: name,
+                    rating: rating,
+                    text: text,
+                    date: new Date().toLocaleDateString('en-CA') // YYYY-MM-DD
+                };
+
+                const allReviews = JSON.parse(localStorage.getItem('tukam_reviews') || '{}');
+                if (!allReviews[product.id]) allReviews[product.id] = [];
+                allReviews[product.id].push(newReview);
+
+                localStorage.setItem('tukam_reviews', JSON.stringify(allReviews));
+
+                // reset form
+                e.target.reset();
+                selectedRating = 0;
+                revRating.value = '';
+                document.querySelectorAll('#ratingInput svg').forEach(s => s.classList.remove('active', 'hover'));
+
+                // Reload reviews layout dynamically without refreshing page
+                loadReviews();
+
+                showToast('Ulasan berhasil ditambahkan!');
+            }
+
+            function showToast(msg) {
+                const toast = document.getElementById('toastNotification');
+                document.getElementById('toastMessage').textContent = msg;
+                toast.classList.add('show');
+                setTimeout(() => { toast.classList.remove('show'); }, 3000);
+            }
+            // Expose to global scope for inline HTML handlers
+            window.setImg = setImg;
+            window.toggleReviews = toggleReviews;
+            window.handleReviewSubmit = handleReviewSubmit;
+        })(); // end async IIFE
+    </script>
+    <script>
+        // Init auth menu in navbar
+        document.addEventListener('DOMContentLoaded', () => {
+            if(typeof Utils !== 'undefined' && Utils.renderAuthMenu) {
+                Utils.renderAuthMenu();
+            }
+        });
+    </script>
+</body>
+
+</html>

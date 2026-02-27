@@ -1,0 +1,28 @@
+{
+    "id": 1,
+    "name": "Sony A7III Body Only",
+    "slug": "sony-a7iii-jakarta-grade-a-001",
+    "branch_id": 1,
+    "brand_id": 1,
+    "category_id": 1,
+    "condition_grade": "a",
+    "price": "19500000.00",
+    "description": "Kelengkapan fullset box, SC rendah 5rb, sensor bersih.",
+    "status": "available",
+    "stock": 1,
+    "image_url": "http:\/\/localhost:8000\/storage\/products\/91hPNBGnSdSBRpaFStLQ7z5nJZcNpwdUbIsiiHBU.png",
+    "created_at": "2026-02-25T06:54:58.000000Z",
+    "updated_at": "2026-02-25T14:19:04.000000Z",
+    "branch": {
+        "id": 1,
+        "name": "TuKam Jakarta",
+        "slug": "jakarta",
+        "city": "Jakarta Selatan",
+        "address": "Jl. Radio Dalam Raya No. 12",
+        "google_maps_url": "https:\/\/maps.google.com\/?q=jakarta",
+        "photo_url": null,
+        "contact_info": "0812-3456-7890",
+        "created_at": "2026-02-25T06:54:58.000000Z",
+        "updated_at": "2026-02-25T06:54:58.000000Z"
+    }
+}

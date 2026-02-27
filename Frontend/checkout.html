@@ -1,0 +1,639 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - TuKam</title>
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Reem+Kufi+Fun:wght@400;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            background: #F5F5F5;
+        }
+
+        /* Navbar matching index.html */
+        .navbar {
+            background: #ffffff;
+            height: 70px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+
+        .navbar__inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
+            max-width: 1380px;
+            margin: 0 auto;
+            padding: 0 57px;
+        }
+
+        .navbar__logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .navbar__logo-text {
+            font-family: 'Reem Kufi Fun', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #FF0000;
+        }
+
+        /* Layout */
+        .checkout-page {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        .section-box {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        .section-box:last-child {
+            margin-bottom: 0;
+        }
+
+        .box-title {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #EEE;
+        }
+
+        /* Form fields */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #FF0000;
+        }
+
+        /* Payment Methods */
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .payment-option:hover {
+            border-color: #AAAAAA;
+        }
+
+        .payment-option.selected {
+            border-color: #FF0000;
+            background: #FFF5F5;
+        }
+
+        .payment-option input[type="radio"] {
+            margin: 0;
+            width: 18px;
+            height: 18px;
+            accent-color: #FF0000;
+            pointer-events: none;
+        }
+
+        .payment-option label {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 15px;
+            color: #000;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin: 0;
+        }
+
+        .payment-icon {
+            display: flex;
+            gap: 8px;
+        }
+
+        .payment-icon img {
+            height: 20px;
+        }
+
+        /* Order Items Review */
+        .review-item {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px dashed #EEE;
+        }
+
+        .review-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .review-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
+            background: #fafafa;
+        }
+
+        .review-item-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .review-item-name {
+            font-family: 'Instrument Sans', sans-serif;
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .review-item-meta {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .review-item-price {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            color: #000;
+            font-size: 14px;
+            text-align: right;
+        }
+
+        /* Summary */
+        .summary-box {
+            position: sticky;
+            top: 24px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .summary-row.total {
+            font-size: 18px;
+            font-weight: 700;
+            color: #000;
+            border-top: 1px solid #EEE;
+            padding-top: 16px;
+            margin-top: 16px;
+        }
+
+        .checkout-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: #FF0000;
+            color: #fff;
+            text-align: center;
+            font-family: 'Instrument Sans', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 24px;
+        }
+
+        .checkout-btn:hover {
+            background: #cc0000;
+        }
+
+        .checkout-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Success Modal */
+        #successModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: #22c55e;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .modal-title {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .modal-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .order-id-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #f3f4f6;
+            border-radius: 6px;
+            font-weight: 600;
+            font-family: monospace;
+            letter-spacing: 1px;
+            color: #374151;
+            margin-bottom: 32px;
+        }
+
+        .modal-btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background: #FF0000;
+            color: #fff;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-family: 'Instrument Sans';
+            transition: 0.2s;
+        }
+
+        .modal-btn:hover {
+            background: #cc0000;
+        }
+
+        @media (max-width: 900px) {
+            .checkout-page {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar__inner">
+            <a href="/" class="navbar__logo">
+                <span class="navbar__logo-text">TuKam</span>
+            </a>
+            <div style="font-family: 'Instrument Sans', sans-serif; font-weight: 600; font-size: 18px; color: #666;">
+                Checkout Aman
+            </div>
+        </div>
+    </nav>
+
+    <div class="checkout-page" id="checkoutContainer">
+        <!-- Left: Form -->
+        <div>
+            <div class="section-box">
+                <h2 class="box-title">Alamat Pengiriman</h2>
+                <form id="shippingForm">
+                    <div class="form-group">
+                        <label>Nama Lengkap</label>
+                        <input type="text" id="custName" placeholder="Masukkan nama lengkap" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nomor Telepon (WhatsApp)</label>
+                        <input type="tel" id="custPhone" placeholder="Contoh: 081234567890" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Alamat Lengkap</label>
+                        <textarea id="custAddress" rows="3"
+                            placeholder="Masukkan detail alamat (Jalan, RT/RW, Kec., Kota)" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Pilih Kurir Pengiriman</label>
+                        <select id="shippingCourier" onchange="updateShippingCost()">
+                            <option value="" disabled selected>Pilih Kurir</option>
+                            <option value="JNE" data-cost="15000">JNE Reguler (Rp 15.000)</option>
+                            <option value="SICEPAT" data-cost="12000">SiCepat REG (Rp 12.000)</option>
+                            <option value="J&T" data-cost="14000">J&T Express (Rp 14.000)</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Right: Summary -->
+        <div>
+            <div class="section-box summary-box">
+                <h2 class="box-title">Ringkasan Pesanan</h2>
+                <div id="checkoutItemsContainer">
+                    <!-- Items rendered here -->
+                </div>
+
+                <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid #EEE;">
+                    <div class="summary-row">
+                        <span>Total Harga (<span id="summaryItemCount">0</span> barang)</span>
+                        <span id="summaryPriceTotal">Rp 0</span>
+                    </div>
+                    <div class="summary-row" id="shippingCostRow" style="display: none;">
+                        <span>Ongkos Kirim</span>
+                        <span id="summaryShippingCost">Rp 0</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total Tagihan</span>
+                        <span id="summaryFinalTotal">Rp 0</span>
+                    </div>
+                </div>
+
+                <button class="checkout-btn" id="submitOrderBtn" onclick="processCheckout()">Buat Pesanan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+            <div class="modal-title">Pesanan Berhasil!</div>
+            <div class="modal-text">Terima kasih telah berbelanja di TuKam. Pesanan Anda sedang diproses.</div>
+            <div class="order-id-badge" id="modalOrderId">ORD-XXXXXX</div>
+            <a href="/" class="modal-btn">Kembali ke Beranda</a>
+        </div>
+    </div>
+
+    <!-- Midtrans Snap.js (Sandbox) -->
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="Mid-client-2CRzjmPZ0BTngDLp"></script>
+    <script src="/assets/js/utils.js?v=2"></script>
+    <script src="/assets/js/api.js?v=2"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const items = Cart.get();
+            if (items.length === 0) {
+                alert('Keranjang Anda kosong. Anda akan dialihkan ke daftar produk.');
+                window.location.href = '/kamera/';
+                return;
+            }
+            renderCheckoutItems(items);
+        });
+
+        function selectPayment(el, method) {
+            document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
+            el.classList.add('selected');
+            el.querySelector('input').checked = true;
+        }
+
+        function renderCheckoutItems(items) {
+            const container = document.getElementById('checkoutItemsContainer');
+            let html = '';
+
+            items.forEach(item => {
+                let imgUrl = '/assets/Images/placeholder.png';
+                if (item.images && item.images.length > 0) {
+                    imgUrl = item.images[0].url || item.images[0];
+                } else if (item.image_url || item.image) {
+                    imgUrl = item.image_url || item.image;
+                }
+
+                html += `
+                    <div class="review-item">
+                        <img src="${imgUrl}" alt="">
+                        <div class="review-item-info">
+                            <div class="review-item-name">${item.name || item.title}</div>
+                            <div class="review-item-meta">${item.quantity} x ${Utils.formatPrice(item.price)}</div>
+                        </div>
+                        <div class="review-item-price">${Utils.formatPrice(item.price * item.quantity)}</div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+
+            const count = Cart.count();
+            const total = Cart.getTotal();
+
+            document.getElementById('summaryItemCount').textContent = count;
+            document.getElementById('summaryPriceTotal').textContent = Utils.formatPrice(total);
+            updateShippingCost(); // Recalculate everything including shipping
+        }
+
+        function updateShippingCost() {
+            const select = document.getElementById('shippingCourier');
+            const total = Cart.getTotal();
+            let shippingCost = 0;
+
+            if (select.selectedIndex > 0) {
+                const opt = select.options[select.selectedIndex];
+                shippingCost = parseInt(opt.getAttribute('data-cost') || '0');
+
+                document.getElementById('shippingCostRow').style.display = 'flex';
+                document.getElementById('summaryShippingCost').textContent = Utils.formatPrice(shippingCost);
+            } else {
+                document.getElementById('shippingCostRow').style.display = 'none';
+            }
+
+            document.getElementById('summaryFinalTotal').textContent = Utils.formatPrice(total + shippingCost);
+        }
+
+        async function processCheckout() {
+            const btn = document.getElementById('submitOrderBtn');
+            const name = document.getElementById('custName').value.trim();
+            const phone = document.getElementById('custPhone').value.trim();
+            const address = document.getElementById('custAddress').value.trim();
+            const courierSelect = document.getElementById('shippingCourier');
+
+            if (!name || !phone || !address) {
+                alert('Mohon lengkapi data pengiriman Anda.');
+                return;
+            }
+
+            if (courierSelect.selectedIndex === 0 || !courierSelect.value) {
+                alert('Silakan pilih kurir pengiriman terlebih dahulu.');
+                return;
+            }
+
+            const items = Cart.get();
+            if (!items || items.length === 0) {
+                alert('Keranjang Anda kosong.');
+                return;
+            }
+
+            const courierName = courierSelect.value;
+            const shippingCost = parseInt(courierSelect.options[courierSelect.selectedIndex].getAttribute('data-cost'));
+
+            const orderPayload = {
+                name, phone, address,
+                payment_method: 'midtrans',
+                courier: courierName,
+                shipping_cost: shippingCost,
+                items: items.map(i => ({
+                    product_id: i.id,
+                    quantity: i.qty
+                }))
+            };
+
+            btn.disabled = true;
+            btn.textContent = 'Memproses...';
+
+            try {
+                const userToken = localStorage.getItem('user_token');
+                const orderHeaders = {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                };
+                if (userToken) {
+                    orderHeaders['Authorization'] = `Bearer ${userToken}`;
+                }
+
+                const res = await fetch(`${BASE_URL}/orders`, {
+                    method: 'POST',
+                    headers: orderHeaders,
+                    body: JSON.stringify(orderPayload)
+                });
+
+                const data = await res.json();
+
+                if (!res.ok) {
+                    alert('Gagal membuat pesanan: ' + (data.message || 'Server Error'));
+                    btn.disabled = false;
+                    btn.textContent = 'Buat Pesanan';
+                    return;
+                }
+
+                // Clear cart immediately after order created
+                Cart.clear();
+                const orderNumber = data.order.order_number;
+                const snapToken = data.snap_token;
+
+                if (!snapToken) {
+                    // No snap token, show success directly
+                    window.location.href = `/success.html?order_id=${orderNumber}`;
+                    return;
+                }
+
+                // Open Midtrans Snap payment popup
+                window.snap.pay(snapToken, {
+                    onSuccess: async function (result) {
+                        // Notify backend that payment succeeded
+                        try {
+                            const token = localStorage.getItem('user_token');
+                            const headers = { 'Accept': 'application/json', 'Content-Type': 'application/json' };
+                            if (token) headers['Authorization'] = `Bearer ${token}`;
+                            await fetch(`${BASE_URL}/orders/${orderNumber}/mark-paid`, {
+                                method: 'POST',
+                                headers: headers,
+                                body: JSON.stringify({ transaction_id: result.transaction_id })
+                            });
+                        } catch (e) {
+                            console.warn('mark-paid call failed, continuing anyway', e);
+                        }
+                        window.location.href = `/success.html?order_id=${orderNumber}`;
+                    },
+                    onPending: function (result) {
+                        window.location.href = `/success.html?order_id=${orderNumber}`;
+                    },
+                    onError: function (result) {
+                        alert('Pembayaran gagal. Silakan coba lagi atau hubungi kami.');
+                        btn.disabled = false;
+                        btn.textContent = 'Buat Pesanan';
+                    },
+                    onClose: function () {
+                        // User closed popup without paying
+                        window.location.href = `/success.html?order_id=${orderNumber}`;
+                    }
+                });
+
+            } catch (err) {
+                alert('Terjadi kesalahan koneksi. Silakan coba lagi.');
+                btn.disabled = false;
+                btn.textContent = 'Buat Pesanan';
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesanan Berhasil - TuKam</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Reem+Kufi+Fun:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Instrument Sans', sans-serif;
+            background: #F5F5F5;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: #fff;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-family: 'Reem Kufi Fun', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #FF0000;
+            text-decoration: none;
+        }
+
+        .success-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .success-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #10B981;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            margin: 0 auto 24px;
+        }
+
+        .success-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #000;
+        }
+
+        .success-text {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .order-id-box {
+            background: #F8F9FA;
+            border: 1px dashed #CCC;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .order-id-label {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .order-id-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #000;
+            font-family: monospace;
+        }
+
+        .btn-home {
+            display: inline-block;
+            background: #FF0000;
+            color: #fff;
+            text-decoration: none;
+            padding: 14px 30px;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn-home:hover {
+            background: #cc0000;
+        }
+
+        .btn-track {
+            display: inline-block;
+            background: #000;
+            color: #fff;
+            text-decoration: none;
+            padding: 14px 30px;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background 0.2s;
+            margin-right: 12px;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+
+        .btn-track:hover {
+            background: #333;
+        }
+
+        /* Tracking Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #fff;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 12px;
+            padding: 24px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            text-align: left;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-title {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .tracking-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+        }
+
+        .tracking-timeline::before {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: #EEEEEE;
+        }
+
+        .tracking-item {
+            display: flex;
+            gap: 16px;
+            position: relative;
+        }
+
+        .tracking-item__dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #fff;
+            border: 2px solid #ccc;
+            flex-shrink: 0;
+            z-index: 1;
+        }
+
+        .tracking-item.active .tracking-item__dot {
+            border-color: #FF0000;
+            background: #FF0000;
+            box-shadow: 0 0 0 4px rgba(255, 0, 0, 0.1);
+        }
+
+        .tracking-item__content {
+            flex-grow: 1;
+            padding-bottom: 8px;
+        }
+
+        .tracking-item__date {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 4px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .tracking-item__desc {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .tracking-error {
+            padding: 16px;
+            background: #FFF3E0;
+            color: #E65100;
+            border-radius: 8px;
+            font-size: 14px;
+            text-align: center;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <a href="/" class="logo">TuKam</a>
+    </header>
+
+    <main class="success-container">
+        <div class="success-card">
+            <div class="success-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+            <div class="success-title">Pesanan Berhasil!</div>
+            <p class="success-text">Terima kasih telah berbelanja di TuKam.<br>Pesanan Anda sedang kami proses.</p>
+
+            <div class="order-id-box" id="orderBox" style="display:none;">
+                <div class="order-id-label">Nomor Pesanan</div>
+                <div class="order-id-value" id="displayOrderId">Memuat...</div>
+                <div id="orderStatus" style="margin-top:8px; font-size:14px; font-weight:600; color:#10B981;"></div>
+            </div>
+
+            <div id="actionButtons" style="display:none; justify-content:center; flex-wrap:wrap; gap:12px;">
+                <button id="btnTrack" class="btn-track" style="display:none;" onclick="trackCurrentOrder()">Cek Resi
+                    Pengiriman</button>
+                <a href="/orders.html" class="btn-home" style="background:#333; display:none;" id="btnMyOrders">Pesanan
+                    Saya</a>
+                <a href="/kamera/" class="btn-home">Lanjut Belanja</a>
+            </div>
+
+            <!-- Loading Indicator -->
+            <div id="loadingIndicator" style="color:#666; margin-top:20px;">Memeriksa detail pesanan...</div>
+        </div>
+    </main>
+
+    <!-- Tracking Modal -->
+    <div class="modal" id="trackingModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeTrackingModal()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <h3 class="modal-title">Lacak Pengiriman</h3>
+            <div id="trackingContent">
+                <p style="text-align:center; color:#666;">Memuat info pengiriman...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/assets/js/utils.js"></script>
+    <script>
+        // Setup internal simple API client if api.js isn't fully loaded
+        const apiBaseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:8000/api' : '/api';
+        let currentOrderNumber = null;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const params = new URLSearchParams(window.location.search);
+            const orderId = params.get('order_id');
+            const token = localStorage.getItem('user_token');
+
+            if (token) {
+                document.getElementById('btnMyOrders').style.display = 'inline-block';
+            }
+
+            if (orderId) {
+                currentOrderNumber = orderId;
+                document.getElementById('displayOrderId').textContent = orderId;
+
+                try {
+                    const response = await axios.get(`${apiBaseUrl}/orders/${orderId}`);
+                    const orderData = response.data;
+
+                    document.getElementById('loadingIndicator').style.display = 'none';
+                    document.getElementById('orderBox').style.display = 'block';
+                    document.getElementById('actionButtons').style.display = 'flex';
+
+                    let statusText = orderData.status === 'paid' ? 'Pesanan Telah Dibayar' :
+                        orderData.status === 'shipped' ? 'Pesanan Dikirim' :
+                            orderData.status === 'completed' ? 'Pesanan Selesai' :
+                                orderData.status === 'cancelled' ? 'Pesanan Dibatalkan' : 'Menunggu Pembayaran';
+
+                    document.getElementById('orderStatus').textContent = statusText;
+
+                    if (orderData.tracking_number) {
+                        document.getElementById('btnTrack').style.display = 'inline-block';
+                    }
+                } catch (error) {
+                    console.error('Error fetching order', error);
+                    document.getElementById('loadingIndicator').textContent = 'Gagal memuat detail pesanan.';
+                    document.getElementById('actionButtons').style.display = 'flex';
+                }
+            } else {
+                document.getElementById('loadingIndicator').style.display = 'none';
+                document.getElementById('actionButtons').style.display = 'flex';
+            }
+        });
+
+        async function trackCurrentOrder() {
+            if (!currentOrderNumber) return;
+
+            document.getElementById('trackingModal').classList.add('active');
+            const content = document.getElementById('trackingContent');
+            content.innerHTML = '<p style="text-align:center; color:#666;">Mengambil data dari kurir...</p>';
+
+            try {
+                const res = await axios.get(`${apiBaseUrl}/orders/${currentOrderNumber}/track`);
+                const data = res.data;
+
+                if (data && data.data && data.data.history) {
+                    const history = data.data.history;
+
+                    const timelineHtml = history.map((h, i) => `
+                        <div class="tracking-item ${i === 0 ? 'active' : ''}">
+                            <div class="tracking-item__dot"></div>
+                            <div class="tracking-item__content">
+                                <div class="tracking-item__date">${h.date}</div>
+                                <div class="tracking-item__desc">${h.desc}</div>
+                                <div class="tracking-item__date" style="margin-top:4px; color:#aaa;">Lokasi: ${h.location || '-'}</div>
+                            </div>
+                        </div>
+                    `).join('');
+
+                    content.innerHTML = `
+                        <div style="background:#f9f9f9; padding:12px; border-radius:8px; margin-bottom:20px;">
+                            <div style="font-weight:600; font-size:14px;">Resi: <span style="color:#000;">${data.data.summary.awb}</span></div>
+                            <div style="font-size:13px; color:#666; margin-top:4px;">Kurir: ${data.data.summary.courier.toUpperCase()} | Status: ${data.data.summary.status}</div>
+                        </div>
+                        <div class="tracking-timeline">
+                            ${timelineHtml}
+                        </div>
+                    `;
+                } else {
+                    content.innerHTML = `<div class="tracking-error">Data pelacakan belum tersedia di sistem kurir.</div>`;
+                }
+            } catch (e) {
+                console.error(e);
+                const errMsg = e.response?.data?.message || 'Gagal melacak resi';
+                content.innerHTML = `<div class="tracking-error">${errMsg}</div>`;
+            }
+        }
+
+        function closeTrackingModal() {
+            document.getElementById('trackingModal').classList.remove('active');
+        }
+    </script>
+</body>
+
+</html>

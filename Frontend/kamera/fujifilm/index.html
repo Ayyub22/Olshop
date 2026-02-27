@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kamera Second Fujifilm - TuKam</title>
+    <meta name="description"
+        content="Temukan kamera second Fujifilm terbaik di TuKam. Koleksi lengkap Fujifilm X-T series, X-Pro series dengan grade terjamin dan garansi toko.">
+    <link rel="canonical" href="https://olsopcamera.com/kamera/fujifilm/">
+    <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+    <script src="/assets/js/data.js"></script>
+    <script src="/assets/js/utils.js"></script>
+    <script>
+        fetch('/kamera/brand.html')
+            .then(r => r.text())
+            .then(html => { document.open(); document.write(html); document.close(); })
+            .catch(() => { window.location.href = '/kamera/?brand=Fujifilm'; });
+    </script>
+</body>
+
+</html>

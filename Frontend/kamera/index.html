@@ -1,0 +1,1425 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - TuKam</title>
+    <meta name="description"
+        content="Temukan kamera second berkualitas dari berbagai brand. Filter berdasarkan brand, kategori, harga, grade, dan cabang.">
+    <link rel="canonical" href="https://tukam.id/kamera/">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Reem+Kufi+Fun:wght@400;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ══════════════════════════════════════════
+           KAMERA/INDEX.HTML — Products Page
+           Matches reference design
+           ══════════════════════════════════════════ */
+
+        body {
+            background: #F5F5F5;
+        }
+
+        /* ─── NAVBAR (same as homepage) ─── */
+        .navbar {
+            background: #ffffff;
+            border-bottom: none;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            height: 70px;
+        }
+
+        .navbar__inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
+            max-width: 1380px;
+            margin: 0 auto;
+            padding: 0 57px;
+        }
+
+        .navbar__logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .navbar__logo-icon {
+            display: none;
+        }
+
+        .navbar__logo-text {
+            font-family: 'Reem Kufi Fun', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #FF0000;
+        }
+
+        .navbar__nav {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            margin: 0;
+        }
+
+        .navbar__nav a {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #000;
+            padding: 8px 20px;
+            border-radius: 0;
+            background: none;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .navbar__nav a:hover {
+            color: #FF0000;
+        }
+
+        .navbar__nav a.active {
+            text-decoration: underline;
+            color: #000;
+            background: none;
+        }
+
+        .navbar__nav a.active::after {
+            display: none;
+        }
+
+        .navbar__actions {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .navbar__search-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar__search-wrap input {
+            width: 168px;
+            height: 37px;
+            padding: 0 36px 0 14px;
+            border: none;
+            border-radius: 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            color: #AAAAAA;
+            outline: none;
+            background: #fff;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+        }
+
+        .navbar__search-wrap input::placeholder {
+            color: #AAAAAA;
+        }
+
+        .navbar__search-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #AAAAAA;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            display: flex;
+        }
+
+        .navbar__wishlist-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 37px;
+            height: 37px;
+            border-radius: 50%;
+            background: #fff;
+            color: #AAAAAA;
+            text-decoration: none;
+            transition: color 0.2s, background 0.2s;
+            margin-left: 12px;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+        }
+
+        .navbar__wishlist-btn:hover {
+            color: #FF0000;
+        }
+
+        .nav-wishlist-count {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #FF0000;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            min-width: 16px;
+            height: 16px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            justify-content: center;
+            padding: 0 4px;
+        }
+
+        /* Account Menu Dropdown */
+        .nav-account-wrap {
+            position: relative;
+            margin-left: 12px;
+        }
+
+        .nav-account-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            width: 200px;
+            padding: 12px 0;
+            display: none;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .nav-account-wrap.active .nav-account-dropdown {
+            display: flex;
+        }
+
+        .nav-account-dropdown::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            right: 14px;
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            transform: rotate(45deg);
+        }
+
+        .nav-account-header {
+            padding: 0 16px 12px;
+            border-bottom: 1px solid #EEE;
+            margin-bottom: 8px;
+        }
+
+        .nav-account-name {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-account-email {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            color: #888;
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-account-link {
+            padding: 8px 16px;
+            color: #333;
+            text-decoration: none;
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .nav-account-link:hover {
+            background: #f9f9f9;
+            color: #FF0000;
+        }
+
+        .nav-account-sep {
+            height: 1px;
+            background: #EEE;
+            margin: 8px 0;
+        }
+
+        /* ─── PRODUCTS BANNER (black bar) ─── */
+        .products-banner {
+            background: #000;
+            height: 173px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .products-banner__title {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 40px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .products-banner__sub {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            color: #fff;
+            margin-top: 8px;
+        }
+
+        /* Back to Top */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #FF0000;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 99;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: #cc0000;
+        }
+
+        /* ─── SHOP PAGE LAYOUT ─── */
+        .shop-page {
+            background: #F5F5F5;
+            padding: 28px 0 60px;
+        }
+
+        .shop-page .container {
+            max-width: 1380px;
+            margin: 0 auto;
+            padding: 0 57px;
+        }
+
+        .shop-layout {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        /* ─── SIDEBAR FILTER ─── */
+        .filter-sidebar {
+            background: transparent;
+            border: none;
+            padding: 0;
+            position: sticky;
+            top: 86px;
+        }
+
+        .filter-sidebar__header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            margin-bottom: 20px;
+        }
+
+        .filter-group__label {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            color: #000;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 4px 0;
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            color: #000;
+            cursor: pointer;
+        }
+
+        .filter-option input[type="checkbox"] {
+            width: 15px;
+            height: 15px;
+            border: 1px solid rgba(0, 0, 0, 0.5);
+            border-radius: 0;
+            accent-color: #FF0000;
+            cursor: pointer;
+            flex-shrink: 0;
+            background: #fff;
+            appearance: none;
+            -webkit-appearance: none;
+            display: inline-block;
+            position: relative;
+        }
+
+        .filter-option input[type="checkbox"]:checked {
+            background: #FF0000;
+            border-color: #FF0000;
+        }
+
+        .filter-option input[type="checkbox"]:checked::after {
+            content: '';
+            position: absolute;
+            left: 3px;
+            top: 1px;
+            width: 5px;
+            height: 8px;
+            border: 2px solid #fff;
+            border-top: none;
+            border-left: none;
+            transform: rotate(45deg);
+        }
+
+        /* ─── PRODUCT GRID ─── */
+        .shop-main {
+            min-width: 0;
+        }
+
+        .product-grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        /* ─── PRODUCT CARD (same style as home page cards) ─── */
+        .pcard {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .pcard:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .pcard__img-wrap {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 248 / 205;
+            background: #f0f0f0;
+        }
+
+        .pcard__img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            display: block;
+        }
+
+        /* OUT OF STOCK overlay */
+        .pcard__oos {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+        }
+
+        .pcard__oos span {
+            background: rgba(0, 0, 0, 0.75);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 3px 10px;
+            border-radius: 5px;
+            letter-spacing: 0.3px;
+        }
+
+        .pcard__img-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.20);
+        }
+
+        .pcard__wishlist {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #AAAAAA;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: color 0.2s, transform 0.2s;
+            z-index: 2;
+        }
+
+        .pcard__wishlist:hover {
+            transform: scale(1.1);
+            color: #FF0000;
+        }
+
+        .pcard__wishlist.active {
+            color: #FF0000;
+        }
+
+        .pcard__body {
+            padding: 10px 15px 14px;
+        }
+
+        .pcard__name {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            color: #000;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .pcard__price {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            color: #AAAAAA;
+        }
+
+        /* ─── PAGINATION ─── */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 40px;
+        }
+
+        .page-btn {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 20px;
+            font-weight: 400;
+            color: #000;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px 10px;
+            border-radius: 4px;
+            transition: color 0.2s, background 0.2s;
+            line-height: 1;
+        }
+
+        .page-btn:hover {
+            color: #FF0000;
+        }
+
+        .page-btn.active {
+            color: #FF0000;
+            font-weight: 700;
+        }
+
+        .page-btn-arrow {
+            font-size: 20px;
+            color: #000;
+        }
+
+        /* ─── FOOTER ─── */
+        .footer {
+            background: #000;
+            color: rgba(255, 255, 255, 0.75);
+            padding: 36px 0 20px;
+        }
+
+        .footer__grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 40px;
+            max-width: 1380px;
+            margin: 0 auto;
+            padding: 0 57px;
+        }
+
+        .footer__brand-name {
+            font-family: 'Reem Kufi Fun', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #FF0000;
+            margin-bottom: 12px;
+        }
+
+        .footer__brand-name span {
+            color: #FF0000;
+        }
+
+        .footer__brand-desc {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.65;
+            max-width: 277px;
+        }
+
+        .footer__col-title {
+            font-family: 'Reem Kufi Fun', sans-serif;
+            font-size: 24px;
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        .footer__links {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .footer__links a,
+        .footer__links span {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            transition: color 0.2s;
+            line-height: 1.65;
+        }
+
+        .footer__links a:hover {
+            color: #fff;
+        }
+
+        .footer__socials {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .footer__social {
+            color: rgba(255, 255, 255, 0.70);
+            transition: color 0.2s;
+            display: flex;
+        }
+
+        .footer__social:hover {
+            color: #fff;
+        }
+
+        .footer__bottom {
+            max-width: 1380px;
+            margin: 24px auto 0;
+            padding: 16px 57px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Be Vietnam', sans-serif;
+            font-size: 13px;
+            font-weight: 100;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 1024px) {
+            .shop-layout {
+                grid-template-columns: 160px 1fr;
+            }
+
+            .product-grid-4 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .shop-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .product-grid-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .filter-sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .navbar__nav {
+                display: none;
+            }
+
+            .product-grid-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer__grid {
+                grid-template-columns: 1fr;
+                padding: 0 24px;
+            }
+
+            .shop-page .container {
+                padding: 0 16px;
+            }
+
+            .navbar__inner {
+                padding: 0 16px;
+            }
+        }
+
+        /* WA Float */
+        .wa-float {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+        }
+
+        .wa-float__btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #25D366;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+
+        .wa-float__btn:hover {
+            transform: scale(1.1);
+        }
+
+        .wa-float__tooltip {
+            background: #1a1a1a;
+            color: #fff;
+            font-size: 0.8rem;
+            padding: 5px 12px;
+            border-radius: 20px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+
+        .wa-float:hover .wa-float__tooltip {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar__inner">
+            <a href="/" class="navbar__logo">
+                <span class="navbar__logo-text">TuKam</span>
+            </a>
+
+            <nav class="navbar__nav">
+                <a href="/">Home</a>
+                <a href="/kamera/" class="active">Produk</a>
+                <a href="/kategori.html">Kategori</a>
+                <a href="/hubungi.html">Hubungi Kami</a>
+            </nav>
+
+            <div class="navbar__actions">
+                <div class="navbar__search-wrap">
+                    <input type="search" placeholder="Search" id="navSearch" autocomplete="off">
+                    <button class="navbar__search-btn" aria-label="Cari">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#AAAAAA" stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
+                    </button>
+                </div>
+                <a href="/wishlist.html" class="navbar__wishlist-btn" aria-label="Wishlist" title="Wishlist">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                    </svg>
+                    <span class="nav-wishlist-count" style="display:none">0</span>
+                </a>
+                <a href="/cart.html" class="navbar__wishlist-btn" aria-label="Keranjang" title="Keranjang">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="nav-wishlist-count nav-cart-count" style="display:none">0</span>
+                </a>
+
+                <a href="/orders.html" class="navbar__wishlist-btn" aria-label="Pesanan" title="Pesanan"
+                    id="navOrdersBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 8v13H3V8M1 3h22v5H1zM10 12h4"></path>
+                    </svg>
+                </a>
+                <!-- Login Button -->
+                <div class="nav-account-wrap" id="navAccountWrap">
+                    <div
+                        style="width: 37px; height: 37px; border-radius: 50%; background: #eee; box-shadow: 0 2px 2px rgba(0,0,0,0.1);">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Products Banner (black) -->
+    <div class="products-banner">
+        <div class="products-banner__title">Products</div>
+        <div class="products-banner__sub">Produk yang kami jual</div>
+    </div>
+
+    <!-- Shop Page -->
+    <div class="shop-page">
+        <div class="container">
+            <div class="shop-layout">
+
+                <!-- Sidebar Filter -->
+                <aside class="filter-sidebar" id="filterSidebar">
+                    <!-- Filter header -->
+                    <div class="filter-sidebar__header">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <line x1="4" y1="6" x2="20" y2="6" />
+                            <line x1="8" y1="12" x2="20" y2="12" />
+                            <line x1="12" y1="18" x2="20" y2="18" />
+                        </svg>
+                        Filter
+                    </div>
+
+                    <!-- Lokasi -->
+                    <div class="filter-group">
+                        <span class="filter-group__label">Lokasi</span>
+                        <label class="filter-option">
+                            <input type="checkbox" name="branch" value="Jakarta" id="cbJakarta"> Jakarta
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="branch" value="Bandung" id="cbBandung"> Bandung
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="branch" value="Bekasi" id="cbBekasi"> Bekasi
+                        </label>
+                    </div>
+
+                    <!-- Harga -->
+                    <div class="filter-group">
+                        <span class="filter-group__label">Harga (Rp)</span>
+                        <div style="display:flex; gap:8px; align-items:center;">
+                            <input type="text" id="minPrice" placeholder="0" class="form-input"
+                                style="padding:8px; font-size:13px; font-family:'Instrument Sans', sans-serif; border-radius:4px; border:1px solid rgba(0,0,0,0.2); width:100%;"
+                                oninput="formatPriceInput(this); applyFilters()">
+                            <span style="color:#555;">-</span>
+                            <input type="text" id="maxPrice" placeholder="50.000.000" class="form-input"
+                                style="padding:8px; font-size:13px; font-family:'Instrument Sans', sans-serif; border-radius:4px; border:1px solid rgba(0,0,0,0.2); width:100%;"
+                                oninput="formatPriceInput(this); applyFilters()">
+                        </div>
+                    </div>
+
+                    <!-- Kategori Utama -->
+                    <div class="filter-group">
+                        <span class="filter-group__label">Kategori Utama</span>
+                        <label class="filter-option">
+                            <input type="checkbox" name="category" value="Kamera" id="cbKamera"> Kamera
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="category" value="Aksesoris" id="cbAksesoris"> Aksesoris
+                        </label>
+                    </div>
+
+                    <!-- Jenis Kamera -->
+                    <div class="filter-group">
+                        <span class="filter-group__label">Jenis Kamera</span>
+                        <label class="filter-option">
+                            <input type="checkbox" name="subCategory" value="Mirrorless"> Mirrorless
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="subCategory" value="DSLR"> DSLR
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="subCategory" value="Compact"> Compact
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="subCategory" value="Instant"> Instant
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="subCategory" value="Action Camera"> Action Camera
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="subCategory" value="Medium Format"> Medium Format
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="subCategory" value="Film Camera"> Film Camera
+                        </label>
+                    </div>
+
+                    <!-- Brand -->
+                    <div class="filter-group">
+                        <span class="filter-group__label">Brand</span>
+                        <div id="brandFilters"></div>
+                    </div>
+                </aside>
+
+                <!-- Main Content -->
+                <div class="shop-main">
+                    <!-- Top Bar (Sort & Count) -->
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                        <div id="resultCount"
+                            style="font-family:'Instrument Sans', sans-serif; font-size:15px; color:#555;">Memuat
+                            produk...</div>
+                        <select id="sortSelect"
+                            style="padding:8px 12px; border:1px solid rgba(0,0,0,0.2); border-radius:4px; font-family:'Instrument Sans', sans-serif; font-size:14px; cursor:pointer;"
+                            onchange="applyFilters()">
+                            <option value="newest">Terbaru</option>
+                            <option value="price_asc">Harga Terendah</option>
+                            <option value="price_desc">Harga Tertinggi</option>
+                            <option value="popular">Terpopuler</option>
+                        </select>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div id="emptyState"
+                        style="display:none; text-align:center; padding:60px 20px; background:#fff; border-radius:8px; border:1px solid #eee;">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"
+                            style="margin-bottom:16px;">
+                            <circle cx="12" cy="13" r="4" />
+                            <path
+                                d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                        </svg>
+                        <h3
+                            style="font-family:'Instrument Sans', sans-serif; font-size:20px; font-weight:600; color:#333; margin-bottom:8px;">
+                            Produk Tidak Ditemukan</h3>
+                        <p
+                            style="font-family:'Instrument Sans', sans-serif; font-size:15px; color:#666; margin-bottom:24px;">
+                            Maaf, kami tidak dapat menemukan produk yang sesuai dengan filter Anda. Silakan coba
+                            kriteria pencarian lain.</p>
+                        <button class="btn btn-outline-primary" onclick="resetFilters()">Reset Filter</button>
+                    </div>
+
+                    <!-- Product Grid -->
+                    <div class="product-grid-4" id="productGrid"></div>
+
+                    <!-- Pagination -->
+                    <div class="pagination" id="paginationContainer"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__grid">
+            <div>
+                <div class="footer__brand-name">TuKam</div>
+                <div class="footer__brand-desc">Tempat penjualan kamera dan aksesoris yang amanah, cepat, dan ramah
+                    pengguna. Mendukung pengiriman seluruh Indonesia.</div>
+            </div>
+            <div>
+                <div class="footer__col-title">Lokasi</div>
+                <div class="footer__links">
+                    <span>Jl. Yaweslah no.18 Jakarta</span>
+                    <span>Jl. Oalaa no.8 Bekasi, Jawa Barat</span>
+                    <span>Jl. Eh iya kah no.1 Bandung, Jawa Barat</span>
+                </div>
+            </div>
+            <div>
+                <div class="footer__col-title">Sosial Media</div>
+                <div class="footer__socials" id="footerSocials">
+                    <!-- Instagram -->
+                    <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="footer__social"
+                        title="Instagram" id="linkIg">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.8">
+                            <rect x="2" y="2" width="20" height="20" rx="5" />
+                            <circle cx="12" cy="12" r="5" />
+                            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+                        </svg>
+                    </a>
+                    <!-- TikTok -->
+                    <a href="https://www.tiktok.com/" target="_blank" rel="noopener" class="footer__social"
+                        title="TikTok" id="linkTt">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.73a4.85 4.85 0 0 1-1.01-.04z" />
+                        </svg>
+                    </a>
+                    <!-- Facebook -->
+                    <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="footer__social"
+                        title="Facebook" id="linkFb">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                        </svg>
+                    </a>
+                    <!-- YouTube -->
+                    <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="footer__social"
+                        title="YouTube" id="linkYt">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M22.54 6.42a2.78 2.78 0 0 0-1.96-1.96C18.88 4 12 4 12 4s-6.88 0-8.58.46A2.78 2.78 0 0 0 1.46 6.42 29.94 29.94 0 0 0 1 12a29.94 29.94 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.96 1.96C5.12 20 12 20 12 20s6.88 0 8.58-.46a2.78 2.78 0 0 0 1.96-1.96A29.94 29.94 0 0 0 23 12a29.94 29.94 0 0 0-.46-5.58z" />
+                            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#000" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 6v6l4 2" />
+            </svg>
+            <span>2026 - TuKam Tuku Kamera</span>
+        </div>
+    </footer>
+
+    <!-- WA Float -->
+    <div class="wa-float">
+        <span class="wa-float__tooltip">Chat dengan kami</span>
+        <a href="https://wa.me/6281234567890?text=Halo, saya ingin bertanya tentang kamera" target="_blank"
+            class="wa-float__btn" aria-label="Chat WhatsApp">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+            </svg>
+        </a>
+    </div>
+
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/data.js"></script>
+    <script src="/assets/js/search-popup.js"></script>
+    <script src="/assets/js/utils.js"></script>
+    <script>
+        const ITEMS_PER_PAGE = 16;
+        let currentPage = 1;
+        let currentProducts = [];
+
+        // Cached products from API
+        let allApiProducts = [];
+
+        // Normalize API product to match filter/render expectations
+        function normalizeProduct(p) {
+            return {
+                id: p.id,
+                slug: p.slug,
+                name: p.name,
+                title: p.name,
+                price: p.price,
+                status: p.status,
+                image_url: p.image_url,
+                brand: p.brand?.name || '',
+                branch: p.branch?.city || p.branch?.name || '', // 'Jakarta' for filtering
+                branch_name: p.branch?.name || '',              // 'TuKam Jakarta' for display
+                category: p.category?.name || '',
+                camera_type: p.camera_type || '',
+            };
+        }
+
+        // Load all available products from API
+        async function loadProductsFromAPI() {
+            document.getElementById('resultCount').textContent = 'Memuat produk dari server...';
+            try {
+                const data = await API.getProducts({ per_page: 500 });
+                const items = data?.data || data || [];
+                allApiProducts = (Array.isArray(items) ? items : []).map(normalizeProduct);
+            } catch (e) {
+                console.error('Gagal memuat produk dari API', e);
+                allApiProducts = [];
+            }
+        }
+
+        // Render brand checkboxes from API
+        async function initBrands() {
+            try {
+                const brands = await API.getBrands();
+                document.getElementById('brandFilters').innerHTML = brands.map(b =>
+                    `<label class="filter-option"><input type="checkbox" name="brand" value="${b.name}"> ${b.name}</label>`
+                ).join('');
+            } catch (e) {
+                const fallback = ['Sony', 'Canon', 'Fujifilm', 'Nikon', 'Panasonic', 'Olympus', 'Leica', 'Hasselblad'];
+                document.getElementById('brandFilters').innerHTML = fallback.map(b =>
+                    `<label class="filter-option"><input type="checkbox" name="brand" value="${b}"> ${b}</label>`
+                ).join('');
+            }
+            document.getElementById('brandFilters').addEventListener('change', applyFilters);
+        }
+
+        // Category group mapping:
+        // Sidebar shows broad groups, data uses specific subcategories
+        const CATEGORY_GROUPS = {
+            'kamera': ['mirrorless', 'dslr', 'compact', 'instant', 'kamera', 'camera', 'point & shoot', 'film'],
+            'tripod': ['tripod', 'monopod', 'gorilla pod', 'gorillapod', 'stabilizer'],
+            'aksesoris': ['aksesoris', 'accessory', 'accessories', 'lens', 'lensa', 'flash', 'filter',
+                'bag', 'tas', 'memory', 'charger', 'battery', 'remote', 'cage', 'slider']
+        };
+
+        // Get product name safely
+        function getName(p) {
+            return p.title || p.name || p.nama || 'Produk';
+        }
+
+        // Get product image safely (API uses image_url)
+        function getImg(p) {
+            if (p.image_url) return p.image_url;
+            if (p.images && Array.isArray(p.images) && p.images[0]) return p.images[0];
+            return '';
+        }
+
+        // Format price
+        function fmt(price) {
+            try { return Utils.formatPrice(price); } catch (e) { return 'Rp' + Number(price).toLocaleString('id-ID'); }
+        }
+
+        // Check if product category matches a filter group value
+        function categoryMatches(prodCat, filterVal) {
+            const pc = (prodCat || '').toLowerCase().trim();
+            const fv = filterVal.toLowerCase().trim();
+            // Direct match first
+            if (pc === fv) return true;
+            // Group match
+            const group = CATEGORY_GROUPS[fv];
+            if (group) return group.some(g => pc.includes(g) || g.includes(pc));
+            return false;
+        }
+
+        // Render one product card
+        function renderCard(p) {
+            const isOOS = p.status && p.status !== 'available';
+            const img = getImg(p);
+            const overlay = isOOS ? `<div class="pcard__img-overlay"></div>` : '';
+            const oosBadge = isOOS ? `<div class="pcard__oos"><span>TERJUAL</span></div>` : '';
+            const isWishlisted = typeof wishlist !== 'undefined' && wishlist.has(p.id);
+
+            return `
+            <a href="/kamera/product.html?slug=${p.slug || p.id}" class="pcard">
+                <div class="pcard__img-wrap">
+                    <img class="pcard__img" src="${img}" alt="${getName(p)}"
+                         onerror="this.style.opacity='0.2'">
+                    ${overlay}
+                    ${oosBadge}
+                    <button class="pcard__wishlist ${isWishlisted ? 'active' : ''}" 
+                            onclick="event.preventDefault(); toggleWishlist(this, '${p.id}')"
+                            aria-label="Tambah ke wishlist">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="${isWishlisted ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="pcard__body">
+                    <div class="pcard__name">${getName(p)}</div>
+                    <div class="pcard__price">${fmt(p.price)}</div>
+                </div>
+            </a>`;
+        }
+
+        // Render pagination (style: < 1 2 3 4 5 >)
+        function renderPagination(current, total) {
+            if (total <= 1) return '';
+            let html = '';
+            html += `<button class="page-btn page-btn-arrow" onclick="goPage(${Math.max(1, current - 1)})">&lt;</button>`;
+            for (let i = 1; i <= total; i++) {
+                html += `<button class="page-btn ${i === current ? 'active' : ''}" onclick="goPage(${i})">${i}</button>`;
+            }
+            html += `<button class="page-btn page-btn-arrow" onclick="goPage(${Math.min(total, current + 1)})">&gt;</button>`;
+            return html;
+        }
+
+        function goPage(page) {
+            currentPage = page;
+            const start = (page - 1) * ITEMS_PER_PAGE;
+            const slice = currentProducts.slice(start, start + ITEMS_PER_PAGE);
+
+            const grid = document.getElementById('productGrid');
+            const emptyState = document.getElementById('emptyState');
+            const paginationContainer = document.getElementById('paginationContainer');
+
+            if (currentProducts.length === 0) {
+                grid.style.display = 'none';
+                emptyState.style.display = 'block';
+                paginationContainer.innerHTML = '';
+            } else {
+                grid.style.display = 'grid';
+                emptyState.style.display = 'none';
+                grid.innerHTML = slice.map(renderCard).join('');
+                const total = Math.ceil(currentProducts.length / ITEMS_PER_PAGE);
+                paginationContainer.innerHTML = renderPagination(page, total);
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Format input to Rp (e.g. 15.000.000)
+        function formatPriceInput(input) {
+            let val = input.value.replace(/\D/g, '');
+            if (val) {
+                input.value = Number(val).toLocaleString('id-ID');
+            } else {
+                input.value = '';
+            }
+        }
+
+        // Get filter values
+        function getFilters() {
+            const branches = [...document.querySelectorAll('input[name="branch"]:checked')].map(i => i.value);
+            const cats = [...document.querySelectorAll('input[name="category"]:checked')].map(i => i.value);
+            const subCats = [...document.querySelectorAll('input[name="subCategory"]:checked')].map(i => i.value);
+            const brands = [...document.querySelectorAll('input[name="brand"]:checked')].map(i => i.value);
+            const search = document.getElementById('navSearch').value.trim().toLowerCase();
+
+            const minRaw = document.getElementById('minPrice').value.replace(/\D/g, '');
+            const maxRaw = document.getElementById('maxPrice').value.replace(/\D/g, '');
+
+            const minPrice = minRaw ? Number(minRaw) : 0;
+            const maxPrice = maxRaw ? Number(maxRaw) : Infinity;
+            const sortBy = document.getElementById('sortSelect').value;
+
+            return { branches, cats, subCats, brands, search, minPrice, maxPrice, sortBy };
+        }
+
+        function resetFilters() {
+            document.querySelectorAll('.filter-option input[type="checkbox"]').forEach(i => i.checked = false);
+            document.getElementById('navSearch').value = '';
+            document.getElementById('minPrice').value = '';
+            document.getElementById('maxPrice').value = '';
+            document.getElementById('sortSelect').value = 'newest';
+            applyFilters();
+        }
+
+        // Apply filters & render
+        let filterTimeout;
+        function applyFilters() {
+            clearTimeout(filterTimeout);
+
+            const grid = document.getElementById('productGrid');
+            const emptyState = document.getElementById('emptyState');
+            const resultCount = document.getElementById('resultCount');
+            const paginationContainer = document.getElementById('paginationContainer');
+
+            // Show skeleton loader
+            emptyState.style.display = 'none';
+            grid.style.display = 'grid';
+            grid.innerHTML = Array(8).fill(0).map(() => `
+                <div class="pcard" style="box-shadow:none; border:1px solid #eee;">
+                    <div style="background:#f5f5f5; aspect-ratio:1; width:100%; border-radius:8px 8px 0 0;"></div>
+                    <div class="pcard__body" style="padding:15px; display:flex; flex-direction:column; gap:8px;">
+                        <div style="height:14px; background:#eee; border-radius:4px;"></div>
+                        <div style="height:14px; background:#eee; width:60%; border-radius:4px;"></div>
+                    </div>
+                </div>
+            `).join('');
+            paginationContainer.innerHTML = '';
+            resultCount.textContent = 'Memuat produk...';
+
+            filterTimeout = setTimeout(() => {
+                const { branches, cats, subCats, brands, search, minPrice, maxPrice, sortBy } = getFilters();
+                let products = [...allApiProducts];
+
+                if (branches.length) {
+                    products = products.filter(p =>
+                        branches.some(b => (p.branch || p.city || '').toLowerCase().includes(b.toLowerCase()))
+                    );
+                }
+                if (cats.length) {
+                    products = products.filter(p =>
+                        cats.some(c => (p.category || '').toLowerCase() === c.toLowerCase())
+                    );
+                }
+                if (subCats.length) {
+                    products = products.filter(p =>
+                        subCats.some(c => (p.camera_type || '').toLowerCase() === c.toLowerCase())
+                    );
+                }
+                if (brands.length) {
+                    products = products.filter(p =>
+                        brands.some(b => (p.brand || '').toLowerCase() === b.toLowerCase())
+                    );
+                }
+                if (search) {
+                    products = products.filter(p =>
+                        getName(p).toLowerCase().includes(search) ||
+                        (p.brand || '').toLowerCase().includes(search) ||
+                        (p.category || '').toLowerCase().includes(search) ||
+                        (p.camera_type || '').toLowerCase().includes(search)
+                    );
+                }
+
+                // Price Range Filter
+                products = products.filter(p => {
+                    const price = Number(p.price) || 0;
+                    return price >= minPrice && price <= maxPrice;
+                });
+
+                // Sorting
+                if (sortBy === 'price_asc') {
+                    products.sort((a, b) => Number(a.price) - Number(b.price));
+                } else if (sortBy === 'price_desc') {
+                    products.sort((a, b) => Number(b.price) - Number(a.price));
+                } else if (sortBy === 'popular') {
+                    products.sort((a, b) => (Number(b.views) || 0) - (Number(a.views) || 0));
+                } else {
+                    products.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+                }
+
+                currentProducts = products;
+                currentPage = 1;
+                resultCount.textContent = `Menampilkan ${products.length} produk`;
+                goPage(1);
+            }, 300);
+        }
+
+        // Init Prices from API data
+        function initPrices() {
+            if (allApiProducts.length > 0) {
+                const prices = allApiProducts.map(p => Number(p.price) || 0).filter(p => p > 0);
+                if (prices.length > 0) {
+                    document.getElementById('minPrice').placeholder = Math.min(...prices).toLocaleString('id-ID');
+                    document.getElementById('maxPrice').placeholder = Math.max(...prices).toLocaleString('id-ID');
+                }
+            }
+        }
+
+        // Init: load from API first, then filter
+        (async () => {
+            await initBrands();
+            await loadProductsFromAPI();
+            initPrices();
+            applyFilters();
+        })();
+
+        // Filter events
+        document.querySelectorAll('.filter-option input').forEach(inp => inp.addEventListener('change', applyFilters));
+        document.getElementById('navSearch').addEventListener('input', applyFilters);
+
+        // URL params
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('search')) document.getElementById('navSearch').value = params.get('search');
+        if (params.get('brand')) {
+            setTimeout(() => {
+                document.querySelectorAll('input[name="brand"]').forEach(i => {
+                    if (i.value.toLowerCase() === (params.get('brand') || '').toLowerCase()) i.checked = true;
+                });
+                applyFilters();
+            }, 50);
+        }
+        if (params.get('category')) {
+            document.querySelectorAll('input[name="category"]').forEach(i => {
+                if (i.value.toLowerCase() === (params.get('category') || '').toLowerCase()) i.checked = true;
+            });
+            applyFilters();
+        }
+    </script>
+    <script>
+        // Back to Top button logic
+        const backToTop = document.getElementById('backToTop');
+        if (backToTop) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTop.classList.add('show');
+                } else {
+                    backToTop.classList.remove('show');
+                }
+            });
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // Update wishlist count on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const countEl = document.querySelector('.nav-wishlist-count');
+            if (countEl && typeof wishlist !== 'undefined') {
+                countEl.textContent = wishlist.count();
+            }
+
+            // Load Global Settings for Socials
+            if (typeof Utils !== 'undefined') {
+                const settings = Utils.getGlobalSettings();
+                if (settings && settings.socials) {
+                    const ig = document.getElementById('linkIg');
+                    if (settings.socials.instagram && ig) {
+                        ig.href = settings.socials.instagram;
+                        ig.style.display = 'flex';
+                    }
+                    const tt = document.getElementById('linkTt');
+                    if (settings.socials.tiktok && tt) {
+                        tt.href = settings.socials.tiktok;
+                        tt.style.display = 'flex';
+                    }
+                    const tp = document.getElementById('linkTp');
+                    if (settings.socials.tokopedia && tp) {
+                        tp.href = settings.socials.tokopedia;
+                        tp.style.display = 'flex';
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        // Init auth menu in navbar
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof Utils !== 'undefined' && Utils.renderAuthMenu) {
+                Utils.renderAuthMenu();
+            }
+        });
+    </script>
+</body>
+
+</html>

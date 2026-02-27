@@ -1,0 +1,864 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kategori - TuKam</title>
+    <meta name="description"
+        content="Jelajahi kategori produk TuKam — Kamera, Tripod, dan Aksesoris berkualitas terpercaya.">
+    <link rel="canonical" href="https://tukam.id/kategori/">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Reem+Kufi+Fun:wght@400;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ══════════════════════════════════════════
+           KATEGORI PAGE
+           selaras dengan homepage & product page
+           ══════════════════════════════════════════ */
+
+        body {
+            background: #F5F5F5;
+        }
+
+        /* ─── NAVBAR ─── */
+        .navbar {
+            background: #fff;
+            border-bottom: none;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            height: 70px;
+        }
+
+        .navbar__inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
+            max-width: 1380px;
+            margin: 0 auto;
+            padding: 0 57px;
+        }
+
+        .navbar__logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .navbar__logo-icon {
+            display: none;
+        }
+
+        .navbar__logo-text {
+            font-family: 'Reem Kufi Fun', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #FF0000;
+        }
+
+        .navbar__nav {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            margin: 0;
+        }
+
+        .navbar__nav a {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #000;
+            padding: 8px 20px;
+            text-decoration: none;
+            background: none;
+            border-radius: 0;
+            transition: color 0.2s;
+        }
+
+        .navbar__nav a:hover {
+            color: #FF0000;
+        }
+
+        .navbar__nav a.active {
+            text-decoration: underline;
+            color: #000;
+            background: none;
+        }
+
+        .navbar__nav a.active::after {
+            display: none;
+        }
+
+        .navbar__actions {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .navbar__search-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar__search-wrap input {
+            width: 168px;
+            height: 37px;
+            padding: 0 36px 0 14px;
+            border: none;
+            border-radius: 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            color: #AAAAAA;
+            outline: none;
+            background: #fff;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+        }
+
+        .navbar__search-wrap input::placeholder {
+            color: #AAAAAA;
+        }
+
+        .navbar__search-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #AAAAAA;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            display: flex;
+        }
+
+        .navbar__wishlist-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 37px;
+            height: 37px;
+            border-radius: 50%;
+            background: #fff;
+            color: #AAAAAA;
+            text-decoration: none;
+            transition: color 0.2s, background 0.2s;
+            margin-left: 12px;
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+        }
+
+        .navbar__wishlist-btn:hover {
+            color: #FF0000;
+        }
+
+        .nav-wishlist-count {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #FF0000;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            min-width: 16px;
+            height: 16px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+        }
+
+        .navbar__account-btn {
+            display: none;
+        }
+
+        /* ─── BLACK BANNER (same as products page) ─── */
+        .kategori-banner {
+            background: #000;
+            height: 173px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .kategori-banner__title {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 40px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .kategori-banner__sub {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.75);
+            margin-top: 8px;
+        }
+
+        /* ─── CATEGORY GRID SECTION ─── */
+        .kategori-section {
+            padding: 56px 0 72px;
+            background: #F5F5F5;
+        }
+
+        .kategori-section .container {
+            max-width: 1380px;
+            margin: 0 auto;
+            padding: 0 57px;
+        }
+
+        /* 3-column grid */
+        .kategori-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        /* ─── CATEGORY CARD ─── */
+        .kat-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .kat-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Icon area — black background matching homepage category section */
+        .kat-card__icon-wrap {
+            background: #000;
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Large circle (white) */
+        .kat-card__circle {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.25s;
+        }
+
+        .kat-card:hover .kat-card__circle {
+            transform: scale(1.08);
+        }
+
+        .kat-card__circle svg {
+            width: 72px;
+            height: 72px;
+        }
+
+        /* Faint big text behind icon */
+        .kat-card__bg-text {
+            position: absolute;
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 80px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.06);
+            user-select: none;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        /* Info area */
+        .kat-card__body {
+            padding: 24px 28px 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .kat-card__name {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: #000;
+        }
+
+        .kat-card__desc {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            color: #AAAAAA;
+            line-height: 1.6;
+        }
+
+        .kat-card__count {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            color: #AAAAAA;
+        }
+
+        .kat-card__btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+            border: 2px solid #000;
+            border-radius: 20px;
+            padding: 7px 20px;
+            align-self: flex-start;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .kat-card:hover .kat-card__btn {
+            background: #000;
+            color: #fff;
+        }
+
+        /* ─── FOOTER ─── */
+        .footer {
+            background: #000;
+            color: rgba(255, 255, 255, 0.75);
+            padding: 36px 0 20px;
+        }
+
+        .footer__grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 40px;
+            max-width: 1380px;
+            margin: 0 auto;
+            padding: 0 57px;
+        }
+
+        .footer__brand-name {
+            font-family: 'Reem Kufi Fun', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #FF0000;
+            margin-bottom: 12px;
+        }
+
+        .footer__brand-desc {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.65;
+            max-width: 277px;
+        }
+
+        .footer__col-title {
+            font-family: 'Reem Kufi Fun', sans-serif;
+            font-size: 24px;
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        .footer__links {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .footer__links span,
+        .footer__links a {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            line-height: 1.65;
+            transition: color 0.2s;
+        }
+
+        .footer__links a:hover {
+            color: #fff;
+        }
+
+        .footer__socials {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .footer__social {
+            color: rgba(255, 255, 255, 0.70);
+            transition: color 0.2s;
+            display: flex;
+        }
+
+        .footer__social:hover {
+            color: #fff;
+        }
+
+        .footer__bottom {
+            max-width: 1380px;
+            margin: 24px auto 0;
+            padding: 16px 57px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Be Vietnam', sans-serif;
+            font-size: 13px;
+            font-weight: 100;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 900px) {
+            .kategori-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .kategori-section .container {
+                padding: 0 24px;
+            }
+
+            .navbar__inner {
+                padding: 0 24px;
+            }
+
+            .footer__grid {
+                grid-template-columns: 1fr;
+                padding: 0 24px;
+            }
+
+            .footer__bottom {
+                padding: 16px 24px 0;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .navbar__nav {
+                display: none;
+            }
+
+            .kat-card__icon-wrap {
+                height: 160px;
+            }
+
+            .kat-card__circle {
+                width: 100px;
+                height: 100px;
+            }
+
+            .kat-card__circle svg {
+                width: 52px;
+                height: 52px;
+            }
+        }
+
+        /* WA Float */
+        .wa-float {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+        }
+
+        .wa-float__btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #25D366;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+
+        .wa-float__btn:hover {
+            transform: scale(1.1);
+        }
+
+        .wa-float__tooltip {
+            background: #1a1a1a;
+            color: #fff;
+            font-size: 0.8rem;
+            padding: 5px 12px;
+            border-radius: 20px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+
+        .wa-float:hover .wa-float__tooltip {
+            opacity: 1;
+        }
+    
+        /* Account Menu Dropdown */
+        .nav-account-wrap {
+            position: relative;
+            margin-left: 12px;
+        }
+
+        .nav-account-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            width: 200px;
+            padding: 12px 0;
+            display: none;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .nav-account-wrap.active .nav-account-dropdown {
+            display: flex;
+        }
+
+        .nav-account-dropdown::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            right: 14px;
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            transform: rotate(45deg);
+        }
+
+        .nav-account-header {
+            padding: 0 16px 12px;
+            border-bottom: 1px solid #EEE;
+            margin-bottom: 8px;
+        }
+
+        .nav-account-name {
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-account-email {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            color: #888;
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-account-link {
+            padding: 8px 16px;
+            color: #333;
+            text-decoration: none;
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .nav-account-link:hover {
+            background: #f9f9f9;
+            color: #FF0000;
+        }
+
+        .nav-account-sep {
+            height: 1px;
+            background: #EEE;
+            margin: 8px 0;
+        }
+</style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar__inner">
+            <a href="/" class="navbar__logo">
+                <span class="navbar__logo-text">TuKam</span>
+            </a>
+
+            <nav class="navbar__nav">
+                <a href="/">Home</a>
+                <a href="/kamera/">Produk</a>
+                <a href="/kategori.html" class="active">Kategori</a>
+                <a href="/hubungi.html">Hubungi Kami</a>
+            </nav>
+
+            <div class="navbar__actions">
+                <div class="navbar__search-wrap">
+                    <input type="search" placeholder="Search" id="navSearch" autocomplete="off">
+                    <button class="navbar__search-btn" aria-label="Cari">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#AAAAAA" stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
+                    </button>
+                </div>
+                <a href="/wishlist.html" class="navbar__wishlist-btn" aria-label="Wishlist" title="Wishlist">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                    </svg>
+                    <span class="nav-wishlist-count" style="display:none">0</span>
+                </a>
+                <a href="/cart.html" class="navbar__wishlist-btn" aria-label="Keranjang" title="Keranjang">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="nav-wishlist-count nav-cart-count" style="display:none">0</span>
+                </a>
+                
+                <a href="/orders.html" class="navbar__wishlist-btn" aria-label="Pesanan" title="Pesanan" id="navOrdersBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 8v13H3V8M1 3h22v5H1zM10 12h4"></path>
+                    </svg>
+                </a>
+                <!-- Login Button -->
+                <div class="nav-account-wrap" id="navAccountWrap">
+                    <div style="width: 37px; height: 37px; border-radius: 50%; background: #eee; box-shadow: 0 2px 2px rgba(0,0,0,0.1);"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Black Banner -->
+    <div class="kategori-banner">
+        <div class="kategori-banner__title">Kategori</div>
+        <div class="kategori-banner__sub">Pilih kategori produk kami</div>
+    </div>
+
+    <!-- Category Cards -->
+    <section class="kategori-section">
+        <div class="container">
+            <div class="kategori-grid">
+
+                <!-- Kamera -->
+                <a href="/kamera/?category=Kamera" class="kat-card">
+                    <div class="kat-card__icon-wrap">
+                        <span class="kat-card__bg-text">Kamera</span>
+                        <div class="kat-card__circle">
+                            <!-- Camera icon -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.6">
+                                <path
+                                    d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                                <circle cx="12" cy="13" r="4" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="kat-card__body">
+                        <div class="kat-card__name">Kamera</div>
+                        <div class="kat-card__desc">Kamera mirrorless, DSLR, hingga kamera instan dari brand ternama
+                            dunia dalam kondisi terjamin.</div>
+                        <div class="kat-card__count" id="countKamera">Memuat produk...</div>
+                        <span class="kat-card__btn">
+                            Lihat Produk
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                        </span>
+                    </div>
+                </a>
+
+
+                <!-- Aksesoris -->
+                <a href="/kamera/?category=Aksesoris" class="kat-card">
+                    <div class="kat-card__icon-wrap">
+                        <span class="kat-card__bg-text">Aksesoris</span>
+                        <div class="kat-card__circle">
+                            <!-- Headphone / accessory icon -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.6">
+                                <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+                                <path d="M21 19a2 2 0 0 1-2 2H19a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h2z" />
+                                <path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="kat-card__body">
+                        <div class="kat-card__name">Aksesoris</div>
+                        <div class="kat-card__desc">Lensa tambahan, tas kamera, filter, memory card, flash, dan berbagai
+                            aksesoris pelengkap fotografi lainnya.</div>
+                        <div class="kat-card__count" id="countAksesoris">Memuat produk...</div>
+                        <span class="kat-card__btn">
+                            Lihat Produk
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                        </span>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__grid">
+            <div>
+                <div class="footer__brand-name">TuKam</div>
+                <div class="footer__brand-desc">Tempat penjualan kamera dan aksesoris yang amanah, cepat, dan ramah
+                    pengguna. Mendukung pengiriman seluruh Indonesia.</div>
+            </div>
+            <div>
+                <div class="footer__col-title">Lokasi</div>
+                <div class="footer__links">
+                    <span>Jl. Yaweslah no.18 Jakarta</span>
+                    <span>Jl. Oalaa no.8 Bekasi, Jawa Barat</span>
+                    <span>Jl. Eh iya kah no.1 Bandung, Jawa Barat</span>
+                </div>
+            </div>
+            <div>
+                <div class="footer__col-title">Sosial Media</div>
+                <div class="footer__socials">
+                    <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="footer__social"
+                        title="Instagram">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.8">
+                            <rect x="2" y="2" width="20" height="20" rx="5" />
+                            <circle cx="12" cy="12" r="5" />
+                            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+                        </svg>
+                    </a>
+                    <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="footer__social"
+                        title="Facebook">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                        </svg>
+                    </a>
+                    <a href="https://www.tiktok.com/" target="_blank" rel="noopener" class="footer__social"
+                        title="TikTok">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.73a4.85 4.85 0 0 1-1.01-.04z" />
+                        </svg>
+                    </a>
+                    <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="footer__social"
+                        title="YouTube">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M22.54 6.42a2.78 2.78 0 0 0-1.96-1.96C18.88 4 12 4 12 4s-6.88 0-8.58.46A2.78 2.78 0 0 0 1.46 6.42 29.94 29.94 0 0 0 1 12a29.94 29.94 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.96 1.96C5.12 20 12 20 12 20s6.88 0 8.58-.46a2.78 2.78 0 0 0 1.96-1.96A29.94 29.94 0 0 0 23 12a29.94 29.94 0 0 0-.46-5.58z" />
+                            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#000" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 6v6l4 2" />
+            </svg>
+            <span>2026 - TuKam Tuku Kamera</span>
+        </div>
+    </footer>
+
+    <!-- WA Float -->
+    <div class="wa-float">
+        <span class="wa-float__tooltip">Chat dengan kami</span>
+        <a href="https://wa.me/6281234567890?text=Halo, saya ingin bertanya tentang kamera" target="_blank"
+            class="wa-float__btn" aria-label="Chat WhatsApp">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+            </svg>
+        </a>
+    </div>
+
+    <script src="/assets/js/data.js"></script>
+    <script src="/assets/js/search-popup.js"></script>
+    <script>
+        // Search redirect
+        document.getElementById('navSearch').addEventListener('keydown', e => {
+            if (e.key === 'Enter' && e.target.value.trim())
+                window.location.href = '/kamera/?search=' + encodeURIComponent(e.target.value.trim());
+        });
+        document.querySelector('.navbar__search-btn').addEventListener('click', () => {
+            const v = document.getElementById('navSearch').value.trim();
+            if (v) window.location.href = '/kamera/?search=' + encodeURIComponent(v);
+        });
+
+        // Show product count per category
+        function updateCounts() {
+            try {
+                const all = db.getAll();
+                const count = (cat) => all.filter(p => (p.category || '').toLowerCase() === cat.toLowerCase()).length;
+                const label = (n) => n > 0 ? `${n} produk tersedia` : 'Segera hadir';
+                document.getElementById('countKamera').textContent = label(count('Kamera'));
+                document.getElementById('countAksesoris').textContent = label(count('Aksesoris'));
+            } catch (e) {
+                ['countKamera', 'countAksesoris'].forEach(id => {
+                    document.getElementById(id).textContent = '';
+                });
+            }
+        }
+        updateCounts();
+
+        // Update wishlist count on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const countEl = document.querySelector('.nav-wishlist-count');
+            if (countEl && typeof wishlist !== 'undefined') {
+                countEl.textContent = wishlist.count();
+            }
+        });
+    </script>
+
+    <script src="/assets/js/data.js"></script>
+    <script src="/assets/js/utils.js"></script>
+
+    <script>
+        // Init auth menu in navbar
+        document.addEventListener('DOMContentLoaded', () => {
+            if(typeof Utils !== 'undefined' && Utils.renderAuthMenu) {
+                Utils.renderAuthMenu();
+            }
+        });
+    </script>
+</body>
+
+</html>

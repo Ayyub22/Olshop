@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Tambah Produk - Admin TuKam</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/admin.css">
+    <style>
+        .image-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .image-preview-item {
+            aspect-ratio: 1;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .image-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-preview-item .remove-img {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 20px;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            cursor: pointer;
+        }
+
+        .add-img-btn {
+            aspect-ratio: 1;
+            border: 2px dashed var(--border);
+            border-radius: var(--radius-sm);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            gap: 4px;
+            transition: var(--transition);
+        }
+
+        .add-img-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .form-section {
+            background: white;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+
+        .form-section__title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: var(--radius);
+            padding: 40px 20px;
+            text-align: center;
+            background: #F9FAFB;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .upload-area:hover,
+        .upload-area.dragover {
+            border-color: var(--primary);
+            background: #FEF2F2;
+        }
+
+        .upload-area__icon {
+            width: 48px;
+            height: 48px;
+            color: #9CA3AF;
+            margin-bottom: 12px;
+            transition: color 0.2s;
+        }
+
+        .upload-area:hover .upload-area__icon,
+        .upload-area.dragover .upload-area__icon {
+            color: var(--primary);
+        }
+
+        .upload-area__text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .upload-area__hint {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        #imageFileInput {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            /* completely transparent */
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body class="admin-body">
+
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="admin-sidebar__logo" style="justify-content: center; padding: 24px 20px;">
+                <a href="/admin/dashboard.html" style="text-decoration: none;">
+                    <span
+                        style="color: #FF0000; font-size: 28px; font-family: 'Reem Kufi Fun', sans-serif; font-weight: 700;">TuKam</span>
+                </a>
+            </div>
+            <nav class="admin-nav">
+                <a href="/admin/dashboard.html" class="admin-nav__item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7" />
+                        <rect x="14" y="3" width="7" height="7" />
+                        <rect x="3" y="14" width="7" height="7" />
+                        <rect x="14" y="14" width="7" height="7" />
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="/admin/orders.html" class="admin-nav__item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                    Pesanan
+                </a>
+                <a href="/admin/products.html" class="admin-nav__item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                        <circle cx="12" cy="13" r="4" />
+                    </svg>
+                    Produk
+                </a>
+                <a href="/admin/add-product.html" class="admin-nav__item active">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="8" x2="12" y2="16" />
+                        <line x1="8" y1="12" x2="16" y2="12" />
+                    </svg>
+                    Tambah Produk
+                </a>
+                <a href="/admin/reviews.html" class="admin-nav__item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon
+                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                        </polygon>
+                    </svg>
+                    Kelola Ulasan
+                </a>
+                <div class="admin-nav__divider"></div>
+                
+                <a href="/" target="_blank" class="admin-nav__item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                        <polyline points="15 3 21 3 21 9" />
+                        <line x1="10" y1="14" x2="21" y2="3" />
+                    </svg>
+                    Lihat Website
+                </a>
+                <button class="admin-nav__item admin-nav__logout" id="logoutBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                        <polyline points="16 17 21 12 16 7" />
+                        <line x1="21" y1="12" x2="9" y2="12" />
+                    </svg>
+                    Logout
+                </button>
+            </nav>
+        </aside>
+
+        <!-- Main -->
+        <main class="admin-main">
+            <div class="admin-topbar">
+                <div>
+                    <h1 class="admin-page-title" id="formTitle">Tambah Produk Baru</h1>
+                    <p class="admin-page-subtitle">Isi semua informasi produk dengan lengkap</p>
+                </div>
+                <a href="/admin/products.html" class="btn btn-outline-primary">? Kembali</a>
+            </div>
+
+            <form id="productForm">
+                <!-- Basic Info -->
+                <div class="form-section">
+                    <div class="form-section__title">Informasi Dasar</div>
+                    <div class="admin-form-grid">
+                        <div class="form-group full-width">
+                            <label class="form-label">Judul Produk <span class="required">*</span></label>
+                            <input type="text" id="title" class="form-input" placeholder="Contoh: Sony A7III Body Only"
+                                required>
+                            <div class="slug-preview" id="slugPreview">URL:
+                                <strong>olsopcamera.com/kamera/product.html?slug=</strong><span
+                                    id="slugDisplay">...</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Brand <span class="required">*</span></label>
+                            <select id="brand" class="form-select" required>
+                                <option value="">Pilih Brand</option>
+                                <option>Sony</option>
+                                <option>Canon</option>
+                                <option>Fujifilm</option>
+                                <option>Nikon</option>
+                                <option>Panasonic</option>
+                                <option>Olympus</option>
+                                <option>Leica</option>
+                                <option>Hasselblad</option>
+                                <option>Lainnya</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Kategori Utama <span class="required">*</span></label>
+                            <select id="category" class="form-select" required>
+                                <option value="">Pilih Kategori</option>
+                                <option value="Kamera">Kamera</option>
+                                <option value="Aksesoris">Aksesoris</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="subCategoryGroup" style="display:none;">
+                            <label class="form-label">Jenis Kamera <span class="required">*</span></label>
+                            <select id="subCategory" class="form-select">
+                                <option value="">Pilih Jenis</option>
+                                <option value="Mirrorless">Mirrorless</option>
+                                <option value="DSLR">DSLR</option>
+                                <option value="Compact">Compact</option>
+                                <option value="Instant">Instant</option>
+                                <option value="Action Camera">Action Camera</option>
+                                <option value="Medium Format">Medium Format</option>
+                                <option value="Film Camera">Film Camera</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Harga (Rp) <span class="required">*</span></label>
+                            <input type="text" id="price" class="form-input" placeholder="18.500.000" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Stok <span class="required">*</span></label>
+                            <input type="number" id="stock" class="form-input" min="0" value="1" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Cabang <span class="required">*</span></label>
+                            <select id="branch" class="form-select" required>
+                                <option value="">Pilih Cabang</option>
+                                <option>Jakarta</option>
+                                <option>Bandung</option>
+                                <option>Bekasi</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Grade / Kondisi <span class="required">*</span></label>
+                            <select id="conditionGrade" class="form-select" required>
+                                <option value="">Pilih Grade</option>
+                                <option value="new">Baru (New)</option>
+                                <option value="like_new">Like New</option>
+                                <option value="a">Grade A</option>
+                                <option value="b">Grade B</option>
+                                <option value="c">Grade C</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nomor WhatsApp <span class="required">*</span></label>
+                            <input type="text" id="whatsapp" class="form-input" placeholder="6281234567890"
+                                value="6281234567890">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="form-section">
+                    <div class="form-section__title">Deskripsi &amp; Spesifikasi</div>
+                    <div class="admin-form-grid">
+                        <div class="form-group full-width">
+                            <label class="form-label">Deskripsi <span class="required">*</span></label>
+                            <textarea id="description" class="form-textarea"
+                                placeholder="Deskripsikan kondisi kamera secara detail..." rows="4" required></textarea>
+                        </div>
+                        <div class="form-group full-width">
+                            <label class="form-label">Spesifikasi Teknis</label>
+                            <textarea id="specs" class="form-textarea"
+                                placeholder="Contoh: Sensor: 24.2MP Full Frame | ISO: 100-51200 | AF: 693 phase-detect | Video: 4K 30fps"
+                                rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Images -->
+                <div class="form-section">
+                    <div class="form-section__title">Foto Produk</div>
+                    <div class="upload-area" id="uploadArea">
+                        <input type="file" id="imageFileInput" multiple accept="image/*"
+                            onchange="handleFileSelect(event)">
+                        <svg class="upload-area__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
+                        </svg>
+                        <div class="upload-area__text">Klik atau Drag & Drop foto ke sini</div>
+                        <div class="upload-area__hint">Mendukung format gambar (JPG, PNG) hingga 5MB. Bisa lebih dari
+                            satu.</div>
+                    </div>
+                    <div class="image-preview-grid" id="imagePreviewGrid"></div>
+                </div>
+
+                <!-- Slug Override -->
+                <div class="form-section">
+                    <div class="form-section__title">URL Produk (Opsional)</div>
+                    <div class="form-group">
+                        <label class="form-label">Custom Slug</label>
+                        <input type="text" id="customSlug" class="form-input"
+                            placeholder="Kosongkan untuk auto-generate dari judul">
+                        <div class="slug-preview" style="margin-top:6px;">
+                            URL Final: <strong>olsopcamera.com/kamera/product.html?slug=</strong><span
+                                id="finalSlugDisplay">...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <div style="display:flex; gap:12px; justify-content:flex-end;">
+                    <a href="/admin/products.html" class="btn btn-outline-primary btn-lg">Batal</a>
+                    <button type="submit" class="btn btn-primary btn-lg" id="submitBtn">
+                        Simpan Produk
+                    </button>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/utils.js"></script>
+    <script>
+        if (!AdminAuth.requireAuth()) throw new Error('Not authenticated');
+
+        let editId = null;
+        let editProduct = null;
+        let uploadedImages = [];
+        let brandsData = [], categoriesData = [], branchesData = [];
+
+        // Load dropdown data from API
+        async function initDropdowns() {
+            [brandsData, categoriesData, branchesData] = await Promise.all([
+                API.getBrands(),
+                API.getCategories(),
+                API.getBranches()
+            ]);
+
+            // Populate brand select
+            const brandSel = document.getElementById('brand');
+            brandSel.innerHTML = '<option value="">Pilih Brand</option>' +
+                brandsData.map(b => `<option value="${b.id}">${b.name}</option>`).join('');
+
+            // Populate branch select
+            const branchSel = document.getElementById('branch');
+            branchSel.innerHTML = '<option value="">Pilih Cabang</option>' +
+                branchesData.map(b => `<option value="${b.id}">${b.name}</option>`).join('');
+
+            // Populate category select
+            const catSel = document.getElementById('category');
+            catSel.innerHTML = '<option value="">Pilih Kategori</option>' +
+                categoriesData.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+
+            // Check if editing
+            const editParam = new URLSearchParams(window.location.search).get('edit');
+            if (editParam) {
+                editId = editParam;
+                await loadEditProduct(editId);
+            }
+        }
+
+        async function loadEditProduct(id) {
+            const res = await fetch(`${BASE_URL}/admin/products/${id}`, {
+                headers: { 'Authorization': `Bearer ${API.getToken()}`, 'Accept': 'application/json' }
+            });
+            if (!res.ok) {
+                Utils.showToast('Gagal memuat data produk', 'error');
+                return;
+            }
+            editProduct = await res.json();
+
+            document.getElementById('pageTitle').textContent = 'Edit Produk - Admin TuKam';
+            document.getElementById('formTitle').textContent = 'Edit Produk';
+            document.getElementById('submitBtn').textContent = 'Update Produk';
+
+            document.getElementById('title').value = editProduct.name;
+            document.getElementById('brand').value = editProduct.brand_id;
+            document.getElementById('category').value = editProduct.category_id;
+            document.getElementById('branch').value = editProduct.branch_id;
+            document.getElementById('conditionGrade').value = editProduct.condition_grade || '';
+            document.getElementById('subCategory').value = editProduct.camera_type || '';
+            // Format price for display
+            document.getElementById('price').value = editProduct.price
+                ? parseInt(editProduct.price, 10).toLocaleString('id-ID')
+                : '';
+            document.getElementById('stock').value = editProduct.stock ?? 1;
+            document.getElementById('description').value = editProduct.description || '';
+            document.getElementById('customSlug').value = editProduct.slug || '';
+
+            // Show sub-category if Kamera
+            const catName = categoriesData.find(c => c.id == editProduct.category_id)?.name;
+            if (catName === 'Kamera') {
+                document.getElementById('subCategoryGroup').style.display = 'block';
+            }
+
+            // Load images from product.images relation (multi-image support)
+            if (editProduct.images && editProduct.images.length > 0) {
+                uploadedImages = editProduct.images.map(img => img.url);
+            } else if (editProduct.image_url) {
+                uploadedImages = [editProduct.image_url];
+            }
+            updateImagePreview();
+            updateSlugPreview();
+        }
+
+        // Slug generation
+        document.getElementById('title').addEventListener('input', updateSlugPreview);
+        document.getElementById('brand').addEventListener('change', updateSlugPreview);
+        document.getElementById('branch').addEventListener('change', updateSlugPreview);
+        document.getElementById('customSlug').addEventListener('input', updateFinalSlug);
+
+        // Price formatting
+        const priceInput = document.getElementById('price');
+        priceInput.addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value) value = parseInt(value, 10).toLocaleString('id-ID');
+            e.target.value = value;
+        });
+
+        document.getElementById('whatsapp').addEventListener('input', function (e) {
+            e.target.value = e.target.value.replace(/\D/g, '');
+        });
+
+        document.getElementById('category').addEventListener('change', function (e) {
+            const selectedCat = categoriesData.find(c => c.id == e.target.value);
+            const subCatGroup = document.getElementById('subCategoryGroup');
+            const subCatInput = document.getElementById('subCategory');
+            if (selectedCat && selectedCat.name === 'Kamera') {
+                subCatGroup.style.display = 'block';
+                subCatInput.required = true;
+            } else {
+                subCatGroup.style.display = 'none';
+                subCatInput.required = false;
+                subCatInput.value = '';
+            }
+        });
+
+        function updateSlugPreview() {
+            const title = document.getElementById('title').value;
+            if (!title) return;
+            const slug = Utils.generateSlug(title);
+            document.getElementById('slugDisplay').textContent = slug;
+            if (!document.getElementById('customSlug').value) {
+                document.getElementById('finalSlugDisplay').textContent = slug;
+            }
+        }
+
+        function updateFinalSlug() {
+            const custom = document.getElementById('customSlug').value;
+            if (custom) {
+                document.getElementById('finalSlugDisplay').textContent = Utils.generateSlug(custom);
+            } else {
+                updateSlugPreview();
+                document.getElementById('finalSlugDisplay').textContent = document.getElementById('slugDisplay').textContent;
+            }
+        }
+
+        function handleFileSelect(event) {
+            const files = event.target.files;
+            if (!files || files.length === 0) return;
+            // Store File objects (not base64) for FormData submission
+            Array.from(files).forEach(file => {
+                uploadedImages.push(file);
+            });
+            updateImagePreview();
+            event.target.value = '';
+        }
+
+        function updateImagePreview() {
+            document.getElementById('imagePreviewGrid').innerHTML = uploadedImages.map((file, i) => {
+                const url = (typeof file === 'string') ? file : URL.createObjectURL(file);
+                return `
+                <div class="image-preview-item">
+                    <img src="${url}" alt="Preview ${i + 1}">
+                    <div class="remove-img" onclick="removeImage(${i})">&#x2715;</div>
+                </div>`;
+            }).join('');
+        }
+
+        function removeImage(index) {
+            uploadedImages.splice(index, 1);
+            updateImagePreview();
+        }
+
+        // Form submit
+        document.getElementById('productForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.textContent = 'Menyimpan...';
+
+            const rawPrice = document.getElementById('price').value.replace(/\D/g, '');
+
+            // Build FormData for multipart (supports image upload)
+            const formData = new FormData();
+            formData.append('name', document.getElementById('title').value);
+            formData.append('brand_id', document.getElementById('brand').value);
+            formData.append('category_id', document.getElementById('category').value);
+
+            const subCategoryVal = document.getElementById('subCategory').value;
+            if (subCategoryVal) {
+                formData.append('camera_type', subCategoryVal);
+            }
+
+            formData.append('branch_id', document.getElementById('branch').value);
+            formData.append('condition_grade', document.getElementById('conditionGrade').value);
+            formData.append('price', rawPrice);
+            formData.append('stock', document.getElementById('stock').value || 1);
+            formData.append('description', document.getElementById('description').value);
+            formData.append('status', 'available');
+
+            // Attach all new image files as images[]
+            uploadedImages.forEach(file => {
+                if (file instanceof File) {
+                    formData.append('images[]', file);
+                }
+            });
+
+            // Basic validation
+            if (!formData.get('name') || !formData.get('brand_id') || !formData.get('category_id') ||
+                !formData.get('branch_id') || !formData.get('price') || !formData.get('description') ||
+                !formData.get('condition_grade')) {
+                Utils.showToast('Lengkapi semua field yang wajib', 'error');
+                btn.disabled = false;
+                btn.textContent = editId ? 'Update Produk' : 'Simpan Produk';
+                return;
+            }
+
+            try {
+                if (editId) {
+                    await API.updateProduct(editId, formData);
+                    Utils.showToast('Produk berhasil diperbarui!');
+                } else {
+                    await API.createProduct(formData);
+                    Utils.showToast('Produk berhasil ditambahkan!');
+                }
+                setTimeout(() => { window.location.href = '/admin/products.html'; }, 1000);
+            } catch (err) {
+                const errors = err.errors;
+                if (errors) {
+                    const firstError = Object.values(errors)[0][0];
+                    Utils.showToast(firstError, 'error');
+                } else {
+                    Utils.showToast(err.message || 'Gagal menyimpan produk', 'error');
+                }
+                btn.disabled = false;
+                btn.textContent = editId ? 'Update Produk' : 'Simpan Produk';
+            }
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            AdminAuth.logout();
+            window.location.href = '/admin/index.html';
+        });
+
+        // Drag and Drop
+        const uploadArea = document.getElementById('uploadArea');
+        if (uploadArea) {
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); }, false);
+            });
+            ['dragenter', 'dragover'].forEach(e => uploadArea.addEventListener(e, () => uploadArea.classList.add('dragover'), false));
+            ['dragleave', 'drop'].forEach(e => uploadArea.addEventListener(e, () => uploadArea.classList.remove('dragover'), false));
+            uploadArea.addEventListener('drop', e => {
+                handleFileSelect({ target: { files: e.dataTransfer.files, value: 'dropped' } });
+            }, false);
+        }
+
+        // Init
+        initDropdowns();
+        updateSlugPreview();
+    </script>
+</body>
+
+</html>
+

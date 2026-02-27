@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kamera Second Sony - TuKam</title>
+    <meta name="description"
+        content="Temukan kamera second Sony terbaik di TuKam. Koleksi lengkap Sony Alpha, A7 series, A6000 series dengan grade terjamin dan garansi toko.">
+    <link rel="canonical" href="https://olsopcamera.com/kamera/sony/">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <script>
+        // Redirect to brand.html with proper context
+        // Since we can't do server-side routing, we use a redirect approach
+        // The brand.html template auto-detects from URL
+    </script>
+</head>
+
+<body>
+    <script src="/assets/js/data.js"></script>
+    <script src="/assets/js/utils.js"></script>
+    <script>
+        // Load brand.html content inline
+        fetch('/kamera/brand.html')
+            .then(r => r.text())
+            .then(html => {
+                document.open();
+                document.write(html);
+                document.close();
+            })
+            .catch(() => {
+                window.location.href = '/kamera/?brand=Sony';
+            });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Homepage -->
+  <url>
+    <loc>https://olsopcamera.com/</loc>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Shop -->
+  <url>
+    <loc>https://olsopcamera.com/kamera/</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- City Pages -->
+  <url>
+    <loc>https://olsopcamera.com/kamera/jakarta/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://olsopcamera.com/kamera/bandung/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://olsopcamera.com/kamera/bekasi/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Brand Pages -->
+  <url>
+    <loc>https://olsopcamera.com/kamera/sony/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://olsopcamera.com/kamera/canon/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://olsopcamera.com/kamera/fujifilm/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://olsopcamera.com/kamera/nikon/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Product Pages (examples - in production, generate dynamically) -->
+  <url>
+    <loc>https://olsopcamera.com/kamera/product.html?slug=sony-a7iii-body-only-jakarta-grade-a</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://olsopcamera.com/kamera/product.html?slug=canon-eos-r6-mark-ii-kit-24-105-bandung-grade-a</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://olsopcamera.com/kamera/product.html?slug=fujifilm-xt5-body-only-jakarta-grade-b</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://olsopcamera.com/kamera/product.html?slug=nikon-z6ii-body-only-bandung-grade-a</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://olsopcamera.com/kamera/product.html?slug=sony-rx100-vii-bekasi-grade-a</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+</urlset>
