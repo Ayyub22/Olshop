@@ -1041,7 +1041,9 @@
                 </a>
                 <!-- Login Button -->
                 <div class="nav-account-wrap" id="navAccountWrap">
-                    <div style="width: 37px; height: 37px; border-radius: 50%; background: #eee; box-shadow: 0 2px 2px rgba(0,0,0,0.1);"></div>
+                    <div
+                        style="width: 37px; height: 37px; border-radius: 50%; background: #eee; box-shadow: 0 2px 2px rgba(0,0,0,0.1);">
+                    </div>
                 </div>
             </div>
         </div>
@@ -1257,7 +1259,7 @@
     <script>
         // Init auth menu in navbar
         document.addEventListener('DOMContentLoaded', () => {
-            if(typeof Utils !== 'undefined' && Utils.renderAuthMenu) {
+            if (typeof Utils !== 'undefined' && Utils.renderAuthMenu) {
                 Utils.renderAuthMenu();
             }
         });
@@ -1305,30 +1307,10 @@
             }
 
             if (products.length === 0) {
-                const placeholders = [
-                    { name: 'FUJIFILM Instax Mini 12 Instant Camera', price: 'Rp1.299.000' },
-                    { name: 'Sony ZV E10 Mirrorless Camera', price: 'Rp10.999.000' },
-                    { name: 'Canon EOS R7 RF-S18-150mm', price: 'Rp36.699.000' },
-                    { name: 'NIKON D3300 Kit + Tas + Memory 16GB', price: 'Rp2.139.000' },
-                    { name: 'Nikon Z6 II Body Only', price: 'Rp19.500.000' },
-                    { name: 'Sony A7III Body Only', price: 'Rp18.500.000' },
-                    { name: 'Canon EOS R6 Mark II Kit 24-105mm', price: 'Rp32.000.000' },
-                    { name: 'Fujifilm X-T5 Body Only', price: 'Rp21.000.000' }
-                ];
-                grid.innerHTML = placeholders.map(p => `
-                    <div class="home-product-card">
-                        <div style="background:#eee;aspect-ratio:248/205;display:flex;align-items:center;justify-content:center;">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.5">
-                                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-                                <circle cx="12" cy="13" r="4"/>
-                            </svg>
-                        </div>
-                        <div class="home-product-card__body">
-                            <div class="home-product-card__name">${p.name}</div>
-                            <div class="home-product-card__price">${p.price}</div>
-                        </div>
-                    </div>
-                `).join('');
+                grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:#aaa;">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5" style="margin-bottom:12px"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                    <p style="font-family:'Instrument Sans',sans-serif;font-size:15px;">Belum ada produk tersedia.</p>
+                </div>`;
                 return;
             }
 
@@ -1430,19 +1412,6 @@
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(initSlider, 200);
-        });
-
-        // Search
-        const searchHandler = (val) => {
-            if (val.trim()) window.location.href = '/kamera/?search=' + encodeURIComponent(val.trim());
-        };
-
-        document.getElementById('navSearch').addEventListener('keydown', e => {
-            if (e.key === 'Enter') searchHandler(e.target.value);
-        });
-
-        document.querySelector('.navbar__search-btn').addEventListener('click', () => {
-            searchHandler(document.getElementById('navSearch').value);
         });
 
         // Update wishlist count & global settings on load

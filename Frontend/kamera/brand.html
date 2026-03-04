@@ -449,14 +449,7 @@
         const wc = wishlist.count();
         if (wc > 0) { const el = document.getElementById('wishlistCount'); el.textContent = wc; el.style.display = 'flex'; }
 
-        renderPage(1);
-
-        document.getElementById('navSearch').addEventListener('keydown', e => {
-            if (e.key === 'Enter' && e.target.value.trim()) {
-                window.location.href = '/kamera/?search=' + encodeURIComponent(e.target.value.trim()) + '&brand=' + brandName;
-            }
-        });
-    </script>
+        renderPage(1);</script>
 
     <!-- WA Float -->
     <div class="wa-float">
@@ -477,6 +470,7 @@
             }
         });
     </script>
+    <script src="/assets/js/search-popup.js"></script>
 </body>
 
 </html>

@@ -553,15 +553,6 @@
             </nav>
 
             <div class="navbar__actions">
-                <div class="navbar__search-wrap">
-                    <input type="search" placeholder="Search" id="navSearch" autocomplete="off">
-                    <button class="navbar__search-btn" aria-label="Cari">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#AAAAAA" stroke-width="2">
-                            <circle cx="11" cy="11" r="8" />
-                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                        </svg>
-                    </button>
-                </div>
                 <a href="/wishlist.html" class="navbar__wishlist-btn" aria-label="Wishlist" title="Wishlist">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path
@@ -685,18 +676,9 @@
     <script src="/assets/js/utils.js"></script>
     <script src="/assets/js/search-popup.js"></script>
     <script>
-        // Search redirect
-        document.getElementById('navSearch').addEventListener('keydown', e => {
-            if (e.key === 'Enter' && e.target.value.trim()) {
-                window.location.href = '/kamera/?search=' + encodeURIComponent(e.target.value.trim());
-            }
-        });
-        document.querySelector('.navbar__search-btn').addEventListener('click', () => {
-            const v = document.getElementById('navSearch').value.trim();
-            if (v) window.location.href = '/kamera/?search=' + encodeURIComponent(v);
-        });
+
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/assets/js/api.js"></script>
     <script>
         // Load and render wishlist products
         async function loadWishlistProducts() {
@@ -715,8 +697,8 @@
 
             // Fetch actual products via API
             try {
-                const res = await axios.get('http://localhost:8000/api/products?per_page=100');
-                const allProducts = res.data.data || [];
+                const data = await API.getProducts({ per_page: 500 });
+                const allProducts = data?.data || data || [];
 
                 // Match with wishlist IDs 
                 // wishlist ids might be numbers or strings, so we convert both to string for safety
@@ -733,8 +715,10 @@
 
                 grid.innerHTML = products.map(p => {
                     let img = '';
-                    if (Array.isArray(p.images) && p.images.length > 0) {
-                        img = p.images[0].url || p.images[0]; // Handle both object and string formats
+                    if (p.image_url) {
+                        img = p.image_url;
+                    } else if (Array.isArray(p.images) && p.images.length > 0) {
+                        img = p.images[0].url || p.images[0];
                     } else if (p.image) {
                         img = p.image;
                     }

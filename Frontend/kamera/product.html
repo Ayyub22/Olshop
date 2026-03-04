@@ -1416,17 +1416,7 @@
                 if (e.target === this) this.classList.remove('open');
             });
 
-            // Search
-            document.getElementById('navSearch').addEventListener('keydown', e => {
-                if (e.key === 'Enter' && e.target.value.trim())
-                    window.location.href = '/kamera/?search=' + encodeURIComponent(e.target.value.trim());
-            });
-            document.querySelector('.navbar__search-btn').addEventListener('click', () => {
-                const v = document.getElementById('navSearch').value.trim();
-                if (v) window.location.href = '/kamera/?search=' + encodeURIComponent(v);
-            });
-
-            // Update wishlist count & global settings on load
+            // Search// Update wishlist count & global settings on load
             document.addEventListener('DOMContentLoaded', () => {
                 const countEl = document.querySelector('.nav-wishlist-count');
                 if (countEl && typeof wishlist !== 'undefined') {

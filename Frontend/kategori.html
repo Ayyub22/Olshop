@@ -519,7 +519,7 @@
         .wa-float:hover .wa-float__tooltip {
             opacity: 1;
         }
-    
+
         /* Account Menu Dropdown */
         .nav-account-wrap {
             position: relative;
@@ -531,7 +531,7 @@
             top: calc(100% + 10px);
             right: 0;
             background: #fff;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
             border-radius: 8px;
             width: 200px;
             padding: 12px 0;
@@ -604,7 +604,7 @@
             background: #EEE;
             margin: 8px 0;
         }
-</style>
+    </style>
 </head>
 
 <body>
@@ -649,15 +649,18 @@
                     </svg>
                     <span class="nav-wishlist-count nav-cart-count" style="display:none">0</span>
                 </a>
-                
-                <a href="/orders.html" class="navbar__wishlist-btn" aria-label="Pesanan" title="Pesanan" id="navOrdersBtn">
+
+                <a href="/orders.html" class="navbar__wishlist-btn" aria-label="Pesanan" title="Pesanan"
+                    id="navOrdersBtn">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 8v13H3V8M1 3h22v5H1zM10 12h4"></path>
                     </svg>
                 </a>
                 <!-- Login Button -->
                 <div class="nav-account-wrap" id="navAccountWrap">
-                    <div style="width: 37px; height: 37px; border-radius: 50%; background: #eee; box-shadow: 0 2px 2px rgba(0,0,0,0.1);"></div>
+                    <div
+                        style="width: 37px; height: 37px; border-radius: 50%; background: #eee; box-shadow: 0 2px 2px rgba(0,0,0,0.1);">
+                    </div>
                 </div>
             </div>
         </div>
@@ -691,7 +694,7 @@
                         <div class="kat-card__name">Kamera</div>
                         <div class="kat-card__desc">Kamera mirrorless, DSLR, hingga kamera instan dari brand ternama
                             dunia dalam kondisi terjamin.</div>
-                        <div class="kat-card__count" id="countKamera">Memuat produk...</div>
+
                         <span class="kat-card__btn">
                             Lihat Produk
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -721,7 +724,7 @@
                         <div class="kat-card__name">Aksesoris</div>
                         <div class="kat-card__desc">Lensa tambahan, tas kamera, filter, memory card, flash, dan berbagai
                             aksesoris pelengkap fotografi lainnya.</div>
-                        <div class="kat-card__count" id="countAksesoris">Memuat produk...</div>
+
                         <span class="kat-card__btn">
                             Lihat Produk
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -811,35 +814,9 @@
     </div>
 
     <script src="/assets/js/data.js"></script>
+    <script src="/assets/js/api.js"></script>
     <script src="/assets/js/search-popup.js"></script>
-    <script>
-        // Search redirect
-        document.getElementById('navSearch').addEventListener('keydown', e => {
-            if (e.key === 'Enter' && e.target.value.trim())
-                window.location.href = '/kamera/?search=' + encodeURIComponent(e.target.value.trim());
-        });
-        document.querySelector('.navbar__search-btn').addEventListener('click', () => {
-            const v = document.getElementById('navSearch').value.trim();
-            if (v) window.location.href = '/kamera/?search=' + encodeURIComponent(v);
-        });
-
-        // Show product count per category
-        function updateCounts() {
-            try {
-                const all = db.getAll();
-                const count = (cat) => all.filter(p => (p.category || '').toLowerCase() === cat.toLowerCase()).length;
-                const label = (n) => n > 0 ? `${n} produk tersedia` : 'Segera hadir';
-                document.getElementById('countKamera').textContent = label(count('Kamera'));
-                document.getElementById('countAksesoris').textContent = label(count('Aksesoris'));
-            } catch (e) {
-                ['countKamera', 'countAksesoris'].forEach(id => {
-                    document.getElementById(id).textContent = '';
-                });
-            }
-        }
-        updateCounts();
-
-        // Update wishlist count on load
+    <script>// Update wishlist count on load
         document.addEventListener('DOMContentLoaded', () => {
             const countEl = document.querySelector('.nav-wishlist-count');
             if (countEl && typeof wishlist !== 'undefined') {
@@ -854,7 +831,7 @@
     <script>
         // Init auth menu in navbar
         document.addEventListener('DOMContentLoaded', () => {
-            if(typeof Utils !== 'undefined' && Utils.renderAuthMenu) {
+            if (typeof Utils !== 'undefined' && Utils.renderAuthMenu) {
                 Utils.renderAuthMenu();
             }
         });

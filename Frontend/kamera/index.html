@@ -1350,20 +1350,21 @@
 
         // URL params
         const params = new URLSearchParams(window.location.search);
-        if (params.get('search')) document.getElementById('navSearch').value = params.get('search');
+        if (params.get('search')) {
+            document.getElementById('navSearch').value = params.get('search');
+        }
         if (params.get('brand')) {
             setTimeout(() => {
                 document.querySelectorAll('input[name="brand"]').forEach(i => {
                     if (i.value.toLowerCase() === (params.get('brand') || '').toLowerCase()) i.checked = true;
                 });
-                applyFilters();
+                applyFilters(); // This one has a setTimeout, so it might be okay, but IIFE handles it anyway if we increase timeout or remove
             }, 50);
         }
         if (params.get('category')) {
             document.querySelectorAll('input[name="category"]').forEach(i => {
                 if (i.value.toLowerCase() === (params.get('category') || '').toLowerCase()) i.checked = true;
             });
-            applyFilters();
         }
     </script>
     <script>

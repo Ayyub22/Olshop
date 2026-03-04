@@ -66,7 +66,7 @@
                     Kelola Ulasan
                 </a>
                 <div class="admin-nav__divider"></div>
-                
+
                 <a href="/" target="_blank" class="admin-nav__item">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
@@ -139,7 +139,7 @@
                     </table>
                 </div>
                 <div id="emptyState" style="display:none; padding:40px; text-align:center; color:var(--text-muted);">
-                    <div style="font-size:2rem; margin-bottom:8px;">??</div>
+                    <div style="font-size:2rem; margin-bottom:8px;">&#8987;</div>
                     <div style="font-weight:700;">Tidak ada produk ditemukan</div>
                 </div>
             </div>
@@ -151,7 +151,7 @@
         style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center;">
         <div
             style="background:white; border-radius:var(--radius-lg); padding:32px; max-width:400px; width:90%; text-align:center;">
-            <div style="font-size:2rem; margin-bottom:12px;" id="modalIcon">??</div>
+            <div style="font-size:2rem; margin-bottom:12px;" id="modalIcon">&#9888;</div>
             <div style="font-size:1.1rem; font-weight:700; margin-bottom:8px;" id="modalTitle">Konfirmasi</div>
             <div style="font-size:0.875rem; color:var(--text-muted); margin-bottom:24px;" id="modalDesc">Apakah Anda
                 yakin?</div>
@@ -215,8 +215,8 @@
                 </span>
                 <div class="stock-input-row" id="stock-input-${p.id}" style="display:none; align-items:center; gap:4px;">
                   <input type="number" min="0" value="${p.stock ?? 1}" id="stock-val-${p.id}" style="width:60px; padding:3px 6px; border:1px solid #ddd; border-radius:4px; font-size:0.8rem;" onkeydown="if(event.key==='Enter') saveStock(${p.id})">
-                  <button onclick="saveStock(${p.id})" style="background:#16a34a; color:#fff; border:none; padding:3px 8px; border-radius:4px; cursor:pointer; font-size:0.8rem;">?</button>
-                  <button onclick="cancelStockEdit(${p.id}, ${p.stock ?? 1})" style="background:#e5e7eb; color:#374151; border:none; padding:3px 8px; border-radius:4px; cursor:pointer; font-size:0.8rem;">?</button>
+                  <button onclick="saveStock(${p.id})" style="background:#16a34a; color:#fff; border:none; padding:3px 8px; border-radius:4px; cursor:pointer; font-size:0.8rem;">Simpan</button>
+                  <button onclick="cancelStockEdit(${p.id}, ${p.stock ?? 1})" style="background:#e5e7eb; color:#374151; border:none; padding:3px 8px; border-radius:4px; cursor:pointer; font-size:0.8rem;">Batal</button>
                 </div>
               </div>
             </td>
@@ -225,12 +225,12 @@
             <td style="font-size:0.8rem; color:var(--text-muted); white-space:nowrap;">${Utils.formatDate(p.created_at)}</td>
             <td>
               <div style="display:flex; gap:4px; flex-wrap:wrap;">
-                <a href="/kamera/product.html?slug=${p.slug}" target="_blank" class="admin-action-btn" title="Lihat di Website">??</a>
-                <a href="/admin/add-product.html?edit=${p.id}" class="admin-action-btn" title="Edit">??</a>
-                ${p.status !== 'available' ? `<button class="admin-action-btn" title="Tandai Tersedia" onclick="changeStatus(${p.id}, 'available')">?</button>` : ''}
-                ${p.status !== 'sold' ? `<button class="admin-action-btn" title="Tandai Terjual" onclick="changeStatus(${p.id}, 'sold')">???</button>` : ''}
-                ${p.status !== 'archived' ? `<button class="admin-action-btn" title="Arsipkan" onclick="changeStatus(${p.id}, 'archived')">??</button>` : ''}
-                <button class="admin-action-btn" title="Hapus" onclick="deleteProduct(${p.id}, '${p.name.replace(/'/g, "\\'")}')">???</button>
+                <a href="/kamera/product.html?slug=${p.slug}" target="_blank" class="admin-action-btn" title="Lihat di Website">Lihat</a>
+                <a href="/admin/add-product.html?edit=${p.id}" class="admin-action-btn" title="Edit">Edit</a>
+                ${p.status !== 'available' ? `<button class="admin-action-btn" title="Tandai Tersedia" onclick="changeStatus(${p.id}, 'available')">Tersedia</button>` : ''}
+                ${p.status !== 'sold' ? `<button class="admin-action-btn" title="Tandai Terjual" onclick="changeStatus(${p.id}, 'sold')">Terjual</button>` : ''}
+                ${p.status !== 'archived' ? `<button class="admin-action-btn" title="Arsipkan" onclick="changeStatus(${p.id}, 'archived')">Arsip</button>` : ''}
+                <button class="admin-action-btn" title="Hapus" onclick="deleteProduct(${p.id}, '${p.name.replace(/'/g, "\\'")}')">Hapus</button>
               </div>
             </td>
           </tr>
@@ -284,7 +284,7 @@
 
         function changeStatus(id, status) {
             const labels = { available: 'Tersedia', sold: 'Terjual', archived: 'Diarsipkan' };
-            const icons = { available: '?', sold: '???', archived: '??' };
+            const icons = { available: '&#10004;', sold: '$', archived: '&#128193;' };
             showModal(
                 icons[status],
                 'Ubah Status',
@@ -302,7 +302,7 @@
         }
 
         function deleteProduct(id, title) {
-            showModal('???', 'Hapus Produk', `Hapus "${title}"? Tindakan ini tidak dapat dibatalkan.`, async () => {
+            showModal('&#128465;', 'Hapus Produk', `Hapus "${title}"? Tindakan ini tidak dapat dibatalkan.`, async () => {
                 try {
                     await API.deleteProduct(id);
                     loadProducts();
@@ -361,5 +361,3 @@
 </body>
 
 </html>
-
-

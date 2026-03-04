@@ -354,6 +354,69 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 580px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .courier-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .courier-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            border: 2px solid #EEE;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: border-color 0.18s, background 0.18s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .courier-card:hover {
+            border-color: #FF0000;
+            background: #fff8f8;
+        }
+
+        .courier-card.selected {
+            border-color: #FF0000;
+            background: #fff5f5;
+        }
+
+        .courier-card input[type="radio"] {
+            accent-color: #FF0000;
+            width: 16px;
+            height: 16px;
+        }
+
+        .courier-card__name {
+            font-weight: 600;
+            font-size: 14px;
+            flex: 1;
+        }
+
+        .courier-card__etd {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .courier-card__price {
+            font-weight: 700;
+            font-size: 14px;
+            color: #FF0000;
+        }
     </style>
 </head>
 
@@ -390,14 +453,28 @@
                             placeholder="Masukkan detail alamat (Jalan, RT/RW, Kec., Kota)" required></textarea>
                     </div>
 
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Provinsi</label>
+                            <select id="custProvince" onchange="onProvinceChange()" required>
+                                <option value="" disabled selected>Pilih Provinsi</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Kota / Kabupaten</label>
+                            <select id="custCity" onchange="onCityChange()" required disabled>
+                                <option value="" disabled selected>Pilih Kota / Kabupaten</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label>Pilih Kurir Pengiriman</label>
-                        <select id="shippingCourier" onchange="updateShippingCost()">
-                            <option value="" disabled selected>Pilih Kurir</option>
-                            <option value="JNE" data-cost="15000">JNE Reguler (Rp 15.000)</option>
-                            <option value="SICEPAT" data-cost="12000">SiCepat REG (Rp 12.000)</option>
-                            <option value="J&T" data-cost="14000">J&T Express (Rp 14.000)</option>
-                        </select>
+                        <div id="courierOptions" style="display:none;">
+                            <!-- Courier cards injected here -->
+                        </div>
+                        <p id="courierHint" style="font-size:13px;color:#999;font-family:'Inter',sans-serif;">Pilih
+                            Kota/Kabupaten terlebih dahulu untuk melihat opsi kurir.</p>
                     </div>
                 </form>
             </div>
@@ -501,37 +578,196 @@
             updateShippingCost(); // Recalculate everything including shipping
         }
 
-        function updateShippingCost() {
-            const select = document.getElementById('shippingCourier');
-            const total = Cart.getTotal();
-            let shippingCost = 0;
+        // ── Province / City / Zone Data ──────────────────────────────────────────
+        const PROVINCE_CITIES = {
+            'DKI Jakarta': ['Jakarta Pusat', 'Jakarta Utara', 'Jakarta Barat', 'Jakarta Selatan', 'Jakarta Timur', 'Kepulauan Seribu'],
+            'Jawa Barat': ['Bandung', 'Bogor', 'Bekasi', 'Depok', 'Cimahi', 'Tasikmalaya', 'Banjar', 'Sukabumi', 'Cirebon', 'Kab. Bandung', 'Kab. Bogor', 'Kab. Bekasi', 'Kab. Sukabumi', 'Kab. Cianjur', 'Kab. Cirebon', 'Kab. Majalengka', 'Kab. Sumedang', 'Kab. Garut', 'Kab. Tasikmalaya', 'Kab. Kuningan', 'Kab. Purwakarta', 'Kab. Subang', 'Kab. Karawang', 'Kab. Indramayu', 'Kab. Pangandaran'],
+            'Jawa Tengah': ['Semarang', 'Solo', 'Salatiga', 'Magelang', 'Pekalongan', 'Tegal', 'Purwokerto', 'Cilacap', 'Kudus', 'Jepara', 'Kab. Semarang', 'Kab. Klaten', 'Kab. Boyolali', 'Kab. Sukoharjo', 'Kab. Wonogiri', 'Kab. Sragen', 'Kab. Karanganyar', 'Kab. Blora', 'Kab. Rembang', 'Kab. Pati', 'Kab. Grobogan', 'Kab. Kendal', 'Kab. Batang', 'Kab. Pekalongan', 'Kab. Tegal', 'Kab. Brebes', 'Kab. Kebumen', 'Kab. Purworejo', 'Kab. Wonosobo', 'Kab. Magelang', 'Kab. Temanggung', 'Kab. Demak', 'Kab. Jepara', 'Kab. Kudus', 'Kab. Pemalang', 'Kab. Banjarnegara', 'Kab. Purbalingga', 'Kab. Banyumas', 'Kab. Cilacap'],
+            'DI Yogyakarta': ['Yogyakarta', 'Sleman', 'Bantul', 'Kulon Progo', 'Gunungkidul'],
+            'Jawa Timur': ['Surabaya', 'Malang', 'Batu', 'Pasuruan', 'Probolinggo', 'Mojokerto', 'Blitar', 'Kediri', 'Madiun', 'Jember', 'Banyuwangi', 'Bondowoso', 'Situbondo', 'Lumajang', 'Kab. Malang', 'Kab. Pasuruan', 'Kab. Sidoarjo', 'Kab. Gresik', 'Kab. Lamongan', 'Kab. Tuban', 'Kab. Bojonegoro', 'Kab. Ngawi', 'Kab. Magetan', 'Kab. Ponorogo', 'Kab. Trenggalek', 'Kab. Tulungagung', 'Kab. Blitar', 'Kab. Kediri', 'Kab. Nganjuk', 'Kab. Jombang', 'Kab. Mojokerto', 'Kab. Jember', 'Kab. Banyuwangi', 'Kab. Situbondo', 'Kab. Bondowoso', 'Kab. Probolinggo', 'Kab. Lumajang', 'Kab. Pamekasan', 'Kab. Sumenep', 'Kab. Sampang', 'Kab. Bangkalan'],
+            'Banten': ['Tangerang', 'Cilegon', 'Serang', 'Tangerang Selatan', 'Kab. Tangerang', 'Kab. Serang', 'Kab. Lebak', 'Kab. Pandeglang'],
+            'Aceh': ['Banda Aceh', 'Sabang', 'Langsa', 'Lhokseumawe', 'Subulussalam', 'Kab. Aceh Besar', 'Kab. Pidie', 'Kab. Bireuen', 'Kab. Aceh Utara', 'Kab. Aceh Timur', 'Kab. Aceh Tenggara', 'Kab. Aceh Selatan', 'Kab. Aceh Singkil', 'Kab. Aceh Barat', 'Kab. Aceh Barat Daya', 'Kab. Nagan Raya', 'Kab. Simeulue', 'Kab. Gayo Lues', 'Kab. Bener Meriah'],
+            'Sumatera Utara': ['Medan', 'Pematangsiantar', 'Sibolga', 'Tanjung Balai', 'Binjai', 'Padangsidempuan', 'Kab. Deli Serdang', 'Kab. Serdang Bedagai', 'Kab. Asahan', 'Kab. Labuhanbatu', 'Kab. Tapanuli Utara', 'Kab. Tapanuli Selatan', 'Kab. Tapanuli Tengah', 'Kab. Nias', 'Kab. Mandailing Natal', 'Kab. Karo', 'Kab. Langkat', 'Kab. Dairi', 'Kab. Pakpak Bharat', 'Kab. Toba Samosir', 'Kab. Humbang Hasundutan', 'Kab. Samosir', 'Kab. Simalungun'],
+            'Sumatera Barat': ['Padang', 'Bukittinggi', 'Payakumbuh', 'Sawahlunto', 'Solok', 'Padang Panjang', 'Pariaman', 'Kab. Padang Pariaman', 'Kab. Agam', 'Kab. Lima Puluh Koto', 'Kab. Tanah Datar', 'Kab. Solok', 'Kab. Pesisir Selatan', 'Kab. Pasaman', 'Kab. Pasaman Barat', 'Kab. Sijunjung', 'Kab. Dharmasraya'],
+            'Riau': ['Pekanbaru', 'Dumai', 'Kab. Bengkalis', 'Kab. Siak', 'Kab. Rokan Hulu', 'Kab. Rokan Hilir', 'Kab. Kampar', 'Kab. Kuantan Singingi', 'Kab. Pelalawan', 'Kab. Indragiri Hulu', 'Kab. Indragiri Hilir', 'Kab. Meranti'],
+            'Kepulauan Riau': ['Tanjung Pinang', 'Batam', 'Kab. Bintan', 'Kab. Karimun', 'Kab. Natuna', 'Kab. Lingga', 'Kab. Kepulauan Anambas'],
+            'Jambi': ['Jambi', 'Sungai Penuh', 'Kab. Batanghari', 'Kab. Muaro Jambi', 'Kab. Sarolangun', 'Kab. Merangin', 'Kab. Bungo', 'Kab. Tebo', 'Kab. Tanjung Jabung Barat', 'Kab. Tanjung Jabung Timur', 'Kab. Kerinci'],
+            'Sumatera Selatan': ['Palembang', 'Prabumulih', 'Lubuk Linggau', 'Pagar Alam', 'Kab. Ogan Komering Ulu', 'Kab. Ogan Komering Ilir', 'Kab. Muara Enim', 'Kab. Lahat', 'Kab. Musi Rawas', 'Kab. Musi Banyuasin', 'Kab. Banyuasin', 'Kab. Empat Lawang', 'Kab. PALI'],
+            'Bangka Belitung': ['Pangkal Pinang', 'Kab. Bangka', 'Kab. Belitung', 'Kab. Bangka Barat', 'Kab. Bangka Tengah', 'Kab. Bangka Selatan', 'Kab. Belitung Timur'],
+            'Bengkulu': ['Bengkulu', 'Kab. Bengkulu Selatan', 'Kab. Bengkulu Utara', 'Kab. Bengkulu Tengah', 'Kab. Rejang Lebong', 'Kab. Lebong', 'Kab. Kepahiang', 'Kab. Seluma', 'Kab. Kaur', 'Kab. Mukomuko'],
+            'Lampung': ['Bandar Lampung', 'Metro', 'Kab. Lampung Selatan', 'Kab. Lampung Tengah', 'Kab. Lampung Utara', 'Kab. Lampung Barat', 'Kab. Lampung Timur', 'Kab. Tanggamus', 'Kab. Way Kanan', 'Kab. Tulang Bawang', 'Kab. Pringsewu', 'Kab. Mesuji', 'Kab. Tulang Bawang Barat', 'Kab. Pesisir Barat'],
+            'Kalimantan Barat': ['Pontianak', 'Singkawang', 'Kab. Mempawah', 'Kab. Sambas', 'Kab. Bengkayang', 'Kab. Landak', 'Kab. Sanggau', 'Kab. Sekadau', 'Kab. Melawi', 'Kab. Sintang', 'Kab. Kapuas Hulu', 'Kab. Ketapang', 'Kab. Kayong Utara', 'Kab. Kubu Raya'],
+            'Kalimantan Tengah': ['Palangka Raya', 'Kab. Kotawaringin Barat', 'Kab. Kotawaringin Timur', 'Kab. Kapuas', 'Kab. Barito Selatan', 'Kab. Barito Utara', 'Kab. Barito Timur', 'Kab. Murung Raya', 'Kab. Katingan', 'Kab. Seruyan', 'Kab. Sukamara', 'Kab. Lamandau', 'Kab. Gunung Mas', 'Kab. Pulang Pisau'],
+            'Kalimantan Selatan': ['Banjarmasin', 'Banjarbaru', 'Kab. Banjar', 'Kab. Tanah Laut', 'Kab. Barito Kuala', 'Kab. Tapin', 'Kab. Hulu Sungai Selatan', 'Kab. Hulu Sungai Tengah', 'Kab. Hulu Sungai Utara', 'Kab. Balangan', 'Kab. Tabalong', 'Kab. Kotabaru', 'Kab. Tanah Bumbu'],
+            'Kalimantan Timur': ['Samarinda', 'Balikpapan', 'Bontang', 'Kab. Kutai Kartanegara', 'Kab. Kutai Barat', 'Kab. Kutai Timur', 'Kab. Berau', 'Kab. Paser', 'Kab. Penajam Paser Utara', 'Kab. Mahakam Ulu'],
+            'Kalimantan Utara': ['Tarakan', 'Kab. Bulungan', 'Kab. Nunukan', 'Kab. Malinau', 'Kab. Tana Tidung'],
+            'Sulawesi Utara': ['Manado', 'Bitung', 'Tomohon', 'Kotamobagu', 'Kab. Minahasa', 'Kab. Minahasa Utara', 'Kab. Minahasa Selatan', 'Kab. Minahasa Tenggara', 'Kab. Bolaang Mongondow', 'Kab. Kep. Sangihe', 'Kab. Kep. Talaud', 'Kab. Kep. Siau Tagulandang Biaro', 'Kab. Bolaang Mongondow Utara', 'Kab. Bolaang Mongondow Selatan', 'Kab. Bolaang Mongondow Timur'],
+            'Sulawesi Tengah': ['Palu', 'Kab. Donggala', 'Kab. Sigi', 'Kab. Parigi Moutong', 'Kab. Poso', 'Kab. Morowali', 'Kab. Morowali Utara', 'Kab. Tojo Una-Una', 'Kab. Banggai', 'Kab. Banggai Kepulauan', 'Kab. Buol', 'Kab. Toli-Toli'],
+            'Sulawesi Selatan': ['Makassar', 'Palopo', 'Parepare', 'Kab. Gowa', 'Kab. Maros', 'Kab. Pangkajene dan Kepulauan', 'Kab. Barru', 'Kab. Bone', 'Kab. Sinjai', 'Kab. Bulukumba', 'Kab. Bantaeng', 'Kab. Jeneponto', 'Kab. Takalar', 'Kab. Selayar', 'Kab. Enrekang', 'Kab. Pinrang', 'Kab. Sidenreng Rappang', 'Kab. Soppeng', 'Kab. Wajo', 'Kab. Luwu', 'Kab. Luwu Utara', 'Kab. Luwu Timur', 'Kab. Tana Toraja', 'Kab. Toraja Utara'],
+            'Sulawesi Tenggara': ['Kendari', 'Bau-Bau', 'Kab. Konawe', 'Kab. Konawe Selatan', 'Kab. Konawe Utara', 'Kab. Konawe Kepulauan', 'Kab. Kolaka', 'Kab. Kolaka Timur', 'Kab. Kolaka Utara', 'Kab. Bombana', 'Kab. Muna', 'Kab. Muna Barat', 'Kab. Buton', 'Kab. Buton Utara', 'Kab. Buton Tengah', 'Kab. Buton Selatan', 'Kab. Wakatobi'],
+            'Sulawesi Barat': ['Mamuju', 'Kab. Polewali Mandar', 'Kab. Majene', 'Kab. Mamasa', 'Kab. Mamuju Tengah', 'Kab. Pasangkayu'],
+            'Gorontalo': ['Gorontalo', 'Kab. Gorontalo', 'Kab. Gorontalo Utara', 'Kab. Pahuwato', 'Kab. Bone Bolango', 'Kab. Boalemo'],
+            'Bali': ['Denpasar', 'Kab. Badung', 'Kab. Gianyar', 'Kab. Tabanan', 'Kab. Bangli', 'Kab. Klungkung', 'Kab. Buleleng', 'Kab. Jembrana', 'Kab. Karangasem'],
+            'Nusa Tenggara Barat': ['Mataram', 'Bima', 'Kab. Lombok Barat', 'Kab. Lombok Tengah', 'Kab. Lombok Timur', 'Kab. Lombok Utara', 'Kab. Sumbawa', 'Kab. Sumbawa Barat', 'Kab. Dompu', 'Kab. Bima'],
+            'Nusa Tenggara Timur': ['Kupang', 'Kab. Kupang', 'Kab. Timor Tengah Selatan', 'Kab. Timor Tengah Utara', 'Kab. Belu', 'Kab. Malaka', 'Kab. Alor', 'Kab. Flores Timur', 'Kab. Sikka', 'Kab. Ende', 'Kab. Ngada', 'Kab. Nagekeo', 'Kab. Manggarai', 'Kab. Manggarai Barat', 'Kab. Manggarai Timur', 'Kab. Sumba Timur', 'Kab. Sumba Barat', 'Kab. Sumba Tengah', 'Kab. Sumba Barat Daya', 'Kab. Lembata', 'Kab. Rote Ndao', 'Kab. Sabu Raijua'],
+            'Maluku': ['Ambon', 'Tual', 'Kab. Maluku Tengah', 'Kab. Maluku Tenggara', 'Kab. Maluku Barat Daya', 'Kab. Maluku Tenggara Barat', 'Kab. Kepulauan Aru', 'Kab. Seram Bagian Barat', 'Kab. Seram Bagian Timur', 'Kab. Buru', 'Kab. Buru Selatan'],
+            'Maluku Utara': ['Ternate', 'Tidore Kepulauan', 'Kab. Halmahera Barat', 'Kab. Halmahera Utara', 'Kab. Halmahera Selatan', 'Kab. Halmahera Tengah', 'Kab. Halmahera Timur', 'Kab. Kepulauan Sula', 'Kab. Pulau Morotai', 'Kab. Pulau Taliabu'],
+            'Papua': ['Jayapura', 'Kab. Jayapura', 'Kab. Keerom', 'Kab. Sarmi', 'Kab. Mamberamo Raya', 'Kab. Waropen', 'Kab. Kepulauan Yapen', 'Kab. Biak Numfor', 'Kab. Supiori', 'Kab. Nabire', 'Kab. Paniai', 'Kab. Dogiyai', 'Kab. Intan Jaya', 'Kab. Deiyai', 'Kab. Puncak Jaya', 'Kab. Puncak', 'Kab. Jaya Wijaya', 'Kab. Tolikara', 'Kab. Member Tengah', 'Kab. Yalimo', 'Kab. Lanny Jaya', 'Kab. Nduga', 'Kab. Mappi', 'Kab. Asmat', 'Kab. Boven Digoel', 'Kab. Merauke'],
+            'Papua Barat': ['Manokwari', 'Sorong', 'Kab. Sorong', 'Kab. Raja Ampat', 'Kab. Kaimana', 'Kab. Teluk Wondama', 'Kab. Teluk Bintuni', 'Kab. Manokwari Selatan', 'Kab. Pegunungan Arfak', 'Kab. Fakfak', 'Kab. Maybrat', 'Kab. Tambrauw'],
+        };
 
-            if (select.selectedIndex > 0) {
-                const opt = select.options[select.selectedIndex];
-                shippingCost = parseInt(opt.getAttribute('data-cost') || '0');
+        // Zone mapping
+        const ZONE_MAP = {
+            'DKI Jakarta': 'Jawa', 'Jawa Barat': 'Jawa', 'Jawa Tengah': 'Jawa',
+            'DI Yogyakarta': 'Jawa', 'Jawa Timur': 'Jawa', 'Banten': 'Jawa',
+            'Aceh': 'Sumatera', 'Sumatera Utara': 'Sumatera', 'Sumatera Barat': 'Sumatera',
+            'Riau': 'Sumatera', 'Kepulauan Riau': 'Sumatera', 'Jambi': 'Sumatera',
+            'Sumatera Selatan': 'Sumatera', 'Bangka Belitung': 'Sumatera',
+            'Bengkulu': 'Sumatera', 'Lampung': 'Sumatera',
+            'Kalimantan Barat': 'Kalimantan', 'Kalimantan Tengah': 'Kalimantan',
+            'Kalimantan Selatan': 'Kalimantan', 'Kalimantan Timur': 'Kalimantan',
+            'Kalimantan Utara': 'Kalimantan',
+            'Sulawesi Utara': 'Sulawesi', 'Sulawesi Tengah': 'Sulawesi',
+            'Sulawesi Selatan': 'Sulawesi', 'Sulawesi Tenggara': 'Sulawesi',
+            'Sulawesi Barat': 'Sulawesi', 'Gorontalo': 'Sulawesi',
+            'Bali': 'Bali & Nusa',
+            'Nusa Tenggara Barat': 'Bali & Nusa', 'Nusa Tenggara Timur': 'Bali & Nusa',
+            'Maluku': 'Timur', 'Maluku Utara': 'Timur', 'Papua': 'Timur', 'Papua Barat': 'Timur',
+        };
 
-                document.getElementById('shippingCostRow').style.display = 'flex';
-                document.getElementById('summaryShippingCost').textContent = Utils.formatPrice(shippingCost);
-            } else {
-                document.getElementById('shippingCostRow').style.display = 'none';
+        // Rate table: zone → courier
+        const SHIPPING_RATES = {
+            'Jawa': [
+                { id: 'JNE-REG', name: 'JNE Reguler', etd: '1-2 hari', cost: 15000 },
+                { id: 'SICEPAT-REG', name: 'SiCepat REG', etd: '1-2 hari', cost: 12000 },
+                { id: 'JNT-EZ', name: 'J&T Express', etd: '1-2 hari', cost: 14000 },
+                { id: 'POS', name: 'Pos Indonesia', etd: '2-4 hari', cost: 10000 },
+            ],
+            'Sumatera': [
+                { id: 'JNE-REG', name: 'JNE Reguler', etd: '2-4 hari', cost: 22000 },
+                { id: 'SICEPAT-REG', name: 'SiCepat REG', etd: '2-3 hari', cost: 20000 },
+                { id: 'JNT-EZ', name: 'J&T Express', etd: '2-4 hari', cost: 21000 },
+                { id: 'POS', name: 'Pos Indonesia', etd: '3-5 hari', cost: 18000 },
+            ],
+            'Kalimantan': [
+                { id: 'JNE-REG', name: 'JNE Reguler', etd: '3-5 hari', cost: 30000 },
+                { id: 'SICEPAT-REG', name: 'SiCepat REG', etd: '3-5 hari', cost: 28000 },
+                { id: 'JNT-EZ', name: 'J&T Express', etd: '3-5 hari', cost: 29000 },
+                { id: 'POS', name: 'Pos Indonesia', etd: '5-7 hari', cost: 25000 },
+            ],
+            'Sulawesi': [
+                { id: 'JNE-REG', name: 'JNE Reguler', etd: '3-5 hari', cost: 30000 },
+                { id: 'SICEPAT-REG', name: 'SiCepat REG', etd: '3-4 hari', cost: 28000 },
+                { id: 'JNT-EZ', name: 'J&T Express', etd: '3-5 hari', cost: 29000 },
+                { id: 'POS', name: 'Pos Indonesia', etd: '5-7 hari', cost: 25000 },
+            ],
+            'Bali & Nusa': [
+                { id: 'JNE-REG', name: 'JNE Reguler', etd: '2-4 hari', cost: 25000 },
+                { id: 'SICEPAT-REG', name: 'SiCepat REG', etd: '2-3 hari', cost: 23000 },
+                { id: 'JNT-EZ', name: 'J&T Express', etd: '2-4 hari', cost: 24000 },
+                { id: 'POS', name: 'Pos Indonesia', etd: '4-6 hari', cost: 20000 },
+            ],
+            'Timur': [
+                { id: 'JNE-REG', name: 'JNE Reguler', etd: '5-7 hari', cost: 45000 },
+                { id: 'JNT-EZ', name: 'J&T Express', etd: '5-7 hari', cost: 43000 },
+                { id: 'POS', name: 'Pos Indonesia', etd: '7-10 hari', cost: 35000 },
+            ],
+        };
+
+        let selectedCourier = null; // { id, name, cost }
+
+        // Populate province dropdown
+        (function initProvinces() {
+            const sel = document.getElementById('custProvince');
+            Object.keys(PROVINCE_CITIES).sort().forEach(prov => {
+                const opt = document.createElement('option');
+                opt.value = prov;
+                opt.textContent = prov;
+                sel.appendChild(opt);
+            });
+        })();
+
+        function onProvinceChange() {
+            const prov = document.getElementById('custProvince').value;
+            const citySelect = document.getElementById('custCity');
+            citySelect.innerHTML = '<option value="" disabled selected>Pilih Kota / Kabupaten</option>';
+            citySelect.disabled = !prov;
+            selectedCourier = null;
+            document.getElementById('courierOptions').style.display = 'none';
+            document.getElementById('courierHint').style.display = 'block';
+            document.getElementById('shippingCostRow').style.display = 'none';
+            updateSummaryTotal();
+
+            if (prov && PROVINCE_CITIES[prov]) {
+                PROVINCE_CITIES[prov].forEach(city => {
+                    const opt = document.createElement('option');
+                    opt.value = city;
+                    opt.textContent = city;
+                    citySelect.appendChild(opt);
+                });
             }
-
-            document.getElementById('summaryFinalTotal').textContent = Utils.formatPrice(total + shippingCost);
         }
+
+        function onCityChange() {
+            const prov = document.getElementById('custProvince').value;
+            const zone = ZONE_MAP[prov] || 'Jawa';
+            const rates = SHIPPING_RATES[zone] || SHIPPING_RATES['Jawa'];
+            selectedCourier = null;
+            renderCourierCards(rates);
+        }
+
+        function renderCourierCards(rates) {
+            const container = document.getElementById('courierOptions');
+            const hint = document.getElementById('courierHint');
+            container.style.display = 'block';
+            hint.style.display = 'none';
+            container.innerHTML = '<div class="courier-cards">' + rates.map(r => `
+                <label class="courier-card" onclick="selectCourier('${r.id}', '${r.name}', ${r.cost}, this)">
+                    <input type="radio" name="courierRadio" value="${r.id}">
+                    <span class="courier-card__name">${r.name}</span>
+                    <span class="courier-card__etd">${r.etd}</span>
+                    <span class="courier-card__price">${Utils.formatPrice(r.cost)}</span>
+                </label>
+            `).join('') + '</div>';
+        }
+
+        function selectCourier(id, name, cost, el) {
+            document.querySelectorAll('.courier-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedCourier = { id, name, cost };
+            document.getElementById('shippingCostRow').style.display = 'flex';
+            document.getElementById('summaryShippingCost').textContent = Utils.formatPrice(cost);
+            updateSummaryTotal();
+        }
+
+        function updateSummaryTotal() {
+            const total = Cart.getTotal();
+            const shipping = selectedCourier ? selectedCourier.cost : 0;
+            document.getElementById('summaryFinalTotal').textContent = Utils.formatPrice(total + shipping);
+        }
+
+        // Legacy stub — keeps existing renderCheckoutItems call working
+        function updateShippingCost() { updateSummaryTotal(); }
 
         async function processCheckout() {
             const btn = document.getElementById('submitOrderBtn');
             const name = document.getElementById('custName').value.trim();
             const phone = document.getElementById('custPhone').value.trim();
             const address = document.getElementById('custAddress').value.trim();
-            const courierSelect = document.getElementById('shippingCourier');
+            const province = document.getElementById('custProvince').value;
+            const city = document.getElementById('custCity').value;
 
             if (!name || !phone || !address) {
                 alert('Mohon lengkapi data pengiriman Anda.');
                 return;
             }
 
-            if (courierSelect.selectedIndex === 0 || !courierSelect.value) {
+            if (!province || !city) {
+                alert('Mohon pilih Provinsi dan Kota/Kabupaten tujuan pengiriman.');
+                return;
+            }
+
+            if (!selectedCourier) {
                 alert('Silakan pilih kurir pengiriman terlebih dahulu.');
                 return;
             }
@@ -542,17 +778,16 @@
                 return;
             }
 
-            const courierName = courierSelect.value;
-            const shippingCost = parseInt(courierSelect.options[courierSelect.selectedIndex].getAttribute('data-cost'));
-
+            const fullAddress = `${address}, ${city}, ${province}`;
             const orderPayload = {
-                name, phone, address,
+                name, phone,
+                address: fullAddress,
                 payment_method: 'midtrans',
-                courier: courierName,
-                shipping_cost: shippingCost,
+                courier: selectedCourier.id,
+                shipping_cost: selectedCourier.cost,
                 items: items.map(i => ({
                     product_id: i.id,
-                    quantity: i.qty
+                    quantity: i.qty || i.quantity || 1
                 }))
             };
 
@@ -584,16 +819,15 @@
                     return;
                 }
 
-                // Clear cart immediately after order created
                 Cart.clear();
                 const orderNumber = data.order.order_number;
                 const snapToken = data.snap_token;
 
                 if (!snapToken) {
-                    // No snap token, show success directly
                     window.location.href = `/success.html?order_id=${orderNumber}`;
                     return;
                 }
+
 
                 // Open Midtrans Snap payment popup
                 window.snap.pay(snapToken, {

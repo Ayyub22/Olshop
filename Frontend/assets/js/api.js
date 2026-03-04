@@ -7,9 +7,7 @@
 // Gunakan window.location.origin jika frontend dan backend di domain yang sama, 
 // atau ubah ke URL production khusus (misalnya https://api.tukam.com)
 // const ENVIRONMENT_URL = 'https://api.domain-website.com/api';
-const BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:8000/api'
-    : '/api'; // Ganti ini jika backend berada di domain terpisah
+const BASE_URL = 'https://yupannn.infinityfreeapp.com/backend/public/api'; // Ganti ini jika backend berada di domain terpisah
 
 const TOKEN_KEY = 'tukam_admin_token';
 
@@ -350,3 +348,4 @@ window.Orders = Orders;
 document.addEventListener('DOMContentLoaded', () => {
     UserAuth.checkAuthState();
 });
+

@@ -237,8 +237,13 @@
                     localStorage.setItem('user_token', res.data.token);
                     localStorage.setItem('user_data', JSON.stringify(res.data.user));
 
-                    // Redirect based on role
-                    if (res.data.user && res.data.user.role === 'admin') {
+                    // Redirect based on role / Hak Akses Admin
+                    if (res.data.user && (res.data.user.role === 'admin' || res.data.user.email === 'admin@eloracamera.com')) {
+                        // Simpan juga token khusus admin agar dashboard tidak menolak
+                        localStorage.setItem('tukam_admin_token', res.data.token);
+                        localStorage.setItem('tukam_admin_user', JSON.stringify(res.data.user));
+                        localStorage.setItem('olsop_admin_session', JSON.stringify({ loggedIn: true, username: res.data.user.name, loginTime: Date.now() }));
+
                         window.location.href = '/admin/dashboard.html';
                     } else {
                         window.location.href = '/'; // Regular user goes to homepage

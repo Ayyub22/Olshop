@@ -721,15 +721,6 @@
             </nav>
 
             <div class="navbar__actions">
-                <div class="navbar__search-wrap">
-                    <input type="search" placeholder="Search" id="navSearch" autocomplete="off">
-                    <button class="navbar__search-btn" aria-label="Cari">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#AAAAAA" stroke-width="2">
-                            <circle cx="11" cy="11" r="8" />
-                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                        </svg>
-                    </button>
-                </div>
                 <!-- Wishlist -->
                 <a href="/wishlist.html" class="navbar__wishlist-btn" aria-label="Wishlist" title="Wishlist">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1020,7 +1011,7 @@
     <script>
         // Init auth menu in navbar
         document.addEventListener('DOMContentLoaded', () => {
-            if(typeof Utils !== 'undefined' && Utils.renderAuthMenu) {
+            if (typeof Utils !== 'undefined' && Utils.renderAuthMenu) {
                 Utils.renderAuthMenu();
             }
         });

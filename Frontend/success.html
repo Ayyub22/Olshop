@@ -304,11 +304,11 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/assets/js/api.js"></script>
     <script src="/assets/js/utils.js"></script>
     <script>
-        // Setup internal simple API client if api.js isn't fully loaded
-        const apiBaseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:8000/api' : '/api';
+        // Use same HTTPS base URL as api.js
+        const apiBaseUrl = 'https://yupannn.infinityfreeapp.com/backend/public/api';
         let currentOrderNumber = null;
 
         document.addEventListener('DOMContentLoaded', async () => {
@@ -325,8 +325,8 @@
                 document.getElementById('displayOrderId').textContent = orderId;
 
                 try {
-                    const response = await axios.get(`${apiBaseUrl}/orders/${orderId}`);
-                    const orderData = response.data;
+                    const response = await fetch(`${apiBaseUrl}/orders/${orderId}`, { headers: { 'Accept': 'application/json' } });
+                    const orderData = await response.json();
 
                     document.getElementById('loadingIndicator').style.display = 'none';
                     document.getElementById('orderBox').style.display = 'block';
@@ -361,8 +361,8 @@
             content.innerHTML = '<p style="text-align:center; color:#666;">Mengambil data dari kurir...</p>';
 
             try {
-                const res = await axios.get(`${apiBaseUrl}/orders/${currentOrderNumber}/track`);
-                const data = res.data;
+                const res = await fetch(`${apiBaseUrl}/orders/${currentOrderNumber}/track`, { headers: { 'Accept': 'application/json' } });
+                const data = await res.json();
 
                 if (data && data.data && data.data.history) {
                     const history = data.data.history;

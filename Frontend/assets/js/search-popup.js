@@ -165,7 +165,11 @@
 
     function getAllProducts() {
         try {
-            // Primary: db.getAll() from ProductDB class in data.js
+            // Highest priority: Live API data loaded by kamera/index.html
+            if (window.allApiProducts && Array.isArray(window.allApiProducts)) {
+                return window.allApiProducts;
+            }
+            // Primary local: db.getAll() from ProductDB class in data.js
             if (window.db && typeof db.getAll === 'function') {
                 return db.getAll();
             }
@@ -183,6 +187,7 @@
 
     // Safely get product image
     function getImg(p) {
+        if (p.image_url) return p.image_url;
         if (p.images && Array.isArray(p.images) && p.images[0]) return p.images[0];
         if (p.image) return p.image;
         if (p.foto) return p.foto;
@@ -290,6 +295,22 @@
             query = query.trim();
             if (!query) { closeDropdown(); return; }
 
+            // If the real API is available, query it directly for accurate results
+            if (window.API && typeof API.getProducts === 'function') {
+                API.getProducts({ search: query, per_page: 6 }).then(data => {
+                    const results = (data && Array.isArray(data.data)) ? data.data :
+                        (Array.isArray(data) ? data : []);
+                    openDropdown(buildDropdown(results, query));
+                }).catch(() => {
+                    // Fallback to local data on error
+                    _searchLocal(query);
+                });
+                return;
+            }
+            _searchLocal(query);
+        }
+
+        function _searchLocal(query) {
             const products = getAllProducts();
             const q = query.toLowerCase();
             const results = products.filter(p => {
@@ -298,7 +319,6 @@
                 const cat = (p.category || '').toLowerCase();
                 return name.includes(q) || brand.includes(q) || cat.includes(q);
             });
-
             openDropdown(buildDropdown(results, query));
         }
 
